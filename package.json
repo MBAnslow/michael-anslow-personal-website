@@ -1,0 +1,35 @@
+{
+  "name": "personal-website",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "import:medium": "node scripts/import-medium.mjs",
+    "lint": "oxlint src scripts astro.config.mjs",
+    "optimize:media": "node scripts/optimize-funiki-media.mjs",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/react": "^6.0.2",
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.3",
+    "astro": "^7.2.2",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "cheerio": "^1.2.0",
+    "fast-xml-parser": "^5.10.1",
+    "oxlint": "^1.75.0",
+    "sharp": "^0.35.3",
+    "turndown": "^7.2.4",
+    "typescript": "~6.0.2"
+  }
+}

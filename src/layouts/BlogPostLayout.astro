@@ -1,0 +1,151 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import type { MarkdownHeading } from 'astro'
+import BlogHeader from '../components/BlogHeader.astro'
+import { basePath } from '../utils/basePath'
+import BaseLayout from './BaseLayout.astro'
+
+interface RelatedPost {
+  id: string
+  title: string
+  subtitle?: string
+  seriesPart?: number
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>
+  minutes: number
+  headings: MarkdownHeading[]
+  previous?: RelatedPost
+  next?: RelatedPost
+  seriesPosts?: RelatedPost[]
+}
+
+const {
+  post,
+  minutes,
+  headings,
+  previous,
+  next,
+  seriesPosts = [],
+} = Astro.props
+const { data } = post
+const localCanonical = new URL(
+  `${basePath}blog/${post.id.replace(/\.mdx?$/, '')}/`,
+  Astro.site,
+)
+const canonicalURL = data.sourceURL ? new URL(data.sourceURL) : localCanonical
+const hero = data.hero
+  ? `${basePath}${data.hero.replace(/^\//, '')}`
+  : undefined
+const title = `${data.title} — Michael Anslow`
+const date = data.pubDate.toLocaleDateString('en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+})
+const articleHeadings = headings.filter((heading) => heading.depth === 2)
+const postPath = (id: string) =>
+  `${basePath}blog/${id.replace(/\.mdx?$/, '')}/`
+---
+
+<BaseLayout
+  title={title}
+  description={data.description}
+  image={hero}
+  canonicalURL={canonicalURL}
+  article
+  pageClass="blog-theme"
+  themeColor="#11100d"
+>
+  <BlogHeader />
+  <main id="main" class="blog-post">
+    <header class="blog-post__hero">
+      <a class="blog-post__back" href={`${basePath}blog/`}>← All notes</a>
+      <div class="blog-post__kicker">
+        <span>{date}</span>
+        <span>{minutes} min read</span>
+        <span>Essay / {String(data.tags.length).padStart(2, '0')} themes</span>
+      </div>
+      <h1>{data.title}</h1>
+      {data.subtitle && <p class="blog-post__subtitle">{data.subtitle}</p>}
+      <p class="blog-post__description">{data.description}</p>
+      <ul class="blog-post__tags" aria-label="Article themes">
+        {data.tags.map((tag) => <li>{tag}</li>)}
+      </ul>
+      {data.series && seriesPosts.length > 1 && (
+        <nav class="article-series" aria-label={`${data.series} article series`}>
+          <div>
+            <span>Article series</span>
+            <strong>{data.series}</strong>
+          </div>
+          <ol>
+            {seriesPosts.map((seriesPost) => (
+              <li>
+                <a
+                  href={postPath(seriesPost.id)}
+                  aria-current={seriesPost.id === post.id ? 'page' : undefined}
+                >
+                  <span>Part {seriesPost.seriesPart}</span>
+                  {seriesPost.subtitle?.replace(/^Part [IVX]+\s*[—–-]\s*/, '')}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )}
+    </header>
+
+    {hero && (
+      <figure class="blog-post__lead-image">
+        <img src={hero} alt={data.heroAlt ?? ''} />
+        {data.heroAlt && <figcaption>{data.heroAlt}</figcaption>}
+      </figure>
+    )}
+
+    <div class="blog-post__body">
+      <aside class="article-aside">
+        {articleHeadings.length > 0 && (
+          <nav aria-label="On this page">
+            <span>On this page</span>
+            <ol>
+              {articleHeadings.map((heading, index) => (
+                <li>
+                  <a href={`#${heading.slug}`}>
+                    <i>{String(index + 1).padStart(2, '0')}</i>
+                    {heading.text}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        )}
+      </aside>
+      <article class="prose">
+        <slot />
+      </article>
+    </div>
+
+    <nav class="article-pagination" aria-label="More articles">
+      {previous ? (
+        <a href={postPath(previous.id)}>
+          <span>Previous note</span>
+          <strong>{previous.title}</strong>
+          {previous.subtitle && <small>{previous.subtitle}</small>}
+        </a>
+      ) : <span></span>}
+      {next ? (
+        <a href={postPath(next.id)}>
+          <span>Next note</span>
+          <strong>{next.title}</strong>
+          {next.subtitle && <small>{next.subtitle}</small>}
+        </a>
+      ) : <span></span>}
+    </nav>
+  </main>
+  <footer class="site-footer">
+    <span>Michael Anslow © {new Date().getFullYear()}</span>
+    <a href={`${basePath}blog/`}>All notes</a>
+    <span>Ideas in progress</span>
+  </footer>
+</BaseLayout>

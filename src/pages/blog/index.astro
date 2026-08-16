@@ -1,0 +1,150 @@
+---
+import { getCollection } from 'astro:content'
+import BlogHeader from '../../components/BlogHeader.astro'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { basePath } from '../../utils/basePath'
+import { readingTime } from '../../utils/readingTime'
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .map((post) => ({
+    ...post,
+    minutes: readingTime(post.body ?? ''),
+  }))
+const tags = [...new Set(posts.flatMap((post) => post.data.tags))].sort()
+const postPath = (id: string) => `${basePath}blog/${id}/`
+const imagePath = (path: string) => `${basePath}${path.replace(/^\//, '')}`
+---
+
+<BaseLayout
+  title="Notes & Essays — Michael Anslow"
+  description="Essays and working notes on creative AI, philosophy, research practice and possible futures."
+  pageClass="blog-theme"
+  themeColor="#11100d"
+>
+  <BlogHeader />
+  <main id="main" class="blog-index">
+    <header class="blog-index__hero">
+      <div class="blog-index__meta">
+        <span>Independent writing / Issue 01</span>
+        <span>{String(posts.length).padStart(2, '0')} essays in print</span>
+      </div>
+      <h1>
+        The
+        <em>blog</em>
+      </h1>
+      <div class="blog-index__intro">
+        <p>
+          Essays, field notes and unfinished thoughts where technology meets
+          creativity, philosophy and lived experience.
+        </p>
+        <span>Read slowly ↓</span>
+      </div>
+    </header>
+
+    <section class="blog-archive" aria-labelledby="archive-title">
+      <div class="blog-archive__heading">
+        <div>
+          <span>/ Archive</span>
+          <h2 id="archive-title">Contents</h2>
+        </div>
+        <div class="tag-filters" aria-label="Filter articles by theme">
+          <button type="button" class="is-active" data-filter="all">All</button>
+          {tags.map((tag) => (
+            <button type="button" data-filter={tag.toLowerCase()}>{tag}</button>
+          ))}
+        </div>
+      </div>
+
+      <div class="blog-card-grid">
+        {posts.map((post, index) => (
+          <article
+            class:list={[
+              'blog-card',
+              { 'blog-card--featured': post.data.featured },
+            ]}
+            data-post
+            data-tags={post.data.tags.map((tag) => tag.toLowerCase()).join(',')}
+          >
+            {post.data.hero && (
+              <a
+                class="blog-card__image"
+                href={postPath(post.id)}
+                tabindex="-1"
+                aria-hidden="true"
+              >
+                <img
+                  src={imagePath(post.data.hero)}
+                  alt=""
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                />
+              </a>
+            )}
+            <div class="blog-card__topline">
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <time datetime={post.data.pubDate.toISOString()}>
+                {post.data.pubDate.toLocaleDateString('en-GB', {
+                  day: '2-digit',
+                  month: 'short',
+                  year: 'numeric',
+                })}
+              </time>
+              <span>{post.minutes} min</span>
+            </div>
+            <a class="blog-card__body" href={postPath(post.id)}>
+              <div>
+                <h3>{post.data.title}</h3>
+                {post.data.subtitle && <p>{post.data.subtitle}</p>}
+              </div>
+              <span aria-hidden="true">↗</span>
+            </a>
+            <p class="blog-card__description">{post.data.description}</p>
+            <ul aria-label="Article themes">
+              {post.data.tags.map((tag) => <li>{tag}</li>)}
+            </ul>
+          </article>
+        ))}
+      </div>
+      <p class="blog-empty" hidden>
+        No notes in this theme yet.
+      </p>
+    </section>
+
+    <aside class="blog-index__colophon">
+      <span>Notebook / 2026</span>
+      <p>
+        A first-party archive for complete essays, connected series and new
+        ideas as they develop.
+      </p>
+      <a href={`${basePath}rss.xml`}>Subscribe via RSS ↗</a>
+    </aside>
+  </main>
+  <footer class="site-footer">
+    <span>Michael Anslow © {new Date().getFullYear()}</span>
+    <a href={basePath}>Portfolio</a>
+    <span>Ideas in progress</span>
+  </footer>
+</BaseLayout>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]')
+  const cards = document.querySelectorAll<HTMLElement>('[data-post]')
+  const empty = document.querySelector<HTMLElement>('.blog-empty')
+
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const filter = button.dataset.filter ?? 'all'
+      let visibleCount = 0
+
+      buttons.forEach((item) => item.classList.toggle('is-active', item === button))
+      cards.forEach((card) => {
+        const visible =
+          filter === 'all' || (card.dataset.tags ?? '').split(',').includes(filter)
+        card.hidden = !visible
+        if (visible) visibleCount += 1
+      })
+
+      if (empty) empty.hidden = visibleCount > 0
+    })
+  })
+</script>

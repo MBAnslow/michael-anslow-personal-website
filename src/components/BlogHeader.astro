@@ -1,0 +1,21 @@
+---
+import { basePath } from '../utils/basePath'
+
+const home = basePath
+---
+
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="blog-site-header">
+  <a class="blog-site-header__mark" href={`${basePath}blog/`} aria-label="Notes and essays home">
+    <span>MA</span>
+    <strong>Notes<br />& Essays</strong>
+  </a>
+  <p>
+    Michael Anslow
+    <span>Ideas in progress</span>
+  </p>
+  <nav aria-label="Blog navigation">
+    <a href={`${basePath}blog/`} aria-current="page">All notes</a>
+    <a href={home}>Portfolio <span aria-hidden="true">↗</span></a>
+  </nav>
+</header>

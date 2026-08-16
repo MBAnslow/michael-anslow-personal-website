@@ -1,0 +1,65 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content'
+import BlogPostLayout from '../../layouts/BlogPostLayout.astro'
+import { readingTime } from '../../utils/readingTime'
+
+type RelatedPost = {
+  id: string
+  title: string
+  subtitle?: string
+  seriesPart?: number
+}
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+    (a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf(),
+  )
+
+  const related = (entry: CollectionEntry<'blog'>): RelatedPost => ({
+    id: entry.id,
+    title: entry.data.title,
+    subtitle: entry.data.subtitle,
+    seriesPart: entry.data.seriesPart,
+  })
+
+  return posts.map((post, index) => ({
+    params: { slug: post.id },
+    props: {
+      post,
+      previous: posts[index - 1] ? related(posts[index - 1]) : undefined,
+      next: posts[index + 1] ? related(posts[index + 1]) : undefined,
+      seriesPosts: post.data.series
+        ? posts
+            .filter((entry) => entry.data.series === post.data.series)
+            .sort(
+              (a, b) =>
+                (a.data.seriesPart ?? 0) - (b.data.seriesPart ?? 0),
+            )
+            .map(related)
+        : [],
+    },
+  }))
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>
+  previous?: RelatedPost
+  next?: RelatedPost
+  seriesPosts: RelatedPost[]
+}
+
+const { post, previous, next, seriesPosts } = Astro.props
+const { Content, headings } = await render(post)
+const minutes = readingTime(post.body ?? '')
+---
+
+<BlogPostLayout
+  post={post}
+  minutes={minutes}
+  headings={headings}
+  previous={previous}
+  next={next}
+  seriesPosts={seriesPosts}
+>
+  <Content />
+</BlogPostLayout>
