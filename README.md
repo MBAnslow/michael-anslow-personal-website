@@ -1,5 +1,11 @@
 # Michael Anslow — Personal Website
 
+## 🚧 Active development — not final
+
+**This website is under active development and should not be considered a
+finished or final representation of the portfolio.** Its content, structure,
+visual design and interactions are all subject to substantial change.
+
 A static portfolio and first-party blog built with Astro, React and TypeScript.
 The visual language combines editorial poster design with original
 Portuguese-tile-inspired motifs. Astro generates clean article URLs while
