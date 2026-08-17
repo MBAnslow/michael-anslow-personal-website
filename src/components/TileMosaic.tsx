@@ -1,80 +1,53 @@
-const motifs = [0, 1, 2, 3]
+import type { CSSProperties, PointerEvent } from 'react'
 
-type MotifProps = {
-  variant: number
-  x: number
-  y: number
-  rotation: number
+type TilePanelProperties = CSSProperties & {
+  '--tile-pointer-x': string
+  '--tile-pointer-y': string
+  '--tile-tilt-x': string
+  '--tile-tilt-y': string
 }
 
-function Motif({ variant, x, y, rotation }: MotifProps) {
-  const transform = `translate(${x} ${y}) rotate(${rotation} 100 100)`
-
-  if (variant === 0) {
-    return (
-      <g transform={transform}>
-        <rect className="tile__paper" width="200" height="200" />
-        <circle className="tile__line" cx="100" cy="100" r="60" />
-        {[0, 45, 90, 135].map((angle) => (
-          <g key={angle} transform={`rotate(${angle} 100 100)`}>
-            <path className="tile__fill" d="M100 31c13 18 18 34 0 54-18-20-13-36 0-54Z" />
-            <circle className="tile__dot" cx="100" cy="19" r="5" />
-          </g>
-        ))}
-        <circle className="tile__paper tile__line" cx="100" cy="100" r="18" />
-      </g>
-    )
-  }
-
-  if (variant === 1) {
-    return (
-      <g transform={transform}>
-        <rect className="tile__paper" width="200" height="200" />
-        {[0, 90, 180, 270].map((angle) => (
-          <g key={angle} transform={`rotate(${angle} 100 100)`}>
-            <path className="tile__line" d="M100 100C55 100 35 67 16 18c50 19 82 39 84 82Z" />
-            <path className="tile__fill" d="M82 82c-20-6-31-21-43-42 21 11 37 23 43 42Z" />
-          </g>
-        ))}
-        <circle className="tile__accent" cx="100" cy="100" r="11" />
-      </g>
-    )
-  }
-
-  if (variant === 2) {
-    return (
-      <g transform={transform}>
-        <rect className="tile__paper" width="200" height="200" />
-        {[0, 60, 120, 180, 240, 300].map((angle) => (
-          <g key={angle} transform={`rotate(${angle} 100 100)`}>
-            <path className="tile__fill" d="M100 89c-13-18-10-34 0-51 10 17 13 33 0 51Z" />
-            <path className="tile__line" d="M100 38V13" />
-          </g>
-        ))}
-        <circle className="tile__accent" cx="100" cy="100" r="12" />
-        <circle className="tile__line" cx="100" cy="100" r="76" />
-      </g>
-    )
-  }
-
-  return (
-    <g transform={transform}>
-      <rect className="tile__paper" width="200" height="200" />
-      <path className="tile__line" d="M0 100h200M100 0v200" />
-      {[0, 90, 180, 270].map((angle) => (
-        <g key={angle} transform={`rotate(${angle} 100 100)`}>
-          <path className="tile__fill" d="M100 93C75 72 65 49 64 14c28 20 40 46 36 79Z" />
-          <circle className="tile__accent" cx="52" cy="30" r="8" />
-        </g>
-      ))}
-      <circle className="tile__paper tile__line" cx="100" cy="100" r="20" />
-    </g>
-  )
+const neutralTile: TilePanelProperties = {
+  '--tile-pointer-x': '50%',
+  '--tile-pointer-y': '50%',
+  '--tile-tilt-x': '0deg',
+  '--tile-tilt-y': '0deg',
 }
 
 export function TileMosaic() {
+  const handlePointerMove = (event: PointerEvent<HTMLElement>) => {
+    if (event.pointerType === 'touch') return
+
+    const bounds = event.currentTarget.getBoundingClientRect()
+    const x = (event.clientX - bounds.left) / bounds.width
+    const y = (event.clientY - bounds.top) / bounds.height
+
+    event.currentTarget.style.setProperty('--tile-pointer-x', `${x * 100}%`)
+    event.currentTarget.style.setProperty('--tile-pointer-y', `${y * 100}%`)
+    event.currentTarget.style.setProperty(
+      '--tile-tilt-x',
+      `${(y - 0.5) * -3}deg`,
+    )
+    event.currentTarget.style.setProperty(
+      '--tile-tilt-y',
+      `${(x - 0.5) * 3}deg`,
+    )
+  }
+
+  const resetTile = (event: PointerEvent<HTMLElement>) => {
+    event.currentTarget.style.setProperty('--tile-pointer-x', '50%')
+    event.currentTarget.style.setProperty('--tile-pointer-y', '50%')
+    event.currentTarget.style.setProperty('--tile-tilt-x', '0deg')
+    event.currentTarget.style.setProperty('--tile-tilt-y', '0deg')
+  }
+
   return (
-    <figure className="tile-panel">
+    <figure
+      className="tile-panel"
+      style={neutralTile}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={resetTile}
+    >
       <div className="tile-panel__frame">
         <svg
           className="tile-panel__art"
@@ -82,18 +55,121 @@ export function TileMosaic() {
           role="img"
           aria-labelledby="tile-title tile-description"
         >
-          <title id="tile-title">Generative blue and ochre tile pattern</title>
+          <title id="tile-title">Four-stage creative process</title>
           <desc id="tile-description">
-            Four original geometric floral motifs represent inspiration,
-            conceptualisation, systematisation and implementation.
+            A curving line travels through inspiration, conceptualisation,
+            systematisation and implementation. It begins with a solid circle
+            and ends with an open circle.
           </desc>
-          <Motif variant={motifs[0]} x={0} y={0} rotation={0} />
-          <Motif variant={motifs[1]} x={200} y={0} rotation={90} />
-          <Motif variant={motifs[2]} x={0} y={200} rotation={270} />
-          <Motif variant={motifs[3]} x={200} y={200} rotation={180} />
+          <defs>
+            <linearGradient
+              id="tile-journey-inspiration"
+              x1="50"
+              y1="0"
+              x2="200"
+              y2="0"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0%" stopColor="var(--ochre)" />
+              <stop offset="78%" stopColor="var(--ochre)" />
+              <stop offset="100%" stopColor="var(--aqua)" />
+            </linearGradient>
+            <linearGradient
+              id="tile-journey-conceptualisation"
+              x1="0"
+              y1="75"
+              x2="0"
+              y2="195"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0%" stopColor="var(--aqua)" />
+              <stop offset="78%" stopColor="var(--aqua)" />
+              <stop offset="100%" stopColor="var(--terracotta)" />
+            </linearGradient>
+            <linearGradient
+              id="tile-journey-systematisation"
+              x1="0"
+              y1="195"
+              x2="0"
+              y2="315"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0%" stopColor="var(--terracotta)" />
+              <stop offset="78%" stopColor="var(--terracotta)" />
+              <stop offset="100%" stopColor="var(--blue)" />
+            </linearGradient>
+            <linearGradient
+              id="tile-journey-implementation"
+              x1="200"
+              y1="0"
+              x2="350"
+              y2="0"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0%" stopColor="var(--blue)" />
+              <stop offset="78%" stopColor="var(--blue)" />
+              <stop offset="100%" stopColor="var(--ink)" />
+            </linearGradient>
+          </defs>
           <path className="tile__grout" d="M200 0v400M0 200h400" />
+          <path
+            className="tile__journey-segment tile__journey-segment--inspiration"
+            d="M50 75L200 75"
+          />
+          <path
+            className="tile__journey-segment tile__journey-segment--conceptualisation"
+            d="M200 75C295 76 348 75 350 132C352 180 318 194 200 195"
+          />
+          <path
+            className="tile__journey-segment tile__journey-segment--systematisation"
+            d="M200 195C110 196 52 190 50 250C48 300 105 312 200 315"
+          />
+          <path
+            className="tile__journey-segment tile__journey-segment--implementation"
+            d="M200 315C255 318 307 316 350 315"
+          />
+          <path
+            className="tile__journey-base"
+            d="M50 75L200 75C295 76 348 75 350 132C352 180 318 194 200 195C110 196 52 190 50 250C48 300 105 312 200 315C255 318 307 316 350 315"
+          />
+          <circle className="tile__journey-start" cx="50" cy="75" r="14" />
+          <circle className="tile__journey-end" cx="350" cy="315" r="18" />
+          <circle className="tile__journey-traveller" r="7">
+            <animate
+              attributeName="r"
+              values="6;8;6"
+              dur="1.2s"
+              repeatCount="indefinite"
+            />
+            <animateMotion
+              path="M50 75L200 75C295 76 348 75 350 132C352 180 318 194 200 195C110 196 52 190 50 250C48 300 105 312 200 315C255 318 307 316 350 315"
+              dur="16s"
+              repeatCount="indefinite"
+              calcMode="linear"
+              keyPoints="0;0.16;0.51;0.84;1"
+              keyTimes="0;0.25;0.5;0.75;1"
+            />
+          </circle>
           <rect className="tile__border" x="2" y="2" width="396" height="396" />
         </svg>
+        <div className="tile-panel__frost" aria-hidden="true" />
+        <div className="tile-panel__quadrants">
+          <p>
+            <span>From vague intuitions…</span>
+          </p>
+          <p>
+            <span>Disentangled and solidified</span>
+          </p>
+          <p>
+            <span>
+              Identified principles and technical framing embedded in
+              literature
+            </span>
+          </p>
+          <p>
+            <span>Implemented in software systems</span>
+          </p>
+        </div>
         <span className="tile-panel__corner tile-panel__corner--top-left">
           Inspiration
         </span>

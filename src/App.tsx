@@ -116,8 +116,8 @@ function App() {
             </div>
             <div className="hero-section__intro">
               <p>
-                I build new technological experiences, then use research to
-                understand what they could become.
+                I build new technological experiences, embedded in research and
+                informed by a wider societal vision.
               </p>
               <nav
                 className="hero-section__routes"
@@ -162,7 +162,7 @@ function App() {
           <SectionHeading
             index="01"
             title="Between systems and stories"
-            note="A practice grounded in engineering, expanded through philosophy and creative exploration."
+            note="A practice grounded in engineering, expanded through research and philosophy."
           />
           <Reveal className="about-grid">
             <div className="about-copy">

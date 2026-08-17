@@ -150,7 +150,7 @@ export function Capabilities() {
     <div className="capabilities">
       <div className="capability-map__legend">
         <p>From an ambiguous opportunity</p>
-        <span aria-hidden="true">→</span>
+        <span aria-hidden="true" />
         <strong>A working, tested direction</strong>
       </div>
 
