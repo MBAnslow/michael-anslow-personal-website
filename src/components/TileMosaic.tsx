@@ -1,11 +1,4 @@
-import { useState } from 'react'
-
-const presets = [
-  [0, 1, 2, 3],
-  [2, 0, 3, 1],
-  [1, 3, 0, 2],
-  [3, 2, 1, 0],
-]
+const motifs = [0, 1, 2, 3]
 
 type MotifProps = {
   variant: number
@@ -80,13 +73,6 @@ function Motif({ variant, x, y, rotation }: MotifProps) {
 }
 
 export function TileMosaic() {
-  const [presetIndex, setPresetIndex] = useState(0)
-  const preset = presets[presetIndex]
-
-  const remix = () => {
-    setPresetIndex((current) => (current + 1) % presets.length)
-  }
-
   return (
     <figure className="tile-panel">
       <div className="tile-panel__frame">
@@ -98,29 +84,29 @@ export function TileMosaic() {
         >
           <title id="tile-title">Generative blue and ochre tile pattern</title>
           <desc id="tile-description">
-            Four original geometric floral motifs inspired by painted Portuguese
-            tiles.
+            Four original geometric floral motifs represent inspiration,
+            conceptualisation, systematisation and implementation.
           </desc>
-          <Motif variant={preset[0]} x={0} y={0} rotation={0} />
-          <Motif variant={preset[1]} x={200} y={0} rotation={90} />
-          <Motif variant={preset[2]} x={0} y={200} rotation={270} />
-          <Motif variant={preset[3]} x={200} y={200} rotation={180} />
+          <Motif variant={motifs[0]} x={0} y={0} rotation={0} />
+          <Motif variant={motifs[1]} x={200} y={0} rotation={90} />
+          <Motif variant={motifs[2]} x={0} y={200} rotation={270} />
+          <Motif variant={motifs[3]} x={200} y={200} rotation={180} />
           <path className="tile__grout" d="M200 0v400M0 200h400" />
           <rect className="tile__border" x="2" y="2" width="396" height="396" />
         </svg>
+        <span className="tile-panel__corner tile-panel__corner--top-left">
+          Inspiration
+        </span>
+        <span className="tile-panel__corner tile-panel__corner--top-right">
+          Conceptualisation
+        </span>
+        <span className="tile-panel__corner tile-panel__corner--bottom-left">
+          Systematisation
+        </span>
+        <span className="tile-panel__corner tile-panel__corner--bottom-right">
+          Implementation
+        </span>
       </div>
-      <figcaption>
-        <div>
-          <span className="tile-panel__label">Pattern study</span>
-          <span className="tile-panel__count" aria-live="polite">
-            0{presetIndex + 1} / 04
-          </span>
-        </div>
-        <button type="button" onClick={remix}>
-          Remix the tiles
-          <span aria-hidden="true">↻</span>
-        </button>
-      </figcaption>
     </figure>
   )
 }

@@ -17,6 +17,9 @@ Learning across representations and media
 - Contrastive learning
 - Audio–text modelling
 - Generative Modelling
+- Clustering
+- Classification
+- Regression
 
 ## Languages 
  

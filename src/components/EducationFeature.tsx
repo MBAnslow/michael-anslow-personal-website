@@ -2,9 +2,9 @@ export function EducationFeature() {
   return (
     <div className="education-feature">
       <header className="education-feature__header">
-        <span>Side interest / 01</span>
+        <span>Project focus / 05 · Side interest</span>
         <span>AI &amp; Education</span>
-        <span>Field notes · Critical inquiry</span>
+        <span>Research · Volunteering</span>
       </header>
 
       <div className="education-feature__intro">
@@ -21,104 +21,93 @@ export function EducationFeature() {
             discussed without teachers, children or local context.
           </p>
           <p>
-            This interest has developed through research, conversations and
-            event-based field notes, including a review of UNESCO Digital
-            Learning Week 2025, Educ@tech and BETT prepared with Martina
-            Galletti.
+            This interest is grounded in collaborative research on inclusive
+            learning and children&apos;s agency, alongside volunteering with
+            Crece en Libertad, which supports children and adolescents in
+            Mexico to understand and exercise their rights.
           </p>
         </div>
       </div>
 
       <dl className="education-feature__events">
         <div>
-          <dt>UNESCO DLW</dt>
-          <dd>Disruptions, dilemmas and directions for AI in education</dd>
+          <dt>Children&apos;s rights</dt>
+          <dd>
+            <a
+              href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=VjnHrW8AAAAJ&citation_for_view=VjnHrW8AAAAJ:2osOgNQ5qMEC"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Children&apos;s Rights, Metacognition, and AI Literacy
+            </a>
+            <span>
+              A conceptual framework for protecting autonomy and judgement in
+              AI-mediated learning.
+            </span>
+          </dd>
         </div>
         <div>
-          <dt>Educ@tech + BETT</dt>
-          <dd>Reading the EdTech market against classroom realities</dd>
+          <dt>Inclusive learning</dt>
+          <dd>
+            <a
+              href="https://www.ijcai.org/proceedings/2022/727"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Interactive Concept-map Based Summaries for SEND Children
+            </a>
+            <span>
+              Research on an AI-supported tool for children with reading
+              comprehension difficulties.
+            </span>
+          </dd>
         </div>
         <div>
-          <dt>Two lenses</dt>
-          <dd>Low-resource contexts and support for SEND learners</dd>
+          <dt>Volunteering</dt>
+          <dd>
+            <a
+              href="https://crece-en-libertad.org/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Crece en Libertad
+            </a>
+            <span>
+              I volunteer with this international solidarity NGO, which
+              promotes children&apos;s rights and participatory education in
+              Mexico.
+            </span>
+          </dd>
         </div>
       </dl>
 
-      <div className="education-feature__position">
-        <span>Working position</span>
-        <blockquote>
-          Start with the educational relationship, then ask where AI is
-          genuinely useful.
-        </blockquote>
-        <p>
-          The history of classroom technology is full of promised revolutions.
-          Durable tools tend to support practices that educators can adapt,
-          evaluate and make their own.
-        </p>
-      </div>
-
-      <div className="education-feature__lenses">
-        <article>
-          <span>01 / Context</span>
-          <h4>Design for where learning happens</h4>
+      <div className="education-feature__video">
+        <div className="education-feature__video-copy">
+          <span>Recorded presentation · Sony CSL Paris</span>
+          <h4>AI &amp; Education in the wild</h4>
           <p>
-            Infrastructure, connectivity, language, digital confidence and
-            existing pedagogy are design requirements—not details to solve
-            after deployment.
+            In <em>Etincelle</em>, Martina Galletti and I survey current debates
+            about AI and education, then focus on low-resource contexts and AI
+            for SEND learners.
           </p>
-        </article>
-        <article>
-          <span>02 / Agency</span>
-          <h4>Keep teachers and learners visible</h4>
-          <p>
-            Efficiency should not quietly displace human relationships,
-            children&apos;s voices or accountability for educational
-            decisions.
-          </p>
-        </article>
-        <article>
-          <span>03 / Evidence</span>
-          <h4>Test benefits, harms and assumptions</h4>
-          <p>
-            Claims about personalisation need evidence that includes cognitive,
-            social and emotional development—especially for children at the
-            margins.
-          </p>
-        </article>
-      </div>
-
-      <div className="education-feature__questions">
-        <div>
-          <span>Questions I am following</span>
-          <h4>Where might careful technical work help?</h4>
+          <a
+            href="https://www.youtube.com/watch?v=7VgPFjEDWBg"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Open on YouTube ↗
+          </a>
         </div>
-        <ul>
-          <li>
-            How can open educational resources be adapted to local languages,
-            reading levels and cultural contexts?
-          </li>
-          <li>
-            Can useful AI systems work offline, across shared devices and
-            through a teacher or community proxy?
-          </li>
-          <li>
-            How should children&apos;s rights, privacy and freedom of thought
-            shape educational AI?
-          </li>
-          <li>
-            What can language technology contribute to reading comprehension
-            and support for SEND learners?
-          </li>
-        </ul>
+        <div className="education-feature__video-frame">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/7VgPFjEDWBg?rel=0"
+            title="Etincelle by Martina Galletti and Michael Anslow"
+            loading="lazy"
+            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+          />
+        </div>
       </div>
-
-      <footer className="education-feature__footer">
-        <strong>Side interest, intentionally.</strong>
-        <p>
-          This is an evolving area of reading, discussion and collaboration,
-          adjacent to—not presented as—the central programme of my research.
-        </p>
-      </footer>
     </div>
   )
 }

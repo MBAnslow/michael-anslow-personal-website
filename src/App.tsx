@@ -11,8 +11,8 @@ import { Reveal } from './components/Reveal'
 import { SectionHeading } from './components/SectionHeading'
 import { TileMosaic } from './components/TileMosaic'
 import {
-  educationInterest,
   essays,
+  otherWork,
   profileLinks,
   projects,
   publications,
@@ -22,12 +22,17 @@ import { basePath } from './utils/basePath'
 const navigation = [
   { label: 'About', id: 'about' },
   { label: 'Skills', id: 'capabilities' },
-  { label: 'Work', id: 'work' },
-  { label: 'Education', id: 'education' },
+  { label: 'Projects', id: 'projects' },
   { label: 'Research', id: 'research' },
 ]
 
 const blogPath = `${basePath}blog/`
+const projectAnchor = (title: string) =>
+  title
+    .normalize('NFKD')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
 
 function App() {
   const [activeSection, setActiveSection] = useState('about')
@@ -114,10 +119,21 @@ function App() {
                 I build new technological experiences, then use research to
                 understand what they could become.
               </p>
-              <a href="#work" className="text-link">
-                Explore selected work
-                <Arrow />
-              </a>
+              <nav
+                className="hero-section__routes"
+                aria-label="Explore the portfolio"
+              >
+                <a href="#projects">
+                  <span>Projects</span>
+                  <small>Selected + other work</small>
+                  <Arrow />
+                </a>
+                <a href="#capabilities">
+                  <span>Skills</span>
+                  <small>Capabilities + methods</small>
+                  <Arrow />
+                </a>
+              </nav>
             </div>
           </div>
 
@@ -202,7 +218,7 @@ function App() {
           </Reveal>
         </section>
 
-        <section className="page-section work-section" id="work">
+        <section className="page-section work-section" id="projects">
           <SectionHeading
             index="03"
             title="Selected work"
@@ -211,7 +227,10 @@ function App() {
           <div className="project-list">
             {projects.map((project) => (
               <Reveal key={project.title}>
-                <div className="project-accordion">
+                <div
+                  className={`project-accordion${project.number === '05' ? ' side-interest-accordion' : ''}`}
+                  id={`project-${projectAnchor(project.title)}`}
+                >
                   <ProjectCard
                     project={project}
                     expanded={expandedProject === project.number}
@@ -231,6 +250,7 @@ function App() {
                       {project.number === '02' && <BelongingFeature />}
                       {project.number === '03' && <AiPhiFeature />}
                       {project.number === '04' && <PoiesisFeature />}
+                      {project.number === '05' && <EducationFeature />}
                     </div>
                   )}
                 </div>
@@ -240,36 +260,35 @@ function App() {
         </section>
 
         <section
-          className="page-section education-section"
-          id="education"
+          className="page-section other-work-section"
+          id="other-work"
         >
           <SectionHeading
-            index="04 / Side interest"
-            title="AI & education"
-            note="An ongoing inquiry into educational technology, human agency and the conditions that make technical interventions genuinely useful."
+            index="04"
+            title="Other work"
+            note="Previous projects, collaborations, research threads, wider practice."
           />
           <Reveal>
-            <div className="project-accordion side-interest-accordion">
-              <ProjectCard
-                project={educationInterest}
-                expanded={expandedProject === educationInterest.number}
-                controls={`project-details-${educationInterest.number}`}
-                onToggle={() =>
-                  setExpandedProject((current) =>
-                    current === educationInterest.number
-                      ? null
-                      : educationInterest.number,
-                  )
-                }
-              />
-              {expandedProject === educationInterest.number && (
-                <div
-                  className="project-expansion"
-                  id={`project-details-${educationInterest.number}`}
+            <div className="other-work-list">
+              {otherWork.map((item, index) => (
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  key={item.title}
                 >
-                  <EducationFeature />
-                </div>
-              )}
+                  <span className="other-work-list__number">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <div className="other-work-list__title">
+                    <span>{item.eyebrow}</span>
+                    <h3>{item.title}</h3>
+                    <strong>Role: {item.role}</strong>
+                  </div>
+                  <p>{item.description}</p>
+                  <Arrow />
+                </a>
+              ))}
             </div>
           </Reveal>
         </section>

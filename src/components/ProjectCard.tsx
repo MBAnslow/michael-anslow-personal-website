@@ -51,6 +51,7 @@ export function ProjectCard({
       <div className="project-card__topline">
         <span>{project.number}</span>
         <span>{project.eyebrow}</span>
+        <span className="project-card__role">Role: {project.role}</span>
       </div>
       <div className="project-card__body">
         <h3>{project.title}</h3>

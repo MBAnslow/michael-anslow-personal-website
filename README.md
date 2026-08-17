@@ -56,12 +56,18 @@ tags:
   - Research
 hero: /media/example.webp
 heroAlt: A useful description of the image
+titleImage: /media/article-title.webp
+titleImageAlt: A description of the image shown beneath the article title
 featured: false
 draft: false
 series: An optional series title
 seriesPart: 1
 ---
 ```
+
+`titleImage` controls the large image shown on the article page. It is
+independent of `hero`, which can be used for archive cards and social metadata.
+When `titleImage` is omitted, the article page falls back to `hero`.
 
 Set `draft: true` to keep a post out of the archive, static routes, RSS feed and
 sitemap. Matching `series` values connect multi-part articles and order them by

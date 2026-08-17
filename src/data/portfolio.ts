@@ -3,6 +3,7 @@ export type Accent = 'blue' | 'ochre' | 'terracotta'
 export type Project = {
   number: string
   eyebrow: string
+  role: string
   title: string
   description: string
   tags: string[]
@@ -27,11 +28,22 @@ export type Essay = {
   localSlug?: string
 }
 
+export type OtherWorkItem = {
+  eyebrow: string
+  role: string
+  title: string
+  description: string
+  href: string
+}
+
 export type Capability = {
   area: string
   summary: string
   skills: string[]
-  evidence: string
+  evidence: {
+    label: string
+    href: string
+  }[]
 }
 
 export type ProofPoint = {
@@ -49,6 +61,7 @@ export const profileLinks = [
     label: 'Google Scholar',
     url: 'https://scholar.google.com/citations?user=VjnHrW8AAAAJ&hl=en',
   },
+  { label: 'GitHub', url: 'https://github.com/MBAnslow' },
   { label: 'Sony CSL', url: 'https://csl.sony.fr/people/michael-anslow/' },
 ]
 
@@ -56,6 +69,7 @@ export const projects: Project[] = [
   {
     number: '01',
     eyebrow: 'Research creation · Sony CSL',
+    role: 'Originator',
     title: 'Funiki',
     description:
       'An engine for creating open-ended immersive ambiences with light and sound. Funiki explores how AI can help turn everyday spaces into responsive stages for play, contemplation and shared experience.',
@@ -66,6 +80,7 @@ export const projects: Project[] = [
   {
     number: '02',
     eyebrow: 'Evidence-based art · Research creation',
+    role: 'Creative technologist',
     title: 'Belonging',
     description:
       'A related branch of the Funiki inquiry exploring belonging to nature through a handmade cloud, object-based light, reactive audio and a simulated day-and-night cycle.',
@@ -75,6 +90,7 @@ export const projects: Project[] = [
   {
     number: '03',
     eyebrow: 'Community · Paris',
+    role: 'Co-founder & organiser',
     title: 'AI–Phi',
     description:
       'A Paris-based community of researchers and professionals tracking the ideas shaping AI and philosophy through seminars, causeries and interdisciplinary discussion.',
@@ -85,6 +101,7 @@ export const projects: Project[] = [
   {
     number: '04',
     eyebrow: 'Creative assistance · Sony CSL',
+    role: 'Originator',
     title: 'Poiesis Studio',
     description:
       'A pre-ChatGPT writing assistant built around masked language modelling. The system treated AI as an instrument for creative exploration rather than an author in its own right.',
@@ -92,17 +109,52 @@ export const projects: Project[] = [
     localSlug: 'poiesis-studio',
     accent: 'terracotta',
   },
+  {
+    number: '05',
+    eyebrow: 'Side interest · Ongoing inquiry',
+    role: 'Co-author & tech volunteer',
+    title: 'AI & Education',
+    description:
+      'An adjacent line of inquiry grounded in co-authored research on inclusive learning, children’s rights and AI literacy, alongside volunteering with Crece en Libertad.',
+    tags: ['Inclusive learning', 'AI literacy', 'Children’s rights'],
+    accent: 'ochre',
+  },
 ]
 
-export const educationInterest: Project = {
-  number: 'S1',
-  eyebrow: 'Side interest · Ongoing inquiry',
-  title: 'AI & Education',
-  description:
-    'An adjacent line of inquiry into how AI enters education through teaching practice, policy, rights, access and local conditions—shaped by reflections from UNESCO Digital Learning Week, Educ@tech and BETT.',
-  tags: ['Human agency', 'EdTech', 'Children’s rights'],
-  accent: 'ochre',
-}
+export const otherWork: OtherWorkItem[] = [
+  {
+    eyebrow: 'Multimodal AI · Sony CSL Music Team',
+    role: 'Text lead',
+    title: 'Text & Audio Project',
+    description:
+      'Led the text work for an internal Music Team collaboration alongside their data engineer, exploring multimodal deep learning across language and audio, including NLP pipelines, language modelling, MongoDB and a Dash interface for querying and curating datasets.',
+    href: 'https://cslmusicteam.sony.fr/',
+  },
+  {
+    eyebrow: 'Data exploration · Research system',
+    role: 'Originator',
+    title: 'Charting Data Landscapes',
+    description:
+      'A research platform for navigating complex information through semantic representations, retrieval pipelines, data processing and visual interfaces.',
+    href: 'https://csl.sony.fr/people/michael-anslow/',
+  },
+  {
+    eyebrow: 'Public-interest NLP · Rapid research',
+    role: 'Language team lead',
+    title: 'Sony CSL COVID Language Team',
+    description:
+      'Computational-linguistics research examining public discourse across languages and national contexts during the first wave of the pandemic.',
+    href: 'https://sonycslparis.github.io/COVID/tweets',
+  },
+  {
+    eyebrow: 'Platform engineering · EU research',
+    role: 'Software engineer',
+    title: 'Penelope',
+    description:
+      'An online platform for composing OpenAPI-described services into analysis pipelines, developed for the ODYCCEUS Opinion Observatory and Facilitator.',
+    href: 'https://github.com/SonyCSLParis/website',
+  },
+]
 
 export const capabilities: Capability[] = [
   {
@@ -115,7 +167,14 @@ export const capabilities: Capability[] = [
       'Rapid prototyping',
       'Patent development',
     ],
-    evidence: 'Funiki · Poiesis Studio · Charting Data Landscapes',
+    evidence: [
+      { label: 'Funiki', href: '#project-funiki' },
+      { label: 'Poiesis Studio', href: '#project-poiesis-studio' },
+      {
+        label: 'Charting Data Landscapes',
+        href: 'https://csl.sony.fr/people/michael-anslow/',
+      },
+    ],
   },
   {
     area: 'Language AI & retrieval',
@@ -127,7 +186,17 @@ export const capabilities: Capability[] = [
       'Information retrieval',
       'Text processing pipelines',
     ],
-    evidence: 'Poiesis Studio · Sony Text & Audio · Charting Data Landscapes',
+    evidence: [
+      { label: 'Poiesis Studio', href: '#project-poiesis-studio' },
+      {
+        label: 'Sony Text & Audio',
+        href: 'https://csl.sony.fr/people/michael-anslow/',
+      },
+      {
+        label: 'Charting Data Landscapes',
+        href: 'https://csl.sony.fr/people/michael-anslow/',
+      },
+    ],
   },
   {
     area: 'Multimodal & deep learning',
@@ -139,7 +208,17 @@ export const capabilities: Capability[] = [
       'Generative modelling',
       'Audio–text systems',
     ],
-    evidence: 'STEM-JEPA · Sony Music Team collaboration · Funiki',
+    evidence: [
+      {
+        label: 'STEM-JEPA',
+        href: 'https://csl.sony.fr/publications/stem-jepa/',
+      },
+      {
+        label: 'Sony Music collaboration',
+        href: 'https://cslmusicteam.sony.fr/',
+      },
+      { label: 'Funiki', href: '#project-funiki' },
+    ],
   },
   {
     area: 'Full-stack AI systems',
@@ -151,7 +230,17 @@ export const capabilities: Capability[] = [
       'Databases & search',
       'Docker & AWS',
     ],
-    evidence: 'Penelope · Charting Data Landscapes · Funiki',
+    evidence: [
+      {
+        label: 'Penelope',
+        href: 'https://github.com/SonyCSLParis/website',
+      },
+      {
+        label: 'Charting Data Landscapes',
+        href: 'https://csl.sony.fr/people/michael-anslow/',
+      },
+      { label: 'Funiki', href: '#project-funiki' },
+    ],
   },
   {
     area: 'Data science & visualisation',
@@ -163,7 +252,20 @@ export const capabilities: Capability[] = [
       'Clustering',
       'Network analysis',
     ],
-    evidence: 'Sony COVID Task Force · VUB AI Lab · Edinburgh postgraduate research',
+    evidence: [
+      {
+        label: 'Sony COVID Task Force',
+        href: 'https://sonycslparis.github.io/COVID/tweets',
+      },
+      {
+        label: 'VUB AI Lab',
+        href: 'https://csl.sony.fr/people/michael-anslow/',
+      },
+      {
+        label: 'Edinburgh research',
+        href: 'https://csl.sony.fr/people/michael-anslow/',
+      },
+    ],
   },
   {
     area: 'Research leadership',
@@ -175,7 +277,21 @@ export const capabilities: Capability[] = [
       'Talks & tutorials',
       'Cross-discipline communication',
     ],
-    evidence: 'AI–Phi · IJCAI · ISMIR · Sony CSL COVID Language Team',
+    evidence: [
+      { label: 'AI–Phi', href: '#project-ai-phi' },
+      {
+        label: 'IJCAI',
+        href: 'https://csl.sony.fr/publications/interactive-concept-map-based-summaries-for-send-children/',
+      },
+      {
+        label: 'ISMIR',
+        href: 'https://csl.sony.fr/publications/stem-jepa/',
+      },
+      {
+        label: 'Sony CSL COVID Language Team',
+        href: 'https://sonycslparis.github.io/COVID/tweets',
+      },
+    ],
   },
   {
     area: 'Creative experiences',
@@ -187,7 +303,11 @@ export const capabilities: Capability[] = [
       'Interaction design',
       'Audio–visual experimentation',
     ],
-    evidence: 'Belonging · Funiki · Poiesis Studio',
+    evidence: [
+      { label: 'Belonging', href: '#project-belonging' },
+      { label: 'Funiki', href: '#project-funiki' },
+      { label: 'Poiesis Studio', href: '#project-poiesis-studio' },
+    ],
   },
   {
     area: 'Writing & imagination',
@@ -199,7 +319,20 @@ export const capabilities: Capability[] = [
       'Narrative framing',
       'Cultural analysis',
     ],
-    evidence: 'Materialising Myths · The Light and Dark of Awe · Poiesis Studio',
+    evidence: [
+      {
+        label: 'Materialising Myths',
+        href: '/blog/materialising-myths/',
+      },
+      {
+        label: 'The Light and Dark of Awe',
+        href: '/blog/the-light-and-dark-of-awe/',
+      },
+      {
+        label: 'Poiesis Studio',
+        href: '/blog/poiesis-studio/',
+      },
+    ],
   },
   {
     area: 'Critical inquiry',
@@ -211,10 +344,20 @@ export const capabilities: Capability[] = [
       'Ethics & societal context',
       'Horizon scanning',
     ],
-    evidence: 'AI & Education · Materialising Myths · Children’s Rights & AI Literacy',
+    evidence: [
+      { label: 'AI & Education', href: '#project-ai-education' },
+      {
+        label: 'Materialising Myths',
+        href: '/blog/materialising-myths/',
+      },
+      {
+        label: 'Children’s Rights & AI Literacy',
+        href: 'https://scholar.google.com/citations?view_op=view_citation&hl=en&user=VjnHrW8AAAAJ&citation_for_view=VjnHrW8AAAAJ:2osOgNQ5qMEC',
+      },
+    ],
   },
   {
-    area: 'Connect',
+    area: 'Connecting communities',
     summary:
       'Creating communities where researchers, practitioners and curious people can examine difficult questions together across disciplinary boundaries.',
     skills: [
@@ -223,7 +366,17 @@ export const capabilities: Capability[] = [
       'Discussion facilitation',
       'Cross-discipline dialogue',
     ],
-    evidence: 'AI–Phi · Seminars & causeries · Research communities',
+    evidence: [
+      { label: 'AI–Phi', href: '#project-ai-phi' },
+      {
+        label: 'Seminars & causeries',
+        href: 'https://ai-phi.github.io/',
+      },
+      {
+        label: 'Research communities',
+        href: 'https://csl.sony.fr/seminars/martina-galletti-michael-anslow/',
+      },
+    ],
   },
 ]
 
@@ -282,7 +435,7 @@ export const publications: Publication[] = [
     authors:
       'Galletti, Anslow, Bianchi, Calanca, Tomaiuoli, Vedovelli et al.',
     venue: 'IJCAI',
-    url: 'https://scholar.google.com/citations?user=VjnHrW8AAAAJ&hl=en',
+    url: 'https://www.ijcai.org/proceedings/2022/727',
   },
   {
     year: '2015',

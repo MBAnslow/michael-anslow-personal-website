@@ -1,6 +1,7 @@
 import { useEffect, useState, type CSSProperties } from 'react'
 import methodsAndToolsMarkdown from '../content/methods-and-tools.md?raw'
 import { capabilities, proofPoints } from '../data/portfolio'
+import { basePath } from '../utils/basePath'
 
 const stages = [
   { label: 'Think', detail: 'Find the opportunity' },
@@ -9,6 +10,18 @@ const stages = [
   { label: 'Create', detail: 'Make ideas felt' },
   { label: 'Big picture', detail: 'Track what AI changes' },
 ]
+
+const capabilityTitleLines: Record<string, string[]> = {
+  'Language AI & retrieval': ['Language AI &', 'retrieval'],
+  'Multimodal & deep learning': ['Multimodal &', 'deep learning'],
+  'Full-stack AI systems': ['Full-stack AI', 'systems'],
+  'Data science & visualisation': ['Data science &', 'visualisation'],
+  'Research leadership': ['Research', 'leadership'],
+  'Creative experiences': ['Creative', 'experiences'],
+  'Writing & imagination': ['Writing &', 'imagination'],
+  'Critical inquiry': ['Critical', 'inquiry'],
+  'Connecting communities': ['Connecting', 'communities'],
+}
 
 type ToolkitTone = 'paper' | 'yellow' | 'blue' | 'red'
 
@@ -81,6 +94,9 @@ function parseToolkit(markdown: string): ToolkitContent {
 }
 
 const toolkit = parseToolkit(methodsAndToolsMarkdown)
+
+const evidenceHref = (href: string) =>
+  href.startsWith('/blog/') ? `${basePath}${href.slice(1)}` : href
 
 type BlobStyle = CSSProperties & {
   '--blob-radius': string
@@ -170,7 +186,13 @@ export function Capabilities() {
                     <span className="capability-node__number">
                       {String(rowIndex * 2 + pairIndex + 1).padStart(2, '0')}
                     </span>
-                    <h3>{capability.area}</h3>
+                    <h3>
+                      {(capabilityTitleLines[capability.area] ?? [
+                        capability.area,
+                      ]).map((line) => (
+                        <span key={line}>{line}</span>
+                      ))}
+                    </h3>
                     <p>{capability.summary}</p>
                     <ul>
                       {capability.skills.map((skill) => (
@@ -178,7 +200,21 @@ export function Capabilities() {
                       ))}
                     </ul>
                     <p className="capability-node__evidence">
-                      <span>Evidence</span> {capability.evidence}
+                      <span>Evidence</span>
+                      {capability.evidence.map((item) => {
+                        const external = item.href.startsWith('http')
+
+                        return (
+                          <a
+                            href={evidenceHref(item.href)}
+                            target={external ? '_blank' : undefined}
+                            rel={external ? 'noreferrer' : undefined}
+                            key={item.label}
+                          >
+                            {item.label}
+                          </a>
+                        )
+                      })}
                     </p>
                   </div>
                 ))}

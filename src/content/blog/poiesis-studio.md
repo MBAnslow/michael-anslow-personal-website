@@ -9,6 +9,8 @@ tags:
   - "ai"
 hero: "/media/blog/poiesis-studio-01.webp"
 heroAlt: "The Poeisis Studio interface."
+titleImage: "/media/blog/poiesis-studio-title.webp"
+titleImageAlt: "Watercolour waves surrounding a sequence of masked word tiles reading: The … walked … ."
 series: "A Vision of Writing Assistance Before ChatGPT"
 seriesPart: 1
 featured: false

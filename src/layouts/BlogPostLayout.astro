@@ -38,6 +38,11 @@ const canonicalURL = data.sourceURL ? new URL(data.sourceURL) : localCanonical
 const hero = data.hero
   ? `${basePath}${data.hero.replace(/^\//, '')}`
   : undefined
+const titleImage = data.titleImage
+  ? `${basePath}${data.titleImage.replace(/^\//, '')}`
+  : hero
+const titleImageAlt = data.titleImageAlt ?? data.heroAlt
+const socialImage = hero ?? titleImage
 const title = `${data.title} — Michael Anslow`
 const date = data.pubDate.toLocaleDateString('en-GB', {
   day: 'numeric',
@@ -52,7 +57,7 @@ const postPath = (id: string) =>
 <BaseLayout
   title={title}
   description={data.description}
-  image={hero}
+  image={socialImage}
   canonicalURL={canonicalURL}
   article
   pageClass="blog-theme"
@@ -96,10 +101,10 @@ const postPath = (id: string) =>
       )}
     </header>
 
-    {hero && (
+    {titleImage && (
       <figure class="blog-post__lead-image">
-        <img src={hero} alt={data.heroAlt ?? ''} />
-        {data.heroAlt && <figcaption>{data.heroAlt}</figcaption>}
+        <img src={titleImage} alt={titleImageAlt ?? ''} />
+        {titleImageAlt && <figcaption>{titleImageAlt}</figcaption>}
       </figure>
     )}
 
