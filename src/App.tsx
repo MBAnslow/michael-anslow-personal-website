@@ -105,15 +105,6 @@ function App() {
           </h1>
 
           <div className="hero-section__lower">
-            <div className="hero-mark" aria-hidden="true">
-              <svg viewBox="0 0 240 240">
-                <circle cx="120" cy="120" r="75" />
-                <circle cx="120" cy="120" r="48" />
-                <path d="M120 0v240M0 120h240" />
-                <rect x="92" y="92" width="56" height="56" />
-              </svg>
-              <span>0→1</span>
-            </div>
             <div className="hero-section__intro">
               <p>
                 I build new technological experiences, embedded in research and
@@ -137,26 +128,15 @@ function App() {
             </div>
           </div>
 
-          <div className="hero-stamp" aria-hidden="true">
-            <span>AI</span>
-            <span>CREATIVITY</span>
-            <span>PHILOSOPHY</span>
+          <div className="hero-skyline" aria-hidden="true">
+            <img
+              src={`${basePath}media/hero-skyline.png`}
+              alt=""
+              width="1024"
+              height="381"
+            />
           </div>
         </section>
-
-        <div className="marquee" aria-hidden="true">
-          <div>
-            <span>Making ideas tangible</span>
-            <i>✦</i>
-            <span>AI as a creative material</span>
-            <i>✦</i>
-            <span>Systems before silos</span>
-            <i>✦</i>
-            <span>Making ideas tangible</span>
-            <i>✦</i>
-            <span>AI as a creative material</span>
-          </div>
-        </div>
 
         <section className="page-section about-section" id="about">
           <SectionHeading

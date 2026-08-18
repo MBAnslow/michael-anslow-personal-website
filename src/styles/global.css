@@ -226,7 +226,8 @@ main {
   position: relative;
   display: grid;
   min-height: calc(100svh - 4.85rem);
-  padding: clamp(1.5rem, 3vw, 3rem) var(--page-pad) clamp(2rem, 4vw, 4rem);
+  padding: clamp(1.5rem, 3vw, 3rem) var(--page-pad)
+    clamp(8rem, 20vh, 12.5rem);
   grid-template-rows: auto 1fr auto;
 }
 
@@ -266,6 +267,7 @@ main {
   font-size: clamp(0.62rem, 1vw, 0.76rem);
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  transform: translateY(-0.85rem);
 }
 
 .hero-section h1 {
@@ -291,37 +293,20 @@ main {
 }
 
 .hero-section__lower {
+  position: relative;
+  z-index: 2;
   display: grid;
   align-items: end;
-  grid-template-columns: 1fr minmax(19rem, 32rem);
-}
-
-.hero-mark {
-  position: relative;
-  width: clamp(5.5rem, 9vw, 8.5rem);
-}
-
-.hero-mark svg {
-  width: 100%;
-  fill: none;
-  stroke: var(--ink);
-  stroke-width: 3;
-  animation: slow-spin 24s linear infinite;
-}
-
-.hero-mark span {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  font-family: var(--mono);
-  font-size: clamp(0.75rem, 1vw, 1rem);
-  font-weight: 500;
-  place-items: center;
+  grid-template-columns: 1fr;
 }
 
 .hero-section__intro {
-  width: min(100%, 32rem);
-  justify-self: end;
+  width: min(100%, 36rem);
+  justify-self: center;
+  transform: translate(
+    clamp(1rem, 3vw, 2.75rem),
+    clamp(0.75rem, 2vh, 1.5rem)
+  );
 }
 
 .hero-section__intro p {
@@ -344,7 +329,7 @@ main {
   align-items: center;
   gap: 0.2rem 0.75rem;
   min-width: 0;
-  padding: 0.9rem 0.75rem;
+  padding: 1.1rem 0.9rem;
   color: var(--blue-dark);
   grid-template-columns: 1fr auto;
   transition: color 160ms ease, background 160ms ease;
@@ -370,7 +355,7 @@ main {
 
 .hero-section__routes span {
   font-family: var(--poster);
-  font-size: clamp(1rem, 1.5vw, 1.35rem);
+  font-size: clamp(1.25rem, 2vw, 1.8rem);
   font-weight: 400;
   letter-spacing: -0.03em;
   line-height: 1;
@@ -380,7 +365,7 @@ main {
 .hero-section__routes small {
   overflow: hidden;
   font-family: var(--mono);
-  font-size: clamp(0.52rem, 0.7vw, 0.64rem);
+  font-size: clamp(0.58rem, 0.8vw, 0.72rem);
   line-height: 1.3;
   text-overflow: ellipsis;
   text-transform: uppercase;
@@ -424,70 +409,224 @@ main {
   transform: translate(3px, -3px);
 }
 
-.hero-stamp {
+.hero-skyline {
   position: absolute;
-  right: var(--page-pad);
-  bottom: 42%;
-  display: flex;
-  width: 6.25rem;
-  aspect-ratio: 1;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid var(--ink);
-  border-radius: 50%;
-  background: var(--paper);
-  font-family: var(--mono);
-  font-size: 0.48rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  line-height: 1.7;
-  text-transform: uppercase;
-  transform: rotate(9deg);
-}
-
-.hero-stamp span:first-child {
-  font-family: var(--display);
-  font-size: 1.3rem;
-  font-weight: 800;
-  line-height: 1;
-}
-
-@keyframes slow-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.marquee {
+  z-index: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: clamp(9rem, 26vh, 16rem);
   overflow: hidden;
-  border-block: 1.5px solid var(--ink);
+  pointer-events: none;
+}
+
+.hero-skyline::before {
+  position: absolute;
+  z-index: 0;
+  bottom: -1.8rem;
+  left: 50%;
+  width: clamp(4.5rem, 8vw, 7rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  content: '';
+  background: color-mix(in srgb, var(--ochre) 55%, white);
+  transform: translateX(-50%);
+}
+
+.hero-skyline::after {
+  position: absolute;
+  z-index: 0;
+  top: 30%;
+  right: 0;
+  left: 0;
+  height: 1px;
+  content: '';
+  background: color-mix(in srgb, var(--ochre) 58%, transparent);
+  box-shadow:
+    0 1.1rem 0 color-mix(in srgb, var(--terracotta) 42%, transparent),
+    0 2.4rem 0 color-mix(in srgb, var(--ochre) 36%, transparent);
+}
+
+.hero-skyline__rear,
+.hero-skyline__front {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-skyline__rear {
+  z-index: 1;
+}
+
+.hero-skyline__front {
+  z-index: 2;
+}
+
+.hero-skyline__rear i,
+.hero-skyline__building {
+  position: absolute;
+  bottom: -1px;
+  display: block;
+}
+
+.hero-skyline__rear i {
+  background: color-mix(in srgb, var(--blue) 34%, var(--terracotta));
+  clip-path: polygon(0 10%, 26% 10%, 26% 0, 72% 0, 72% 7%, 100% 7%, 100% 100%, 0 100%);
+  opacity: 0.62;
+}
+
+.hero-skyline__rear i:nth-child(1) {
+  left: 0;
+  width: 14%;
+  height: 46%;
+}
+
+.hero-skyline__rear i:nth-child(2) {
+  left: 11%;
+  width: 13%;
+  height: 61%;
+}
+
+.hero-skyline__rear i:nth-child(3) {
+  left: 23%;
+  width: 16%;
+  height: 39%;
+}
+
+.hero-skyline__rear i:nth-child(4) {
+  left: 36%;
+  width: 13%;
+  height: 67%;
+}
+
+.hero-skyline__rear i:nth-child(5) {
+  left: 47%;
+  width: 16%;
+  height: 48%;
+}
+
+.hero-skyline__rear i:nth-child(6) {
+  left: 61%;
+  width: 12%;
+  height: 62%;
+}
+
+.hero-skyline__rear i:nth-child(7) {
+  left: 72%;
+  width: 15%;
+  height: 40%;
+}
+
+.hero-skyline__rear i:nth-child(8) {
+  left: 82%;
+  width: 10%;
+  height: 68%;
+}
+
+.hero-skyline__rear i:nth-child(9) {
+  right: 0;
+  width: 10%;
+  height: 45%;
+}
+
+.hero-skyline__building {
   color: var(--paper-light);
-  background: var(--blue);
-  font-size: clamp(0.82rem, 1.2vw, 1.05rem);
-  font-weight: 700;
-  letter-spacing: 0.04em;
+  background: var(--blue-dark);
+}
+
+.hero-skyline__building span {
+  position: absolute;
+  right: clamp(0.35rem, 0.8vw, 0.8rem);
+  bottom: clamp(0.35rem, 0.8vw, 0.75rem);
+  left: clamp(0.35rem, 0.8vw, 0.8rem);
+  font-family: var(--poster);
+  font-size: clamp(0.56rem, 1.2vw, 1.2rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 0.82;
   text-transform: uppercase;
 }
 
-.marquee > div {
-  display: flex;
-  width: max-content;
-  align-items: center;
-  gap: 2rem;
-  padding-block: 0.85rem;
-  animation: marquee 25s linear infinite;
+.hero-skyline__building--edge-left {
+  left: 0;
+  width: 8%;
+  height: 38%;
+  clip-path: polygon(0 18%, 38% 18%, 55% 0, 100% 0, 100% 100%, 0 100%);
 }
 
-.marquee i {
+.hero-skyline__building--systems {
+  left: 7%;
+  width: 20%;
+  height: 74%;
+  clip-path: polygon(0 16%, 12% 16%, 12% 10%, 35% 10%, 35% 0, 65% 0, 65% 10%, 88% 10%, 88% 16%, 100% 16%, 100% 100%, 0 100%);
+}
+
+.hero-skyline__building--systems span {
   color: var(--ochre);
-  font-style: normal;
 }
 
-@keyframes marquee {
-  to {
-    transform: translateX(-40%);
-  }
+.hero-skyline__building--slender {
+  left: 26%;
+  width: 14%;
+  height: 35%;
+  clip-path: polygon(0 18%, 34% 18%, 34% 0, 74% 0, 74% 10%, 100% 10%, 100% 100%, 0 100%);
+}
+
+.hero-skyline__building--tangible {
+  left: 39%;
+  width: 22%;
+  height: 92%;
+  clip-path: polygon(0 28%, 8% 28%, 8% 15%, 16% 15%, 16% 10%, 42% 10%, 42% 0, 58% 0, 58% 10%, 84% 10%, 84% 15%, 92% 15%, 92% 28%, 100% 28%, 100% 100%, 0 100%);
+}
+
+.hero-skyline__building--tangible span {
+  color: var(--aqua);
+}
+
+.hero-skyline__building--bridge {
+  left: 60%;
+  width: 12%;
+  height: 32%;
+  clip-path: polygon(0 16%, 44% 16%, 44% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.hero-skyline__building--material {
+  left: 70%;
+  width: 20%;
+  height: 73%;
+  clip-path: polygon(0 18%, 12% 18%, 12% 10%, 30% 10%, 30% 3%, 68% 3%, 68% 0, 74% 0, 74% 10%, 88% 10%, 88% 18%, 100% 18%, 100% 100%, 0 100%);
+}
+
+.hero-skyline__building--material span {
+  color: var(--terracotta);
+}
+
+.hero-skyline__building--edge-right {
+  right: 0;
+  width: 11%;
+  height: 36%;
+  clip-path: polygon(0 0, 42% 0, 62% 14%, 100% 14%, 100% 100%, 0 100%);
+}
+
+.hero-skyline::before,
+.hero-skyline::after {
+  display: none;
+}
+
+.hero-skyline > img {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: auto;
+  width: auto;
+  height: 100%;
+  opacity: 0.65;
+  object-fit: contain;
+  transform: scaleX(1.65);
+  transform-origin: right bottom;
+}
+
+.tile-panel__corner:hover {
+  transform: translateY(-0.15rem);
 }
 
 .page-section {
@@ -709,7 +848,9 @@ main {
 
 .tile-panel {
   position: relative;
+  width: min(24rem, 100%);
   margin: 0;
+  justify-self: end;
 }
 
 .tile-panel::before {
@@ -729,34 +870,12 @@ main {
   border: 1.5px solid var(--ink);
   background: var(--paper-light);
   box-shadow: 0.45rem 0.45rem 0 var(--ink);
-  transform: perspective(900px) rotateX(var(--tile-tilt-x))
-    rotateY(var(--tile-tilt-y)) rotateZ(1.5deg);
-  transform-style: preserve-3d;
+  transform: rotate(1.5deg);
   transition: transform 220ms ease;
 }
 
 .tile-panel:hover .tile-panel__frame {
-  transform: perspective(900px) rotateX(var(--tile-tilt-x))
-    rotateY(var(--tile-tilt-y)) rotateZ(0);
-}
-
-.tile-panel__frame::after {
-  position: absolute;
-  z-index: 0;
-  inset: clamp(0.6rem, 1vw, 0.9rem);
-  content: '';
-  background: radial-gradient(
-    circle at var(--tile-pointer-x) var(--tile-pointer-y),
-    color-mix(in srgb, var(--ochre) 23%, transparent) 0,
-    transparent 34%
-  );
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 180ms ease;
-}
-
-.tile-panel:hover .tile-panel__frame::after {
-  opacity: 1;
+  transform: translateY(-0.2rem) rotate(0);
 }
 
 .tile-panel__art {
@@ -765,116 +884,42 @@ main {
   background: #f9f5e9;
 }
 
-.tile-panel__quadrants {
+.tile-panel__corner {
   position: absolute;
-  z-index: 2;
-  inset: clamp(0.6rem, 1vw, 0.9rem);
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-template-rows: repeat(2, minmax(0, 1fr));
-}
-
-.tile-panel__frost {
-  position: absolute;
-  z-index: 1;
-  inset: clamp(0.6rem, 1vw, 0.9rem);
-  background:
-    repeating-linear-gradient(
-      118deg,
-      rgb(255 255 255 / 22%) 0 2px,
-      rgb(17 17 15 / 3%) 2px 3px,
-      transparent 3px 9px
-    ),
-    rgb(248 248 246 / 52%);
-  backdrop-filter: blur(5px) saturate(0.68);
-  pointer-events: none;
-  animation: tile-frost-window 16s linear infinite;
-  mask-image: radial-gradient(
-    ellipse 38% 38% at 25% 25%,
-    transparent 0 58%,
-    rgb(0 0 0 / 20%) 78%,
-    black 100%
-  );
-}
-
-.tile-panel__quadrants p {
-  --stage-delay: 0s;
-  position: relative;
-  display: grid;
-  isolation: isolate;
-  margin: 0;
-  padding: clamp(2.8rem, 6vw, 5rem) clamp(0.65rem, 2vw, 1.5rem);
+  z-index: 3;
+  padding: 0.5rem 0.6rem;
   color: var(--blue-dark);
-  font-family: var(--serif);
-  font-size: clamp(0.95rem, 1.55vw, 1.35rem);
-  font-weight: 650;
-  line-height: 1.35;
-  text-align: center;
-  transition:
-    color 180ms ease,
-    opacity 180ms ease,
-    transform 180ms ease;
-  place-items: center;
+  font-family: var(--mono);
+  font-size: clamp(0.58rem, 0.8vw, 0.72rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
-.tile-panel__quadrants p:nth-child(2) {
-  --stage-delay: 4s;
+.tile-panel__corner--top-left {
+  top: clamp(0.6rem, 1vw, 0.9rem);
+  left: clamp(0.6rem, 1vw, 0.9rem);
+  background: var(--ochre);
 }
 
-.tile-panel__quadrants p:nth-child(3) {
-  --stage-delay: 8s;
+.tile-panel__corner--top-right {
+  top: clamp(0.6rem, 1vw, 0.9rem);
+  right: clamp(0.6rem, 1vw, 0.9rem);
+  background: var(--aqua);
 }
 
-.tile-panel__quadrants p:nth-child(4) {
-  --stage-delay: 12s;
+.tile-panel__corner--bottom-left {
+  bottom: clamp(0.6rem, 1vw, 0.9rem);
+  left: clamp(0.6rem, 1vw, 0.9rem);
+  color: white;
+  background: var(--terracotta);
 }
 
-.tile-panel__quadrants p:nth-child(n + 3) {
-  align-items: start;
-  padding-top: clamp(2.2rem, 4.5vw, 3.8rem);
-}
-
-.tile-panel__quadrants p > span {
-  width: fit-content;
-  max-width: 100%;
-  padding: clamp(0.65rem, 1.2vw, 0.95rem);
-  background: rgb(255 255 255 / 94%);
-  opacity: 0;
-  animation: tile-stage-reveal 16s linear infinite;
-  animation-delay: var(--stage-delay);
-}
-
-.tile-panel__quadrants p:nth-child(1) > span {
-  transform: translate(
-    clamp(0.5rem, 1vw, 0.85rem),
-    clamp(0.75rem, 2vw, 1.5rem)
-  );
-}
-
-.tile-panel__quadrants p:nth-child(2) > span {
-  transform: translate(
-    clamp(-0.85rem, -1vw, -0.5rem),
-    clamp(0.5rem, 1vw, 0.85rem)
-  );
-}
-
-.tile-panel__quadrants p:nth-child(3) > span {
-  transform: translate(
-    clamp(0.5rem, 1vw, 0.85rem),
-    clamp(-0.85rem, -1vw, -0.5rem)
-  );
-}
-
-.tile-panel__quadrants p:nth-child(4) > span {
-  transform: translate(
-    clamp(-0.85rem, -1vw, -0.5rem),
-    clamp(-0.85rem, -1vw, -0.5rem)
-  );
-}
-
-.tile-panel__quadrants p:hover {
-  color: var(--blue);
-  transform: translateZ(10px) scale(1.015);
+.tile-panel__corner--bottom-right {
+  right: clamp(0.6rem, 1vw, 0.9rem);
+  bottom: clamp(0.6rem, 1vw, 0.9rem);
+  color: white;
+  background: var(--blue);
 }
 
 .tile__journey-base,
@@ -885,11 +930,12 @@ main {
 }
 
 .tile__journey-base {
-  stroke: var(--ink);
-  stroke-width: 7;
+  stroke: rgb(17 17 15 / 58%);
+  stroke-width: 5;
 }
 
 .tile__journey-segment {
+  stroke-linecap: butt;
   stroke-width: 17;
   transition: stroke-width 180ms ease;
 }
@@ -920,20 +966,13 @@ main {
   stroke-width: 8;
 }
 
-.tile__journey-traveller {
-  fill: white;
-  stroke: var(--ink);
-  stroke-width: 3;
-  filter: drop-shadow(2px 2px 0 rgb(17 17 15 / 24%));
-}
-
-.tile-panel__frame:has(.tile-panel__quadrants p:nth-child(1):hover)
+.tile-panel__frame:has(.tile-panel__corner--top-left:hover)
   .tile__journey-segment--inspiration,
-.tile-panel__frame:has(.tile-panel__quadrants p:nth-child(2):hover)
+.tile-panel__frame:has(.tile-panel__corner--top-right:hover)
   .tile__journey-segment--conceptualisation,
-.tile-panel__frame:has(.tile-panel__quadrants p:nth-child(3):hover)
+.tile-panel__frame:has(.tile-panel__corner--bottom-left:hover)
   .tile__journey-segment--systematisation,
-.tile-panel__frame:has(.tile-panel__quadrants p:nth-child(4):hover)
+.tile-panel__frame:has(.tile-panel__corner--bottom-right:hover)
   .tile__journey-segment--implementation {
   stroke-width: 21;
 }
@@ -948,110 +987,6 @@ main {
   fill: none;
   stroke: rgb(17 17 15 / 20%);
   stroke-width: 2;
-}
-
-.tile-panel__corner {
-  --stage-delay: 0s;
-  position: absolute;
-  z-index: 3;
-  padding: 0.5rem 0.6rem;
-  color: var(--blue-dark);
-  background: white;
-  font-family: var(--mono);
-  font-size: clamp(0.58rem, 0.8vw, 0.72rem);
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  opacity: 0;
-  text-transform: uppercase;
-  animation: tile-stage-reveal 16s linear infinite;
-  animation-delay: var(--stage-delay);
-}
-
-.tile-panel__corner--top-left {
-  top: clamp(0.6rem, 1vw, 0.9rem);
-  left: clamp(0.6rem, 1vw, 0.9rem);
-  background: var(--ochre);
-}
-
-.tile-panel__corner--top-right {
-  --stage-delay: 4s;
-  top: clamp(0.6rem, 1vw, 0.9rem);
-  right: clamp(0.6rem, 1vw, 0.9rem);
-  background: var(--aqua);
-}
-
-.tile-panel__corner--bottom-left {
-  --stage-delay: 8s;
-  bottom: clamp(0.6rem, 1vw, 0.9rem);
-  left: clamp(0.6rem, 1vw, 0.9rem);
-  color: white;
-  background: var(--terracotta);
-}
-
-.tile-panel__corner--bottom-right {
-  --stage-delay: 12s;
-  right: clamp(0.6rem, 1vw, 0.9rem);
-  bottom: clamp(0.6rem, 1vw, 0.9rem);
-  color: white;
-  background: var(--blue);
-}
-
-@keyframes tile-stage-reveal {
-  0% {
-    opacity: 0;
-  }
-
-  3%,
-  22% {
-    opacity: 1;
-  }
-
-  25%,
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes tile-frost-window {
-  0%,
-  22% {
-    mask-image: radial-gradient(
-      ellipse 38% 38% at 25% 25%,
-      transparent 0 58%,
-      rgb(0 0 0 / 20%) 78%,
-      black 100%
-    );
-  }
-
-  25%,
-  47% {
-    mask-image: radial-gradient(
-      ellipse 38% 38% at 75% 25%,
-      transparent 0 58%,
-      rgb(0 0 0 / 20%) 78%,
-      black 100%
-    );
-  }
-
-  50%,
-  72% {
-    mask-image: radial-gradient(
-      ellipse 38% 38% at 25% 75%,
-      transparent 0 58%,
-      rgb(0 0 0 / 20%) 78%,
-      black 100%
-    );
-  }
-
-  75%,
-  100% {
-    mask-image: radial-gradient(
-      ellipse 38% 38% at 75% 75%,
-      transparent 0 58%,
-      rgb(0 0 0 / 20%) 78%,
-      black 100%
-    );
-  }
 }
 
 .work-section {
@@ -1678,10 +1613,6 @@ main {
     grid-template-columns: 0.35fr 1fr;
   }
 
-  .hero-stamp {
-    display: none;
-  }
-
   .section-heading {
     gap: 1rem;
     grid-template-columns: 4rem 1.2fr 1fr;
@@ -1693,7 +1624,7 @@ main {
   }
 
   .tile-panel {
-    width: min(32rem, 90%);
+    width: min(24rem, 90%);
     justify-self: end;
   }
 
@@ -1775,12 +1706,15 @@ main {
 
   .hero-section__lower {
     align-items: center;
-    gap: 1.2rem;
-    grid-template-columns: 4rem 1fr;
+    grid-template-columns: 1fr;
   }
 
   .hero-section__intro p {
     font-size: 1.15rem;
+  }
+
+  .hero-section__intro {
+    transform: none;
   }
 
   .hero-section__routes {
@@ -1799,10 +1733,6 @@ main {
 
   .text-link {
     font-size: 0.58rem;
-  }
-
-  .marquee > div {
-    padding-block: 0.65rem;
   }
 
   .page-section {
@@ -3823,30 +3753,6 @@ main {
   .tile-panel:hover .tile-panel__frame {
     transform: rotate(0) !important;
   }
-
-  .tile-panel__frame::after {
-    display: none;
-  }
-
-  .tile-panel__quadrants p {
-    background: transparent;
-    backdrop-filter: none;
-    animation: none;
-  }
-
-  .tile-panel__frost {
-    display: none;
-  }
-
-  .tile-panel__quadrants p > span,
-  .tile-panel__corner {
-    opacity: 1;
-    animation: none;
-  }
-
-  .tile__journey-traveller {
-    display: none;
-  }
 }
 
 /* Funiki project focus */
@@ -5111,31 +5017,6 @@ body:not(.blog-theme) .hero-section__surname {
   transform: rotate(0.7deg);
 }
 
-body:not(.blog-theme) .hero-mark svg {
-  stroke: var(--blue);
-}
-
-body:not(.blog-theme) .hero-mark span {
-  color: var(--terracotta);
-  font-weight: 700;
-}
-
-body:not(.blog-theme) .hero-stamp {
-  border: 2px solid var(--blue);
-  border-radius: 46% 54% 48% 52% / 52% 45% 55% 48%;
-  color: var(--blue-dark);
-  background: var(--aqua);
-  box-shadow: 4px 4px 0 var(--ochre);
-}
-
-body:not(.blog-theme) .marquee {
-  border-color: var(--blue-dark);
-  color: white;
-  background: var(--blue);
-  font-family: var(--poster);
-  font-weight: 400;
-}
-
 body:not(.blog-theme) .section-heading h2 {
   max-width: 13ch;
   color: var(--blue);
@@ -5169,16 +5050,16 @@ body:not(.blog-theme) .practice-list dd {
 }
 
 body:not(.blog-theme) .tile-panel::before {
-  background: var(--ochre);
+  background: color-mix(in srgb, var(--ochre) 38%, white);
   transform: rotate(-1deg);
 }
 
 body:not(.blog-theme) .tile-panel__frame {
-  border: 2px solid var(--blue-dark);
+  border: 2px solid color-mix(in srgb, var(--blue-dark) 48%, white);
   background: white;
   box-shadow:
-    0.45rem 0.45rem 0 var(--terracotta),
-    0.8rem 0.8rem 0 var(--blue);
+    0.45rem 0.45rem 0 color-mix(in srgb, var(--terracotta) 42%, white),
+    0.8rem 0.8rem 0 color-mix(in srgb, var(--blue) 38%, white);
 }
 
 body:not(.blog-theme) .tile-panel__art {
