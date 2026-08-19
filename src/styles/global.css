@@ -6217,24 +6217,6 @@ body:not(.blog-theme) .project-expansion .funiki-feature {
   line-height: 1.5;
 }
 
-.poiesis-feature__mockups {
-  display: grid;
-  gap: 2px;
-  border-bottom: 2px solid var(--blue-dark);
-  padding: 2px;
-  background: var(--blue-dark);
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.poiesis-feature__mockups img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  padding: clamp(1rem, 3vw, 2.5rem);
-  background: #fffdf8;
-  object-fit: contain;
-}
-
 .poiesis-feature__footer {
   display: grid;
   align-items: center;
@@ -6302,8 +6284,7 @@ body:not(.blog-theme) .project-expansion .funiki-feature {
   }
 
   .poiesis-feature__facts,
-  .poiesis-feature__principles,
-  .poiesis-feature__mockups {
+  .poiesis-feature__principles {
     grid-template-columns: 1fr;
   }
 

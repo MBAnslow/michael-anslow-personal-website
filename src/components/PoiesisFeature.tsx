@@ -92,19 +92,6 @@ export function PoiesisFeature() {
         </article>
       </div>
 
-      <div className="poiesis-feature__mockups">
-        <img
-          src={imagePath('poiesis-studio-05.webp')}
-          alt="Poiesis Studio mockup with rhyme and syllable constraints"
-          loading="lazy"
-        />
-        <img
-          src={imagePath('poiesis-studio-06.webp')}
-          alt="Poiesis Studio mockup with emotional constraints"
-          loading="lazy"
-        />
-      </div>
-
       <footer className="poiesis-feature__footer">
         <p>
           The full project story covers the interface, creative workflow and
