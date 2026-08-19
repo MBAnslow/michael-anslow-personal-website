@@ -2,14 +2,16 @@ import { useEffect, useState } from 'react'
 import { AiPhiFeature } from './components/AiPhiFeature'
 import { Arrow } from './components/Arrow'
 import { BelongingFeature } from './components/BelongingFeature'
-import { Capabilities } from './components/Capabilities'
+import {
+  Capabilities,
+  PracticeOverview,
+} from './components/Capabilities'
 import { EducationFeature } from './components/EducationFeature'
 import { FunikiFeature } from './components/FunikiFeature'
 import { PoiesisFeature } from './components/PoiesisFeature'
 import { ProjectCard } from './components/ProjectCard'
 import { Reveal } from './components/Reveal'
 import { SectionHeading } from './components/SectionHeading'
-import { TileMosaic } from './components/TileMosaic'
 import {
   essays,
   otherWork,
@@ -87,7 +89,8 @@ function App() {
           </ul>
         </nav>
         <a className="header-link" href="#writing">
-          Explore the blog
+          <span>Explore the</span>
+          <strong>Blog</strong>
           <Arrow />
         </a>
       </header>
@@ -130,7 +133,7 @@ function App() {
 
           <div className="hero-skyline" aria-hidden="true">
             <img
-              src={`${basePath}media/hero-skyline.png`}
+              src={`${basePath}media/hero-skyline-v3.png`}
               alt=""
               width="1024"
               height="381"
@@ -144,43 +147,8 @@ function App() {
             title="Between systems and stories"
             note="A practice grounded in engineering, expanded through research and philosophy."
           />
-          <Reveal className="about-grid">
-            <div className="about-copy">
-              <p className="lead">
-                My work sits at the point where a speculative idea becomes a
-                working system.
-              </p>
-              <div className="about-copy__columns">
-                <p>
-                  I am a researcher and research engineer at Sony Computer
-                  Science Laboratories in Paris. My background in natural
-                  language processing has grown into a wider practice spanning
-                  multimodal AI, audio–visual experience and creative
-                  assistance.
-                </p>
-                <p>
-                  Alongside building technology, I explore the social,
-                  philosophical and ethical questions around it. I co-founded
-                  AI–Phi to create a shared space for those conversations
-                  across disciplines.
-                </p>
-              </div>
-              <dl className="practice-list">
-                <div>
-                  <dt>01</dt>
-                  <dd>Prototype the future</dd>
-                </div>
-                <div>
-                  <dt>02</dt>
-                  <dd>Research through making</dd>
-                </div>
-                <div>
-                  <dt>03</dt>
-                  <dd>Connect technical and human questions</dd>
-                </div>
-              </dl>
-            </div>
-            <TileMosaic />
+          <Reveal>
+            <PracticeOverview />
           </Reveal>
         </section>
 
@@ -190,8 +158,8 @@ function App() {
         >
           <SectionHeading
             index="02"
-            title="What I bring"
-            note="A broad technical practice with evidence in shipped prototypes, published research and long-running collaborations."
+            title="Experience, methods & tools"
+            note="The technical and research methods I use to make ideas concrete."
           />
           <Reveal>
             <Capabilities />

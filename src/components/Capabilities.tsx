@@ -1,27 +1,4 @@
-import { useEffect, useState, type CSSProperties } from 'react'
 import methodsAndToolsMarkdown from '../content/methods-and-tools.md?raw'
-import { capabilities, proofPoints } from '../data/portfolio'
-import { basePath } from '../utils/basePath'
-
-const stages = [
-  { label: 'Think', detail: 'Find the opportunity' },
-  { label: 'Make', detail: 'Build the system' },
-  { label: 'Prove', detail: 'Create the evidence' },
-  { label: 'Create', detail: 'Make ideas felt' },
-  { label: 'Big picture', detail: 'Track what AI changes' },
-]
-
-const capabilityTitleLines: Record<string, string[]> = {
-  'Language AI & retrieval': ['Language AI &', 'retrieval'],
-  'Multimodal & deep learning': ['Multimodal &', 'deep learning'],
-  'Full-stack AI systems': ['Full-stack AI', 'systems'],
-  'Data science & visualisation': ['Data science &', 'visualisation'],
-  'Research leadership': ['Research', 'leadership'],
-  'Creative experiences': ['Creative', 'experiences'],
-  'Writing & imagination': ['Writing &', 'imagination'],
-  'Critical inquiry': ['Critical', 'inquiry'],
-  'Connecting communities': ['Connecting', 'communities'],
-}
 
 type ToolkitTone = 'paper' | 'yellow' | 'blue' | 'red'
 
@@ -95,145 +72,63 @@ function parseToolkit(markdown: string): ToolkitContent {
 
 const toolkit = parseToolkit(methodsAndToolsMarkdown)
 
-const evidenceHref = (href: string) =>
-  href.startsWith('/blog/') ? `${basePath}${href.slice(1)}` : href
-
-type BlobStyle = CSSProperties & {
-  '--blob-radius': string
-  '--blob-rotation': string
-}
-
-const initialBlobs: BlobStyle[] = [
-  {
-    '--blob-radius': '48% 52% 45% 55% / 54% 43% 57% 46%',
-    '--blob-rotation': '-2deg',
-  },
-  {
-    '--blob-radius': '55% 45% 52% 48% / 42% 57% 43% 58%',
-    '--blob-rotation': '3deg',
-  },
-  {
-    '--blob-radius': '44% 56% 58% 42% / 51% 46% 54% 49%',
-    '--blob-rotation': '-3deg',
-  },
-  {
-    '--blob-radius': '57% 43% 47% 53% / 46% 55% 45% 54%',
-    '--blob-rotation': '2deg',
-  },
-  {
-    '--blob-radius': '46% 54% 42% 58% / 58% 45% 55% 42%',
-    '--blob-rotation': '-2deg',
-  },
-]
-
-function randomBlob(): BlobStyle {
-  const value = () => Math.round(37 + Math.random() * 26)
-  const a = value()
-  const b = value()
-  const c = value()
-  const d = value()
-
-  return {
-    '--blob-radius': `${a}% ${100 - a}% ${b}% ${100 - b}% / ${c}% ${d}% ${100 - d}% ${100 - c}%`,
-    '--blob-rotation': `${(Math.random() * 10 - 5).toFixed(1)}deg`,
-  }
+export function PracticeOverview() {
+  return (
+    <div className="practice-overview">
+      <div className="practice-overview__copy">
+        <p className="lead">
+          I turn early ideas into working technological experiences.
+        </p>
+        <div className="practice-overview__details">
+          <p>
+            I take early-stage AI ideas from vague opportunity through research
+            framing, data and model development, interactive prototyping,
+            evaluation and communication. My work is deliberately practical:
+            research questions are explored inside systems that people can use,
+            test and respond to.
+          </p>
+          <p>
+            Across natural language processing and multimodal AI, I have built
+            systems for knowledge representation, document exploration, public
+            discourse analysis, creative writing and text–audio modelling. This
+            includes an AI writing assistant used by professional musicians and
+            Funiki, which extends generative technology into dynamic
+            light-and-sound experiences for physical spaces.
+          </p>
+          <p>
+            I also lead collaborations, communicate complex research and create
+            spaces where technical and human questions can meet. I co-founded
+            an interdisciplinary AI and philosophy community, and contribute
+            technical support and research to discussions about the potential
+            role of AI in education.
+          </p>
+        </div>
+      </div>
+      <ol className="capability-map__legend" aria-label="Innovation journey">
+        <li>
+          <span>01 / Inspiration</span>
+          <p>Vague intuitions</p>
+        </li>
+        <li>
+          <span>02 / Conceptualisation</span>
+          <p>Articulated concepts embedded in research</p>
+        </li>
+        <li>
+          <span>03 / Systematisation</span>
+          <p>Systematised understanding and requirements</p>
+        </li>
+        <li>
+          <span>04 / Implementation</span>
+          <p>Concrete implementations</p>
+        </li>
+      </ol>
+    </div>
+  )
 }
 
 export function Capabilities() {
-  const [blobStyles, setBlobStyles] = useState(initialBlobs)
-
-  useEffect(() => {
-    setBlobStyles(stages.map(() => randomBlob()))
-  }, [])
-
   return (
     <div className="capabilities">
-      <div className="capability-map__legend">
-        <p>From an ambiguous opportunity</p>
-        <span aria-hidden="true" />
-        <strong>A working, tested direction</strong>
-      </div>
-
-      <div className="capability-map">
-        <p className="capability-map__instruction">
-          My work joins strategy, technology and research in one continuous
-          practice.
-        </p>
-
-        <dl className="capability-proof">
-          {proofPoints.map((point) => (
-            <div key={point.label}>
-              <dt>{point.value}</dt>
-              <dd>
-                <strong>{point.label}</strong>
-                <span>{point.detail}</span>
-              </dd>
-            </div>
-          ))}
-        </dl>
-
-        <div className="capability-map__rows">
-          {stages.map((stage, rowIndex) => {
-            const pair = capabilities.slice(rowIndex * 2, rowIndex * 2 + 2)
-
-            return (
-              <div className="capability-map__row" key={stage.label}>
-                {pair.map((capability, pairIndex) => (
-                  <div
-                    className={`capability-node capability-node--${pairIndex === 0 ? 'left' : 'right'}`}
-                    key={capability.area}
-                  >
-                    <span className="capability-node__number">
-                      {String(rowIndex * 2 + pairIndex + 1).padStart(2, '0')}
-                    </span>
-                    <h3>
-                      {(capabilityTitleLines[capability.area] ?? [
-                        capability.area,
-                      ]).map((line) => (
-                        <span key={line}>{line}</span>
-                      ))}
-                    </h3>
-                    <p>{capability.summary}</p>
-                    <ul>
-                      {capability.skills.map((skill) => (
-                        <li key={skill}>{skill}</li>
-                      ))}
-                    </ul>
-                    <p className="capability-node__evidence">
-                      <span>Evidence</span>
-                      {capability.evidence.map((item) => {
-                        const external = item.href.startsWith('http')
-
-                        return (
-                          <a
-                            href={evidenceHref(item.href)}
-                            target={external ? '_blank' : undefined}
-                            rel={external ? 'noreferrer' : undefined}
-                            key={item.label}
-                          >
-                            {item.label}
-                          </a>
-                        )
-                      })}
-                    </p>
-                  </div>
-                ))}
-
-                <div className="capability-stage" style={blobStyles[rowIndex]}>
-                  <span>{stage.label}</span>
-                  <small>{stage.detail}</small>
-                </div>
-              </div>
-            )
-          })}
-        </div>
-
-        <div className="capability-map__outcome">
-          <span>Outcome</span>
-          <strong>Ideas people can experience, examine and build on.</strong>
-        </div>
-      </div>
-
       <div className="toolkit-atlas">
         <div className="toolkit-atlas__title">
           <span>{toolkit.title}</span>
