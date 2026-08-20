@@ -127,7 +127,7 @@ export const otherWork: OtherWorkItem[] = [
     role: 'Text lead',
     title: 'Text & Audio Project',
     description:
-      'Led the text work for an internal Music Team collaboration alongside their data engineer, exploring multimodal deep learning across language and audio, including NLP pipelines, language modelling, MongoDB and a Dash interface for querying and curating datasets.',
+      'Led the text work for an internal Music Team collaboration with data engineer Amaury Delort, exploring multimodal deep learning across language and audio, including NLP pipelines, language modelling, MongoDB and a Dash interface for querying and curating datasets.',
     href: 'https://cslmusicteam.sony.fr/',
   },
   {

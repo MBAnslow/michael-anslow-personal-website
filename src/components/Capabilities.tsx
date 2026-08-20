@@ -104,24 +104,46 @@ export function PracticeOverview() {
           </p>
         </div>
       </div>
-      <ol className="capability-map__legend" aria-label="Innovation journey">
-        <li>
-          <span>01 / Inspiration</span>
-          <p>Vague intuitions</p>
-        </li>
-        <li>
-          <span>02 / Conceptualisation</span>
-          <p>Articulated concepts embedded in research</p>
-        </li>
-        <li>
-          <span>03 / Systematisation</span>
-          <p>Systematised understanding and requirements</p>
-        </li>
-        <li>
-          <span>04 / Implementation</span>
-          <p>Concrete implementations</p>
-        </li>
-      </ol>
+      <div className="practice-overview__process">
+        <ol className="capability-map__legend" aria-label="Innovation journey">
+          <li>
+            <span>01 / Inspiration</span>
+            <p>Vague intuitions</p>
+          </li>
+          <li>
+            <span>02 / Conceptualisation</span>
+            <p>Articulated concepts embedded in research</p>
+          </li>
+          <li>
+            <span>03 / Systematisation</span>
+            <p>Systematised understanding and requirements</p>
+          </li>
+          <li>
+            <span>04 / Implementation</span>
+            <p>Concrete implementations</p>
+          </li>
+        </ol>
+
+        <div
+          className="practice-overview__examples"
+          aria-label="Examples from my practice"
+        >
+          <article>
+            <p>Observation · Possibility mapping · Initial hypotheses</p>
+          </article>
+          <article>
+            <p>Literature review · Concept framing · Research questions</p>
+          </article>
+          <article>
+            <p>
+              Principles · Requirements · Data, model and evaluation design
+            </p>
+          </article>
+          <article>
+            <p>Prototyping · Integration · Testing and iteration</p>
+          </article>
+        </div>
+      </div>
     </div>
   )
 }

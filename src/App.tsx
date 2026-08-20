@@ -67,32 +67,36 @@ function App() {
       </a>
 
       <header className="site-header">
-        <a className="monogram" href="#top" aria-label="Michael Anslow, home">
-          <span>M</span>
-          <span>A</span>
-        </a>
-        <nav aria-label="Primary navigation">
-          <ul>
-            {navigation.map(({ label, id }) => (
-              <li key={id}>
-                <a
-                  href={`#${id}`}
-                  aria-current={activeSection === id ? 'location' : undefined}
-                >
-                  {label}
-                </a>
+        <div className="site-header__inner">
+          <a className="monogram" href="#top" aria-label="Michael Anslow, home">
+            <span>M</span>
+            <span>A</span>
+          </a>
+          <nav aria-label="Primary navigation">
+            <ul>
+              {navigation.map(({ label, id }) => (
+                <li key={id}>
+                  <a
+                    href={`#${id}`}
+                    aria-current={
+                      activeSection === id ? 'location' : undefined
+                    }
+                  >
+                    {label}
+                  </a>
+                </li>
+              ))}
+              <li className="mobile-blog-nav">
+                <a href="#writing">Blog</a>
               </li>
-            ))}
-            <li className="mobile-blog-nav">
-              <a href="#writing">Blog</a>
-            </li>
-          </ul>
-        </nav>
-        <a className="header-link" href="#writing">
-          <span>Explore the</span>
-          <strong>Blog</strong>
-          <Arrow />
-        </a>
+            </ul>
+          </nav>
+          <a className="header-link" href="#writing">
+            <span>Explore the</span>
+            <strong>Blog</strong>
+            <Arrow />
+          </a>
+        </div>
       </header>
 
       <main id="main">
@@ -295,7 +299,7 @@ function App() {
             <div className="blog-gateway">
               <div className="blog-gateway__meta">
                 <span>Portfolio ends / Writing begins</span>
-                <span>A distinct space for longer-form ideas</span>
+                <span>An outlet for exploring and crystallising ideas</span>
               </div>
               <div className="blog-gateway__body">
                 <div>
@@ -307,8 +311,10 @@ function App() {
                 </div>
                 <div className="blog-gateway__copy">
                   <p>
-                    Essays on creative tools, societal myths, awe and the
-                    changing relationship between people and AI.
+                    A place to think in public through essays and creative
+                    outputs. Some pieces become speculative targets for
+                    research—making ideas concrete enough to question, test and
+                    develop.
                   </p>
                   <a href={blogPath}>
                     Open the writing site

@@ -2,66 +2,50 @@
 
 > Technical range, organised by purpose
 
-## Natural Language Processing
+## Language AI
 
-Representing, generating and finding meaning
+Representing, generating and retrieving meaning
 
-- Transformers
+- Transformers & language modelling
 - Semantic embeddings
 - Information retrieval
 
-## Machine Learning
+## Multimodal ML
 
 Learning across representations and media
 
 - Contrastive learning
 - Audio–text modelling
-- Generative Modelling
-- Clustering
-- Classification
-- Regression
+- Generative modelling
 
-## Languages 
- 
+## Research & experimentation
+
+Turning uncertain ideas into testable directions
+
+- Problem framing & literature synthesis
+- Rapid prototyping
+- Evaluation & experiment tracking
+
+## Software prototyping
+
+Building interactive research systems
+
 - Python
-- Java
-- Javascript
-- C#
-- C++
+- JavaScript & TypeScript
+- Django, Flask, Dash & Godot
 
-## Frameworks & tools
-
-Implemented across diverse settings
-
-- PyTorch & PyTorch Lightning
-- Weights & Biases
-- Django
-- Flask
-- Dash
-- Godot
-
-## Databases & retrieval
+## Data & retrieval
 
 Structuring, searching and connecting data
 
-- MongoDB
-- SOLR
-- Neo4j
-- Postgres
-- FAISS
+- PostgreSQL & MongoDB
+- Solr & FAISS
+- Neo4j & graph data
 
-## Data domains
+## Delivery & reproducibility
 
-- Audio captions
-- Patents
-- News comments
-- Tweets
-- Lyrics
-
-## Delivery
-
-Making systems reproducible and deployable
+Making experiments reproducible and systems deployable
 
 - Docker & Docker Compose
-- AWS Cloud Practitioner
 - CI/CD
+- AWS & Weights & Biases
