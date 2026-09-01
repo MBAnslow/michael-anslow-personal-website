@@ -11,6 +11,7 @@ import { FunikiFeature } from './components/FunikiFeature'
 import { PoiesisFeature } from './components/PoiesisFeature'
 import { ProjectCard } from './components/ProjectCard'
 import { Reveal } from './components/Reveal'
+import { ScrollProgressRail } from './components/ScrollProgressRail'
 import { SectionHeading } from './components/SectionHeading'
 import {
   essays,
@@ -21,12 +22,18 @@ import {
 } from './data/portfolio'
 import { basePath } from './utils/basePath'
 
-const navigation = [
+const storySections = [
   { label: 'About', id: 'about' },
   { label: 'Skills', id: 'capabilities' },
   { label: 'Projects', id: 'projects' },
+  { label: 'Other work', id: 'other-work' },
   { label: 'Research', id: 'research' },
+  { label: 'Writing', id: 'writing' },
 ]
+
+const navigation = storySections.filter(({ id }) =>
+  ['about', 'capabilities', 'projects', 'research'].includes(id),
+)
 
 const blogPath = `${basePath}blog/`
 const projectAnchor = (title: string) =>
@@ -43,7 +50,7 @@ function App() {
   )
 
   useEffect(() => {
-    const sections = navigation
+    const sections = storySections
       .map(({ id }) => document.getElementById(id))
       .filter((section): section is HTMLElement => section !== null)
 
@@ -114,6 +121,11 @@ function App() {
           </a>
         </div>
       </header>
+
+      <ScrollProgressRail
+        sections={storySections}
+        activeSection={activeSection}
+      />
 
       <main id="main">
         <section className="hero-section" id="top" aria-labelledby="hero-title">
@@ -193,8 +205,11 @@ function App() {
             note="Projects that move between artificial intelligence, creative practice and collective inquiry."
           />
           <div className="project-list">
-            {projects.map((project) => (
-              <Reveal key={project.title}>
+            {projects.map((project, index) => (
+              <Reveal
+                variant={index % 2 === 0 ? 'left' : 'right'}
+                key={project.title}
+              >
                 <div
                   className={`project-accordion${project.number === '05' ? ' side-interest-accordion' : ''}`}
                   id={`project-${projectAnchor(project.title)}`}

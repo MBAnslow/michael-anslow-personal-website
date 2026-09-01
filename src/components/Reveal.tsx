@@ -1,11 +1,28 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from 'react'
 
 type RevealProps = {
   children: ReactNode
   className?: string
+  variant?: 'rise' | 'left' | 'right' | 'scale'
+  delay?: number
 }
 
-export function Reveal({ children, className = '' }: RevealProps) {
+type RevealStyle = CSSProperties & {
+  '--reveal-delay': string
+}
+
+export function Reveal({
+  children,
+  className = '',
+  variant = 'rise',
+  delay = 0,
+}: RevealProps) {
   const [isVisible, setIsVisible] = useState(false)
   const elementRef = useRef<HTMLDivElement>(null)
 
@@ -30,7 +47,8 @@ export function Reveal({ children, className = '' }: RevealProps) {
   return (
     <div
       ref={elementRef}
-      className={`reveal ${isVisible ? 'reveal--visible' : ''} ${className}`.trim()}
+      className={`reveal reveal--${variant} ${isVisible ? 'reveal--visible' : ''} ${className}`.trim()}
+      style={{ '--reveal-delay': `${delay}ms` } as RevealStyle}
     >
       {children}
     </div>

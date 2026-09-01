@@ -120,6 +120,155 @@ svg {
   grid-template-columns: 5rem 1fr auto;
 }
 
+.scroll-story {
+  position: fixed;
+  z-index: 150;
+  top: 50%;
+  right: clamp(0.6rem, 1.5vw, 1.5rem);
+  width: 7.5rem;
+  color: var(--blue-dark);
+  transform: translateY(-50%);
+}
+
+.scroll-story__track {
+  position: absolute;
+  z-index: -1;
+  top: 0.8rem;
+  right: 0.55rem;
+  bottom: 0.8rem;
+  width: 2px;
+  background: color-mix(in srgb, var(--blue-dark) 20%, transparent);
+}
+
+.scroll-story__fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--terracotta);
+  transform: scaleY(0);
+  transform-origin: top;
+}
+
+.scroll-story ol {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.scroll-story a {
+  display: grid;
+  align-items: center;
+  gap: 0.5rem;
+  grid-template-columns: 1fr 1.15rem;
+}
+
+.scroll-story__label {
+  overflow: hidden;
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.045em;
+  opacity: 0;
+  text-align: right;
+  text-transform: uppercase;
+  transform: translateX(0.5rem);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.scroll-story__number {
+  display: grid;
+  width: 1.15rem;
+  aspect-ratio: 1;
+  border: 1px solid var(--blue-dark);
+  border-radius: 50%;
+  background: var(--paper-light);
+  font-family: var(--mono);
+  font-size: 0.42rem;
+  place-items: center;
+  transition: color 180ms ease, background 180ms ease, transform 180ms ease;
+}
+
+.scroll-story a:hover .scroll-story__label,
+.scroll-story a:focus-visible .scroll-story__label,
+.scroll-story a[aria-current='location'] .scroll-story__label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.scroll-story a[aria-current='location'] .scroll-story__number {
+  color: white;
+  background: var(--blue);
+  transform: scale(1.2);
+}
+
+@keyframes page-scroll-progress {
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes skyline-scroll-depth {
+  from {
+    transform: scaleX(1.65) translateY(0);
+  }
+
+  to {
+    transform: scaleX(1.65) translateY(2.5rem);
+  }
+}
+
+@keyframes section-heading-settle {
+  from {
+    opacity: 0.45;
+    transform: translateY(2rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes section-rule-draw {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  .scroll-story__fill {
+    animation: page-scroll-progress linear both;
+    animation-timeline: scroll(root block);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .hero-skyline > img {
+    animation: skyline-scroll-depth linear both;
+    animation-range: exit 0% exit 100%;
+    animation-timeline: view(block);
+  }
+
+  .section-heading {
+    animation: section-heading-settle linear both;
+    animation-range: entry 0% cover 28%;
+    animation-timeline: view(block);
+  }
+
+  .section-heading::before {
+    animation: section-rule-draw linear both;
+    animation-range: entry 0% cover 22%;
+    animation-timeline: view(block);
+    transform-origin: left;
+  }
+}
+
 .monogram {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -271,7 +420,7 @@ svg {
 }
 
 main {
-  overflow: hidden;
+  overflow-x: clip;
 }
 
 .hero-section {
@@ -1434,11 +1583,111 @@ main {
   opacity: 0;
   transform: translateY(2.5rem);
   transition: opacity 650ms ease, transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal--left {
+  transform: translateX(-3rem);
+}
+
+.reveal--right {
+  transform: translateX(3rem);
+}
+
+.reveal--scale {
+  transform: scale(0.965);
 }
 
 .reveal--visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+.capability-map__legend li:nth-child(1),
+.practice-overview__examples article:nth-child(1),
+.toolkit-group:nth-child(1),
+.publication-list li:nth-child(1) {
+  --sequence-delay: 80ms;
+}
+
+.capability-map__legend li:nth-child(2),
+.practice-overview__examples article:nth-child(2),
+.toolkit-group:nth-child(2),
+.publication-list li:nth-child(2) {
+  --sequence-delay: 160ms;
+}
+
+.capability-map__legend li:nth-child(3),
+.practice-overview__examples article:nth-child(3),
+.toolkit-group:nth-child(3),
+.publication-list li:nth-child(3) {
+  --sequence-delay: 240ms;
+}
+
+.capability-map__legend li:nth-child(4),
+.practice-overview__examples article:nth-child(4),
+.toolkit-group:nth-child(4),
+.publication-list li:nth-child(4) {
+  --sequence-delay: 320ms;
+}
+
+.toolkit-group:nth-child(5),
+.publication-list li:nth-child(5) {
+  --sequence-delay: 400ms;
+}
+
+.toolkit-group:nth-child(6),
+.publication-list li:nth-child(6) {
+  --sequence-delay: 480ms;
+}
+
+.about-section .reveal .capability-map__legend li,
+.about-section .reveal .practice-overview__examples article,
+.capabilities-section .reveal .toolkit-group,
+.research-section .reveal .publication-list li {
+  opacity: 0;
+  transform: translateY(1.25rem);
+  transition: opacity 500ms ease, transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--sequence-delay, 0ms);
+}
+
+.about-section .reveal--visible .capability-map__legend li,
+.about-section .reveal--visible .practice-overview__examples article,
+.capabilities-section .reveal--visible .toolkit-group,
+.research-section .reveal--visible .publication-list li {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (min-width: 801px) {
+  .about-section .reveal .capability-map__legend li::before {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--sequence-delay, 0ms);
+  }
+
+  .about-section .reveal--visible .capability-map__legend li::before {
+    transform: scaleX(1);
+  }
+
+  .about-section .reveal .capability-map__legend li:last-child::after {
+    opacity: 0;
+    transform: translateX(-0.75rem);
+    transition: opacity 240ms ease, transform 420ms ease;
+    transition-delay: 620ms;
+  }
+
+  .about-section .reveal--visible .capability-map__legend li:last-child::after {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 1200px) {
+  .scroll-story {
+    display: none;
+  }
 }
 
 @media (max-width: 900px) {
@@ -3605,6 +3854,49 @@ main {
 
   .project-card {
     transform: none !important;
+  }
+
+  .section-heading,
+  .section-heading::before,
+  .hero-skyline > img,
+  .scroll-story__fill {
+    animation: none !important;
+    animation-timeline: none !important;
+  }
+
+  .section-heading {
+    opacity: 1;
+    transform: none;
+  }
+
+  .section-heading::before,
+  .scroll-story__fill {
+    transform: scaleX(1);
+  }
+
+  .scroll-story__fill {
+    transform: scaleY(1);
+  }
+
+  .hero-skyline > img {
+    transform: scaleX(1.65);
+  }
+
+  .about-section .reveal .capability-map__legend li,
+  .about-section .reveal .practice-overview__examples article,
+  .capabilities-section .reveal .toolkit-group,
+  .research-section .reveal .publication-list li {
+    opacity: 1;
+    transform: none;
+  }
+
+  .about-section .reveal .capability-map__legend li::before {
+    transform: scaleX(1);
+  }
+
+  .about-section .reveal .capability-map__legend li:last-child::after {
+    opacity: 1;
+    transform: none;
   }
 
 }
