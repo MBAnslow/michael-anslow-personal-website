@@ -52,6 +52,33 @@ export function PoiesisFeature() {
         </div>
       </dl>
 
+      <div className="poiesis-feature__evidence">
+        <span>Evidence in practice</span>
+        <a
+          href="https://www.aisongcontest.com/participants/noussommeswhimtherapy-2021"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <small>AI Song Contest 2021</small>
+          <strong>
+            Used to write the definitive lyrics for “Let it go” by Nous sommes
+            Whim Therapy
+          </strong>
+          <Arrow />
+        </a>
+        <a
+          href="https://www.bfmtv.com/replay-emissions/culture-et-vous/musique-creee-par-intelligence-artificielle-12-08_VN-202208120098.html"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <small>BFM TV · Culture et vous</small>
+          <strong>
+            Featured in “Musique créée par intelligence artificielle”
+          </strong>
+          <Arrow />
+        </a>
+      </div>
+
       <figure className="poiesis-feature__interface">
         <img
           src={imagePath('poiesis-studio-01.webp')}

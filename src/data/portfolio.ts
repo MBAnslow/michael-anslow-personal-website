@@ -127,7 +127,14 @@ export const projects: Project[] = [
       'A pre-ChatGPT writing assistant built around masked language modelling. The system treated AI as an instrument for creative exploration rather than an author in its own right.',
     tags: ['NLP', 'Creative tools', 'Prototype'],
     skills: {
-      technical: ['Python', 'Masked language modelling', 'NLP interface design'],
+      technical: [
+        'Python',
+        'PyTorch',
+        'Masked Language Modelling',
+        'Full Stack',
+        'AWS Deployment',
+        'Dockerised',
+      ],
       soft: ['Project conceptualisation', 'Creative collaboration', 'Technical communication'],
     },
     localSlug: 'poiesis-studio',
@@ -176,13 +183,13 @@ export const otherWork: OtherWorkItem[] = [
   },
   {
     eyebrow: 'Public-interest NLP · Rapid research',
-    role: 'Language team lead',
+    role: 'Project lead',
     title: 'Sony CSL COVID Language Team',
     description:
       'Computational-linguistics research examining public discourse across languages and national contexts during the first wave of the pandemic.',
     skills: {
       technical: ['NLP pipelines', 'Data analysis', 'Visualisation'],
-      soft: ['Team leadership', 'Rapid research', 'Cross-language collaboration'],
+      soft: ['Project leadership', 'Rapid research', 'Cross-language collaboration'],
     },
     href: 'https://sonycslparis.github.io/COVID/tweets',
   },
@@ -191,10 +198,10 @@ export const otherWork: OtherWorkItem[] = [
     role: 'Software engineer',
     title: 'Penelope',
     description:
-      'An online platform for composing OpenAPI-described services into analysis pipelines, developed for the ODYCCEUS Opinion Observatory and Facilitator.',
+      'First prototype of an online platform, PENELOPE, for composing OpenAPI-described services into analysis pipelines to facilitate the development of distributed components across several institutions. Created for the European Union project ODYCCEUS.',
     skills: {
-      technical: ['Django', 'OpenAPI', 'Analysis pipelines'],
-      soft: ['Research collaboration', 'Technical documentation', 'Knowledge sharing'],
+      technical: ['Django', 'OpenAPI', 'REST', 'Full Stack'],
+      soft: ['Research collaboration', 'Technical documentation'],
     },
     href: 'https://github.com/SonyCSLParis/website',
   },

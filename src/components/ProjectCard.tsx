@@ -59,11 +59,6 @@ export function ProjectCard({
       </div>
       <div className="project-card__footer">
         <div className="project-card__footer-content">
-          <ul aria-label="Project themes">
-            {project.tags.map((tag) => (
-              <li key={tag}>{tag}</li>
-            ))}
-          </ul>
           <dl className="project-card__skills">
             <div>
               <dt>Technical practice</dt>
