@@ -38,7 +38,9 @@ const projectAnchor = (title: string) =>
 
 function App() {
   const [activeSection, setActiveSection] = useState('about')
-  const [expandedProject, setExpandedProject] = useState<string | null>(null)
+  const [expandedProjects, setExpandedProjects] = useState<Set<string>>(
+    () => new Set(),
+  )
 
   useEffect(() => {
     const sections = navigation
@@ -59,6 +61,20 @@ function App() {
     sections.forEach((section) => observer.observe(section))
     return () => observer.disconnect()
   }, [])
+
+  const toggleProject = (projectNumber: string) => {
+    setExpandedProjects((current) => {
+      const next = new Set(current)
+
+      if (next.has(projectNumber)) {
+        next.delete(projectNumber)
+      } else {
+        next.add(projectNumber)
+      }
+
+      return next
+    })
+  }
 
   return (
     <>
@@ -185,15 +201,11 @@ function App() {
                 >
                   <ProjectCard
                     project={project}
-                    expanded={expandedProject === project.number}
+                    expanded={expandedProjects.has(project.number)}
                     controls={`project-details-${project.number}`}
-                    onToggle={() =>
-                      setExpandedProject((current) =>
-                        current === project.number ? null : project.number,
-                      )
-                    }
+                    onToggle={() => toggleProject(project.number)}
                   />
-                  {expandedProject === project.number && (
+                  {expandedProjects.has(project.number) && (
                     <div
                       className="project-expansion"
                       id={`project-details-${project.number}`}
