@@ -7,6 +7,10 @@ export type Project = {
   title: string
   description: string
   tags: string[]
+  skills: {
+    technical: string[]
+    soft: string[]
+  }
   url?: string
   localSlug?: string
   accent: Accent
@@ -33,6 +37,10 @@ export type OtherWorkItem = {
   role: string
   title: string
   description: string
+  skills: {
+    technical: string[]
+    soft: string[]
+  }
   href: string
 }
 
@@ -74,6 +82,10 @@ export const projects: Project[] = [
     description:
       'An engine for creating open-ended immersive ambiences with light and sound. Funiki explores how AI can help turn everyday spaces into responsive stages for play, contemplation and shared experience.',
     tags: ['Generative AI', 'Audio–visual', 'Spatial experience'],
+    skills: {
+      technical: ['Godot', 'Generative AI', 'Audio–visual systems'],
+      soft: ['Project conceptualisation', 'Creative direction', 'Cross-disciplinary collaboration'],
+    },
     url: 'https://csl.sony.fr/projects/funiki/',
     accent: 'blue',
   },
@@ -85,6 +97,10 @@ export const projects: Project[] = [
     description:
       'A related branch of the Funiki inquiry exploring belonging to nature through a handmade cloud, object-based light, reactive audio and a simulated day-and-night cycle.',
     tags: ['Art installation', 'Cognitive science', 'Light & sound'],
+    skills: {
+      technical: ['Mapped lighting', 'Reactive audio', 'Real-time simulation'],
+      soft: ['Creative prototyping', 'Experience design', 'Research collaboration'],
+    },
     accent: 'terracotta',
   },
   {
@@ -95,6 +111,10 @@ export const projects: Project[] = [
     description:
       'A Paris-based community of researchers and professionals tracking the ideas shaping AI and philosophy through seminars, causeries and interdisciplinary discussion.',
     tags: ['AI & society', 'Philosophy', 'Community'],
+    skills: {
+      technical: ['AI research synthesis', 'Technical communication', 'Web publishing'],
+      soft: ['Community building', 'Event curation', 'Discussion facilitation'],
+    },
     url: 'https://ai-phi.github.io/',
     accent: 'ochre',
   },
@@ -106,6 +126,10 @@ export const projects: Project[] = [
     description:
       'A pre-ChatGPT writing assistant built around masked language modelling. The system treated AI as an instrument for creative exploration rather than an author in its own right.',
     tags: ['NLP', 'Creative tools', 'Prototype'],
+    skills: {
+      technical: ['Python', 'Masked language modelling', 'NLP interface design'],
+      soft: ['Project conceptualisation', 'Creative collaboration', 'Technical communication'],
+    },
     localSlug: 'poiesis-studio',
     accent: 'terracotta',
   },
@@ -117,6 +141,10 @@ export const projects: Project[] = [
     description:
       'An adjacent line of inquiry grounded in co-authored research on inclusive learning, children’s rights and AI literacy, alongside volunteering with Crece en Libertad.',
     tags: ['Inclusive learning', 'AI literacy', 'Children’s rights'],
+    skills: {
+      technical: ['AI literacy', 'Research synthesis', 'Inclusive technology'],
+      soft: ['Academic writing', 'Cross-cultural collaboration', 'Volunteering'],
+    },
     accent: 'ochre',
   },
 ]
@@ -128,6 +156,10 @@ export const otherWork: OtherWorkItem[] = [
     title: 'Text & Audio Project',
     description:
       'Led the text work for an internal Music Team collaboration with data engineer Amaury Delort, exploring multimodal deep learning across language and audio, including NLP pipelines, language modelling, MongoDB and a Dash interface for querying and curating datasets.',
+    skills: {
+      technical: ['Python & NLP pipelines', 'Language modelling', 'MongoDB & Dash'],
+      soft: ['Technical leadership', 'Cross-team collaboration', 'Data curation'],
+    },
     href: 'https://cslmusicteam.sony.fr/',
   },
   {
@@ -136,6 +168,10 @@ export const otherWork: OtherWorkItem[] = [
     title: 'Charting Data Landscapes',
     description:
       'A research platform for navigating complex information through semantic representations, retrieval pipelines, data processing and visual interfaces.',
+    skills: {
+      technical: ['Dash', 'SOLR', 'Information retrieval'],
+      soft: ['Project conceptualisation', 'Partner collaboration', 'Interface framing'],
+    },
     href: 'https://csl.sony.fr/people/michael-anslow/',
   },
   {
@@ -144,6 +180,10 @@ export const otherWork: OtherWorkItem[] = [
     title: 'Sony CSL COVID Language Team',
     description:
       'Computational-linguistics research examining public discourse across languages and national contexts during the first wave of the pandemic.',
+    skills: {
+      technical: ['NLP pipelines', 'Data analysis', 'Visualisation'],
+      soft: ['Team leadership', 'Rapid research', 'Cross-language collaboration'],
+    },
     href: 'https://sonycslparis.github.io/COVID/tweets',
   },
   {
@@ -152,6 +192,10 @@ export const otherWork: OtherWorkItem[] = [
     title: 'Penelope',
     description:
       'An online platform for composing OpenAPI-described services into analysis pipelines, developed for the ODYCCEUS Opinion Observatory and Facilitator.',
+    skills: {
+      technical: ['Django', 'OpenAPI', 'Analysis pipelines'],
+      soft: ['Research collaboration', 'Technical documentation', 'Knowledge sharing'],
+    },
     href: 'https://github.com/SonyCSLParis/website',
   },
 ]

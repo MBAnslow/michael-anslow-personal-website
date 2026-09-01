@@ -1,5 +1,10 @@
 import { Arrow } from './Arrow'
 
+const causerieOutputUrl =
+  'https://ai-phi.github.io/posts/fears-trust-post/'
+const creativeCommunityUrl =
+  'https://ai-phi.github.io/posts/ai-phi-creative/'
+
 const programme = [
   {
     label: 'Seminar series',
@@ -109,6 +114,58 @@ export function AiPhiFeature() {
           </article>
         ))}
       </div>
+
+      <section className="ai-phi-feature__evidence">
+        <article className="ai-phi-feature__output">
+          <span>Causerie output / 15 January 2026</span>
+          <h4>Hopes, fears, trust, understanding and regulation</h4>
+          <p>
+            A collective response to an open discussion about the gap between
+            engineering uncertainty and public expectations of AI. The
+            resulting contributions examine autonomy, persuasion, ethics,
+            trust and the limits of regulating emergent systems.
+          </p>
+          <small>
+            Includes Michael&apos;s contribution on the limits of pragmatic
+            evaluations of intelligence.
+          </small>
+          <a href={causerieOutputUrl} target="_blank" rel="noreferrer">
+            Read the collective output
+            <Arrow />
+          </a>
+        </article>
+
+        <div className="ai-phi-feature__community">
+          <a href={creativeCommunityUrl} target="_blank" rel="noreferrer">
+            <figure>
+              <img
+                src="https://ai-phi.github.io/assets/edmund-drawing-lestel-small-75.jpg"
+                alt="Edmund Ronald's live sketch from an AI–Phi session"
+                loading="lazy"
+              />
+              <figcaption>
+                <span>Creative community / Live sketch</span>
+                Edmund Ronald&apos;s live sketch made during the session with
+                Dominique Lestel.
+              </figcaption>
+            </figure>
+          </a>
+          <a href={creativeCommunityUrl} target="_blank" rel="noreferrer">
+            <figure>
+              <img
+                src="https://ai-phi.github.io/assets/pic-session-26.jpg"
+                alt="Members of the AI–Phi community gathered for session 26"
+                loading="lazy"
+              />
+              <figcaption>
+                <span>Community / Session 26</span>
+                Snapshot of one of our sessions at Sony CSL Paris in the
+                Quartier Latin.
+              </figcaption>
+            </figure>
+          </a>
+        </div>
+      </section>
 
       <div className="ai-phi-feature__sessions">
         <div className="ai-phi-feature__sessions-intro">

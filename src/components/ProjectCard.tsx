@@ -58,11 +58,23 @@ export function ProjectCard({
         <p>{project.description}</p>
       </div>
       <div className="project-card__footer">
-        <ul aria-label="Project themes">
-          {project.tags.map((tag) => (
-            <li key={tag}>{tag}</li>
-          ))}
-        </ul>
+        <div className="project-card__footer-content">
+          <ul aria-label="Project themes">
+            {project.tags.map((tag) => (
+              <li key={tag}>{tag}</li>
+            ))}
+          </ul>
+          <dl className="project-card__skills">
+            <div>
+              <dt>Technical practice</dt>
+              <dd>{project.skills.technical.join(' · ')}</dd>
+            </div>
+            <div>
+              <dt>Ways of working</dt>
+              <dd>{project.skills.soft.join(' · ')}</dd>
+            </div>
+          </dl>
+        </div>
         <button
           className="project-card__action"
           type="button"

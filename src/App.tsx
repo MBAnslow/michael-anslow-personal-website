@@ -264,7 +264,19 @@ function App() {
                     <h3>{item.title}</h3>
                     <strong>Role: {item.role}</strong>
                   </div>
-                  <p>{item.description}</p>
+                  <div className="other-work-list__details">
+                    <p>{item.description}</p>
+                    <dl className="other-work-list__skills">
+                      <div>
+                        <dt>Technical practice</dt>
+                        <dd>{item.skills.technical.join(' · ')}</dd>
+                      </div>
+                      <div>
+                        <dt>Ways of working</dt>
+                        <dd>{item.skills.soft.join(' · ')}</dd>
+                      </div>
+                    </dl>
+                  </div>
                   <Arrow />
                 </a>
               ))}
