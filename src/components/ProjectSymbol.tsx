@@ -9,7 +9,7 @@ export function ProjectSymbol({ title }: ProjectSymbolProps) {
   const gradientAngle = Number.parseInt(geometry.key.slice(0, 4), 16) % 360
   const textureIndex = Number.parseInt(geometry.key.slice(-2), 16) % 9
   const textureId = `project-symbol-texture-${geometry.key}`
-  const textureOpacity = 0.34
+  const textureOpacity = 0.58
 
   return (
     <svg
@@ -34,7 +34,7 @@ export function ProjectSymbol({ title }: ProjectSymbolProps) {
               fill="none"
               stroke="currentColor"
               strokeOpacity={textureOpacity}
-              strokeWidth="1.5"
+              strokeWidth="2"
             />
           )}
           {textureIndex === 1 && (
@@ -42,14 +42,14 @@ export function ProjectSymbol({ title }: ProjectSymbolProps) {
               <circle
                 cx="2.5"
                 cy="2.5"
-                r="1.25"
+                r="1.6"
                 fill="currentColor"
                 fillOpacity={textureOpacity}
               />
               <circle
                 cx="7.5"
                 cy="7.5"
-                r="1.25"
+                r="1.6"
                 fill="currentColor"
                 fillOpacity={textureOpacity}
               />
@@ -61,7 +61,7 @@ export function ProjectSymbol({ title }: ProjectSymbolProps) {
               fill="none"
               stroke="currentColor"
               strokeOpacity={textureOpacity}
-              strokeWidth="1.25"
+              strokeWidth="1.8"
             />
           )}
           {textureIndex === 3 && (
@@ -88,7 +88,7 @@ export function ProjectSymbol({ title }: ProjectSymbolProps) {
               fill="none"
               stroke="currentColor"
               strokeOpacity={textureOpacity}
-              strokeWidth="1.5"
+              strokeWidth="2"
             />
           )}
           {textureIndex === 5 && (
@@ -98,7 +98,7 @@ export function ProjectSymbol({ title }: ProjectSymbolProps) {
               stroke="currentColor"
               strokeLinecap="round"
               strokeOpacity={textureOpacity}
-              strokeWidth="2"
+              strokeWidth="2.5"
             />
           )}
           {textureIndex === 6 && (
@@ -107,7 +107,7 @@ export function ProjectSymbol({ title }: ProjectSymbolProps) {
               fill="none"
               stroke="currentColor"
               strokeOpacity={textureOpacity}
-              strokeWidth="1.25"
+              strokeWidth="1.8"
             />
           )}
           {textureIndex === 7 && (
@@ -116,7 +116,7 @@ export function ProjectSymbol({ title }: ProjectSymbolProps) {
               fill="none"
               stroke="currentColor"
               strokeOpacity={textureOpacity}
-              strokeWidth="1.5"
+              strokeWidth="2"
             />
           )}
           {textureIndex === 8 && (
@@ -125,7 +125,7 @@ export function ProjectSymbol({ title }: ProjectSymbolProps) {
               fill="none"
               stroke="currentColor"
               strokeOpacity={textureOpacity}
-              strokeWidth="1.25"
+              strokeWidth="1.8"
             />
           )}
         </pattern>
