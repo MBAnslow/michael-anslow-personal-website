@@ -1168,6 +1168,7 @@ main {
   position: relative;
   z-index: 1;
   margin: 0;
+  color: color-mix(in srgb, var(--blue-dark) 56%, white);
   font-family: var(--serif);
   font-size: clamp(1.05rem, 1.45vw, 1.35rem);
   line-height: 1.42;
@@ -5635,6 +5636,34 @@ body:not(.blog-theme) .project-card__body h3 {
   font-weight: 400;
   letter-spacing: -0.055em;
   line-height: 0.84;
+}
+
+@media (min-width: 901px) {
+  body:not(.blog-theme) .project-card__body {
+    grid-template-columns: minmax(0, 1.2fr) minmax(20rem, 0.8fr);
+  }
+
+  body:not(.blog-theme) .project-card__body h3 {
+    max-width: 10ch;
+    font-size: clamp(6.5rem, 13vw, 13rem);
+    line-height: 0.76;
+  }
+
+  body:not(.blog-theme) .project-card__body p {
+    max-width: 32rem;
+    font-size: clamp(1.45rem, 2vw, 2rem);
+    font-weight: 700;
+    line-height: 1.32;
+  }
+
+  body:not(.blog-theme) .project-card__description-word {
+    white-space: nowrap;
+  }
+
+  body:not(.blog-theme) .project-card__description-character--overlap {
+    color: color-mix(in srgb, var(--blue-dark) 28%, white);
+    text-shadow: 0 0 0.2em rgba(255, 255, 255, 0.32);
+  }
 }
 
 body:not(.blog-theme) .funiki-feature {
