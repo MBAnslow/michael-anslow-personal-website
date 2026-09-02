@@ -1,5 +1,6 @@
 import type { CSSProperties, PointerEvent } from 'react'
 import type { Project } from '../data/portfolio'
+import { ProjectSymbol } from './ProjectSymbol'
 
 type ProjectCardProps = {
   project: Project
@@ -54,6 +55,7 @@ export function ProjectCard({
         <span className="project-card__role">Role: {project.role}</span>
       </div>
       <div className="project-card__body">
+        <ProjectSymbol title={project.title} />
         <h3>{project.title}</h3>
         <p>{project.description}</p>
       </div>
