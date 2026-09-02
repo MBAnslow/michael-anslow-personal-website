@@ -78,6 +78,8 @@ function App() {
   }, [])
 
   const toggleProject = (projectNumber: string) => {
+    const isCollapsing = expandedProjects.has(projectNumber)
+
     const updateExpandedProjects = () => {
       setExpandedProjects((current) => {
         const next = new Set(current)
@@ -104,14 +106,20 @@ function App() {
       setTransitioningProject(projectNumber)
     })
 
+    document.documentElement.dataset.projectTransition = isCollapsing
+      ? 'collapse'
+      : 'expand'
+
     const transition = document.startViewTransition(() => {
       flushSync(updateExpandedProjects)
     })
 
-    void transition.finished.then(
-      () => setTransitioningProject(null),
-      () => setTransitioningProject(null),
-    )
+    const finishTransition = () => {
+      setTransitioningProject(null)
+      delete document.documentElement.dataset.projectTransition
+    }
+
+    void transition.finished.then(finishTransition, finishTransition)
   }
 
   return (

@@ -6916,14 +6916,42 @@ body:not(.blog-theme) .project-expansion .funiki-feature {
   }
 }
 
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
+@keyframes project-root-out {
+  0%,
+  46.8% {
+    opacity: 1;
+  }
+
+  46.9%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes project-root-in {
+  0%,
+  46.8% {
+    opacity: 0;
+  }
+
+  46.9%,
+  100% {
+    opacity: 1;
+  }
 }
 
 ::view-transition-old(root) {
-  opacity: 0;
+  animation: project-root-out 640ms linear both;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  animation: project-root-in 640ms linear both;
+  mix-blend-mode: normal;
+}
+
+::view-transition-group(root) {
+  z-index: 0;
 }
 
 ::view-transition-group(project-context-01),
@@ -6931,12 +6959,23 @@ body:not(.blog-theme) .project-expansion .funiki-feature {
 ::view-transition-group(project-context-03),
 ::view-transition-group(project-context-04),
 ::view-transition-group(project-context-05) {
+  z-index: 10;
   overflow: clip;
   background: var(--blue-dark);
-  animation-delay: 220ms;
-  animation-duration: 340ms;
+  animation-delay: 300ms;
+  animation-duration: 1ms;
   animation-fill-mode: both;
-  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-timing-function: steps(1, end);
+}
+
+::view-transition-image-pair(project-context-01),
+::view-transition-image-pair(project-context-02),
+::view-transition-image-pair(project-context-03),
+::view-transition-image-pair(project-context-04),
+::view-transition-image-pair(project-context-05) {
+  overflow: clip;
+  background: var(--blue-dark);
+  isolation: isolate;
 }
 
 ::view-transition-old(project-context-01),
@@ -6944,7 +6983,7 @@ body:not(.blog-theme) .project-expansion .funiki-feature {
 ::view-transition-old(project-context-03),
 ::view-transition-old(project-context-04),
 ::view-transition-old(project-context-05) {
-  animation: project-context-out 220ms cubic-bezier(0.55, 0, 1, 0.45) both;
+  animation: project-context-out 260ms cubic-bezier(0.55, 0, 1, 0.45) both;
   mix-blend-mode: normal;
 }
 
@@ -6953,9 +6992,95 @@ body:not(.blog-theme) .project-expansion .funiki-feature {
 ::view-transition-new(project-context-03),
 ::view-transition-new(project-context-04),
 ::view-transition-new(project-context-05) {
-  animation: project-context-in 260ms 540ms cubic-bezier(0, 0.55, 0.45, 1)
+  animation: project-context-in 280ms 360ms cubic-bezier(0, 0.55, 0.45, 1)
     both;
   mix-blend-mode: normal;
+}
+
+@keyframes project-collapse-root-out {
+  0%,
+  56% {
+    opacity: 1;
+  }
+
+  58%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes project-collapse-root-in {
+  0%,
+  56% {
+    opacity: 0;
+  }
+
+  58%,
+  100% {
+    opacity: 1;
+  }
+}
+
+html[data-project-transition='collapse']::view-transition-old(root) {
+  animation: project-collapse-root-out 720ms linear both;
+}
+
+html[data-project-transition='collapse']::view-transition-new(root) {
+  animation: project-collapse-root-in 720ms linear both;
+}
+
+html[data-project-transition='collapse']::view-transition-group(
+    project-context-01
+  ),
+html[data-project-transition='collapse']::view-transition-group(
+    project-context-02
+  ),
+html[data-project-transition='collapse']::view-transition-group(
+    project-context-03
+  ),
+html[data-project-transition='collapse']::view-transition-group(
+    project-context-04
+  ),
+html[data-project-transition='collapse']::view-transition-group(
+    project-context-05
+  ) {
+  animation-delay: 360ms;
+}
+
+html[data-project-transition='collapse']::view-transition-old(
+    project-context-01
+  ),
+html[data-project-transition='collapse']::view-transition-old(
+    project-context-02
+  ),
+html[data-project-transition='collapse']::view-transition-old(
+    project-context-03
+  ),
+html[data-project-transition='collapse']::view-transition-old(
+    project-context-04
+  ),
+html[data-project-transition='collapse']::view-transition-old(
+    project-context-05
+  ) {
+  animation-duration: 300ms;
+}
+
+html[data-project-transition='collapse']::view-transition-new(
+    project-context-01
+  ),
+html[data-project-transition='collapse']::view-transition-new(
+    project-context-02
+  ),
+html[data-project-transition='collapse']::view-transition-new(
+    project-context-03
+  ),
+html[data-project-transition='collapse']::view-transition-new(
+    project-context-04
+  ),
+html[data-project-transition='collapse']::view-transition-new(
+    project-context-05
+  ) {
+  animation-delay: 440ms;
 }
 
 @supports (view-transition-name: none) {
