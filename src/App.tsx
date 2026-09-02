@@ -294,38 +294,41 @@ function App() {
                     controls={`project-details-${project.number}`}
                     onToggle={() => toggleProject(project.number)}
                   />
-                  {expandedProjects.has(project.number) && (
-                    <div
-                      className="project-expansion"
-                      id={`project-details-${project.number}`}
-                    >
-                      {project.number === '01' && (
-                        <FunikiFeature
-                          onCollapse={() => toggleProject(project.number)}
-                        />
-                      )}
-                      {project.number === '02' && (
-                        <BelongingFeature
-                          onCollapse={() => toggleProject(project.number)}
-                        />
-                      )}
-                      {project.number === '03' && (
-                        <AiPhiFeature
-                          onCollapse={() => toggleProject(project.number)}
-                        />
-                      )}
-                      {project.number === '04' && (
-                        <PoiesisFeature
-                          onCollapse={() => toggleProject(project.number)}
-                        />
-                      )}
-                      {project.number === '05' && (
-                        <EducationFeature
-                          onCollapse={() => toggleProject(project.number)}
-                        />
-                      )}
-                    </div>
-                  )}
+                  <div
+                    className="project-expansion"
+                    id={`project-details-${project.number}`}
+                    hidden={!expandedProjects.has(project.number)}
+                    aria-hidden={!expandedProjects.has(project.number)}
+                    inert={
+                      expandedProjects.has(project.number) ? undefined : true
+                    }
+                  >
+                    {project.number === '01' && (
+                      <FunikiFeature
+                        onCollapse={() => toggleProject(project.number)}
+                      />
+                    )}
+                    {project.number === '02' && (
+                      <BelongingFeature
+                        onCollapse={() => toggleProject(project.number)}
+                      />
+                    )}
+                    {project.number === '03' && (
+                      <AiPhiFeature
+                        onCollapse={() => toggleProject(project.number)}
+                      />
+                    )}
+                    {project.number === '04' && (
+                      <PoiesisFeature
+                        onCollapse={() => toggleProject(project.number)}
+                      />
+                    )}
+                    {project.number === '05' && (
+                      <EducationFeature
+                        onCollapse={() => toggleProject(project.number)}
+                      />
+                    )}
+                  </div>
                 </div>
               </Reveal>
             ))}

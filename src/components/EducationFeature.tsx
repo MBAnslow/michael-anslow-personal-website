@@ -1,4 +1,8 @@
+import { useState } from 'react'
+
 export function EducationFeature({ onCollapse }: { onCollapse: () => void }) {
+  const [videoLoaded, setVideoLoaded] = useState(false)
+
   return (
     <div className="education-feature">
       <header className="education-feature__header">
@@ -105,11 +109,14 @@ export function EducationFeature({ onCollapse }: { onCollapse: () => void }) {
             Open on YouTube ↗
           </a>
         </div>
-        <div className="education-feature__video-frame">
+        <div
+          className={`education-feature__video-frame${videoLoaded ? ' education-feature__video-frame--loaded' : ''}`}
+        >
           <iframe
             src="https://www.youtube-nocookie.com/embed/7VgPFjEDWBg?rel=0"
             title="Etincelle by Martina Galletti and Michael Anslow"
             loading="lazy"
+            onLoad={() => setVideoLoaded(true)}
             allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
           />

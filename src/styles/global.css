@@ -6833,6 +6833,10 @@ body:not(.blog-theme) .project-card--expanded:hover {
   transform-origin: top;
 }
 
+.project-expansion[hidden] {
+  display: none !important;
+}
+
 .project-expansion
   > :is(
     .funiki-feature,
@@ -6916,37 +6920,37 @@ body:not(.blog-theme) .project-expansion .funiki-feature {
   }
 }
 
-@keyframes project-root-out {
-  0%,
-  46.8% {
+@keyframes project-root-hide {
+  from {
     opacity: 1;
   }
 
-  46.9%,
-  100% {
+  to {
     opacity: 0;
   }
 }
 
-@keyframes project-root-in {
-  0%,
-  46.8% {
+@keyframes project-root-show {
+  from {
     opacity: 0;
   }
 
-  46.9%,
-  100% {
+  to {
     opacity: 1;
   }
+}
+
+::view-transition {
+  background: var(--paper);
 }
 
 ::view-transition-old(root) {
-  animation: project-root-out 640ms linear both;
+  animation: project-root-hide 1ms 330ms steps(1, end) both;
   mix-blend-mode: normal;
 }
 
 ::view-transition-new(root) {
-  animation: project-root-in 640ms linear both;
+  animation: project-root-show 1ms 330ms steps(1, end) both;
   mix-blend-mode: normal;
 }
 
@@ -6997,38 +7001,6 @@ body:not(.blog-theme) .project-expansion .funiki-feature {
   mix-blend-mode: normal;
 }
 
-@keyframes project-collapse-root-out {
-  0%,
-  56% {
-    opacity: 1;
-  }
-
-  58%,
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes project-collapse-root-in {
-  0%,
-  56% {
-    opacity: 0;
-  }
-
-  58%,
-  100% {
-    opacity: 1;
-  }
-}
-
-html[data-project-transition='collapse']::view-transition-old(root) {
-  animation: project-collapse-root-out 720ms linear both;
-}
-
-html[data-project-transition='collapse']::view-transition-new(root) {
-  animation: project-collapse-root-in 720ms linear both;
-}
-
 html[data-project-transition='collapse']::view-transition-group(
     project-context-01
   ),
@@ -7045,6 +7017,11 @@ html[data-project-transition='collapse']::view-transition-group(
     project-context-05
   ) {
   animation-delay: 360ms;
+}
+
+html[data-project-transition='collapse']::view-transition-old(root),
+html[data-project-transition='collapse']::view-transition-new(root) {
+  animation-delay: 400ms;
 }
 
 html[data-project-transition='collapse']::view-transition-old(
@@ -7816,6 +7793,12 @@ html[data-project-transition='expand']
   width: 100%;
   height: 100%;
   border: 0;
+  opacity: 0;
+  transition: opacity 320ms ease;
+}
+
+.education-feature__video-frame--loaded iframe {
+  opacity: 1;
 }
 
 @media (max-width: 900px) {
