@@ -53,13 +53,20 @@ const selectedSessions = [
   },
 ]
 
-export function AiPhiFeature() {
+export function AiPhiFeature({ onCollapse }: { onCollapse: () => void }) {
   return (
     <div className="ai-phi-feature">
       <header className="ai-phi-feature__header">
-        <span>Project focus / 03</span>
+        <span>03 / Community practice</span>
         <span>AI–Phi</span>
-        <span>Community practice · Paris</span>
+        <button
+          className="project-feature__collapse"
+          type="button"
+          onClick={onCollapse}
+          aria-label="Collapse AI–Phi project details"
+        >
+          −
+        </button>
       </header>
 
       <div className="ai-phi-feature__intro">

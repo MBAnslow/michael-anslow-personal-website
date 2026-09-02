@@ -4,13 +4,20 @@ import { Arrow } from './Arrow'
 const imagePath = (filename: string) =>
   `${basePath}media/blog/${filename}`
 
-export function PoiesisFeature() {
+export function PoiesisFeature({ onCollapse }: { onCollapse: () => void }) {
   return (
     <div className="poiesis-feature">
       <header className="poiesis-feature__header">
-        <span>Project focus / 04</span>
+        <span>04 / Creative assistance · NLP</span>
         <span>Poiesis Studio</span>
-        <span>Creative assistance · NLP</span>
+        <button
+          className="project-feature__collapse"
+          type="button"
+          onClick={onCollapse}
+          aria-label="Collapse Poiesis Studio project details"
+        >
+          −
+        </button>
       </header>
 
       <div className="poiesis-feature__intro">

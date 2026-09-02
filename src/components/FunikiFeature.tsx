@@ -28,7 +28,7 @@ const gallery = [
   },
 ]
 
-export function FunikiFeature() {
+export function FunikiFeature({ onCollapse }: { onCollapse: () => void }) {
   const [videoLoaded, setVideoLoaded] = useState(false)
   const [selectedImage, setSelectedImage] = useState(0)
   const dialogRef = useRef<HTMLDialogElement>(null)
@@ -41,9 +41,16 @@ export function FunikiFeature() {
   return (
     <div className="funiki-feature">
       <header className="funiki-feature__header">
-        <span>Project focus / 01</span>
+        <span>01 / Long-horizon research</span>
         <span>Funiki · ふんいき</span>
-        <span>Long-horizon research</span>
+        <button
+          className="project-feature__collapse"
+          type="button"
+          onClick={onCollapse}
+          aria-label="Collapse Funiki project details"
+        >
+          −
+        </button>
       </header>
 
       <div className="funiki-feature__intro">

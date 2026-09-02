@@ -38,7 +38,7 @@ const belongingGallery = [
   },
 ]
 
-export function BelongingFeature() {
+export function BelongingFeature({ onCollapse }: { onCollapse: () => void }) {
   const [selectedImage, setSelectedImage] = useState(5)
   const dialogRef = useRef<HTMLDialogElement>(null)
 
@@ -50,9 +50,16 @@ export function BelongingFeature() {
   return (
     <div className="belonging-feature" aria-labelledby="belonging-title">
       <header className="belonging-feature__header">
-        <span>Project focus / 02</span>
+        <span>02 / Evidence-based installation</span>
         <span>Belonging</span>
-        <span>Evidence-based art installation</span>
+        <button
+          className="project-feature__collapse"
+          type="button"
+          onClick={onCollapse}
+          aria-label="Collapse Belonging project details"
+        >
+          −
+        </button>
       </header>
 
       <div className="belonging-feature__masthead">

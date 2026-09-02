@@ -1,10 +1,17 @@
-export function EducationFeature() {
+export function EducationFeature({ onCollapse }: { onCollapse: () => void }) {
   return (
     <div className="education-feature">
       <header className="education-feature__header">
-        <span>Project focus / 05 · Side interest</span>
+        <span>05 / Research · Volunteering</span>
         <span>AI &amp; Education</span>
-        <span>Research · Volunteering</span>
+        <button
+          className="project-feature__collapse"
+          type="button"
+          onClick={onCollapse}
+          aria-label="Collapse AI and Education project details"
+        >
+          −
+        </button>
       </header>
 
       <div className="education-feature__intro">

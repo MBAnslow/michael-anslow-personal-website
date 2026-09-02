@@ -72,6 +72,29 @@ function parseToolkit(markdown: string): ToolkitContent {
 
 const toolkit = parseToolkit(methodsAndToolsMarkdown)
 
+const innovationStages = [
+  {
+    label: '01 / Inspiration',
+    outcome: 'Vague intuitions',
+    detail: 'Observation · Possibility mapping · Initial hypotheses',
+  },
+  {
+    label: '02 / Conceptualisation',
+    outcome: 'Articulated concepts embedded in research',
+    detail: 'Literature review · Concept framing · Research questions',
+  },
+  {
+    label: '03 / Systematisation',
+    outcome: 'Systematised understanding and requirements',
+    detail: 'Principles · Requirements · Data, model and evaluation design',
+  },
+  {
+    label: '04 / Implementation',
+    outcome: 'Concrete implementations',
+    detail: 'Prototyping · Integration · Testing and iteration',
+  },
+]
+
 export function PracticeOverview() {
   return (
     <div className="practice-overview">
@@ -106,43 +129,16 @@ export function PracticeOverview() {
       </div>
       <div className="practice-overview__process">
         <ol className="capability-map__legend" aria-label="Innovation journey">
-          <li>
-            <span>01 / Inspiration</span>
-            <p>Vague intuitions</p>
-          </li>
-          <li>
-            <span>02 / Conceptualisation</span>
-            <p>Articulated concepts embedded in research</p>
-          </li>
-          <li>
-            <span>03 / Systematisation</span>
-            <p>Systematised understanding and requirements</p>
-          </li>
-          <li>
-            <span>04 / Implementation</span>
-            <p>Concrete implementations</p>
-          </li>
+          {innovationStages.map((stage) => (
+            <li key={stage.label}>
+              <div className="capability-map__step">
+                <span>{stage.label}</span>
+                <p>{stage.outcome}</p>
+              </div>
+              <p className="practice-overview__example">{stage.detail}</p>
+            </li>
+          ))}
         </ol>
-
-        <div
-          className="practice-overview__examples"
-          aria-label="Examples from my practice"
-        >
-          <article>
-            <p>Observation · Possibility mapping · Initial hypotheses</p>
-          </article>
-          <article>
-            <p>Literature review · Concept framing · Research questions</p>
-          </article>
-          <article>
-            <p>
-              Principles · Requirements · Data, model and evaluation design
-            </p>
-          </article>
-          <article>
-            <p>Prototyping · Integration · Testing and iteration</p>
-          </article>
-        </div>
       </div>
     </div>
   )

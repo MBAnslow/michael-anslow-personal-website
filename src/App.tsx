@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { type CSSProperties, useEffect, useState } from 'react'
+import { flushSync } from 'react-dom'
 import { AiPhiFeature } from './components/AiPhiFeature'
 import { Arrow } from './components/Arrow'
 import { BelongingFeature } from './components/BelongingFeature'
@@ -31,6 +32,10 @@ const storySections = [
   { label: 'Writing', id: 'writing' },
 ]
 
+type ProjectAccordionStyle = CSSProperties & {
+  '--project-context-transition': string
+}
+
 const navigation = storySections.filter(({ id }) =>
   ['about', 'capabilities', 'projects', 'research'].includes(id),
 )
@@ -48,6 +53,9 @@ function App() {
   const [expandedProjects, setExpandedProjects] = useState<Set<string>>(
     () => new Set(),
   )
+  const [transitioningProject, setTransitioningProject] = useState<
+    string | null
+  >(null)
 
   useEffect(() => {
     const sections = storySections
@@ -70,17 +78,40 @@ function App() {
   }, [])
 
   const toggleProject = (projectNumber: string) => {
-    setExpandedProjects((current) => {
-      const next = new Set(current)
+    const updateExpandedProjects = () => {
+      setExpandedProjects((current) => {
+        const next = new Set(current)
 
-      if (next.has(projectNumber)) {
-        next.delete(projectNumber)
-      } else {
-        next.add(projectNumber)
-      }
+        if (next.has(projectNumber)) {
+          next.delete(projectNumber)
+        } else {
+          next.add(projectNumber)
+        }
 
-      return next
+        return next
+      })
+    }
+
+    if (
+      !document.startViewTransition ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      updateExpandedProjects()
+      return
+    }
+
+    flushSync(() => {
+      setTransitioningProject(projectNumber)
     })
+
+    const transition = document.startViewTransition(() => {
+      flushSync(updateExpandedProjects)
+    })
+
+    void transition.finished.then(
+      () => setTransitioningProject(null),
+      () => setTransitioningProject(null),
+    )
   }
 
   return (
@@ -213,6 +244,14 @@ function App() {
                 <div
                   className={`project-accordion${project.number === '05' ? ' side-interest-accordion' : ''}`}
                   id={`project-${projectAnchor(project.title)}`}
+                  style={
+                    {
+                      '--project-context-transition':
+                        transitioningProject === project.number
+                          ? `project-context-${project.number}`
+                          : 'none',
+                    } as ProjectAccordionStyle
+                  }
                 >
                   <ProjectCard
                     project={project}
@@ -225,11 +264,31 @@ function App() {
                       className="project-expansion"
                       id={`project-details-${project.number}`}
                     >
-                      {project.number === '01' && <FunikiFeature />}
-                      {project.number === '02' && <BelongingFeature />}
-                      {project.number === '03' && <AiPhiFeature />}
-                      {project.number === '04' && <PoiesisFeature />}
-                      {project.number === '05' && <EducationFeature />}
+                      {project.number === '01' && (
+                        <FunikiFeature
+                          onCollapse={() => toggleProject(project.number)}
+                        />
+                      )}
+                      {project.number === '02' && (
+                        <BelongingFeature
+                          onCollapse={() => toggleProject(project.number)}
+                        />
+                      )}
+                      {project.number === '03' && (
+                        <AiPhiFeature
+                          onCollapse={() => toggleProject(project.number)}
+                        />
+                      )}
+                      {project.number === '04' && (
+                        <PoiesisFeature
+                          onCollapse={() => toggleProject(project.number)}
+                        />
+                      )}
+                      {project.number === '05' && (
+                        <EducationFeature
+                          onCollapse={() => toggleProject(project.number)}
+                        />
+                      )}
                     </div>
                   )}
                 </div>

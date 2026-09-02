@@ -77,7 +77,7 @@ export function ProjectCard({
           aria-controls={controls}
           aria-label={`${expanded ? 'Collapse' : 'Expand'} ${project.title} project details`}
         >
-          {expanded ? '−' : '+'}
+          <span aria-hidden="true">{expanded ? '−' : '+'}</span>
         </button>
       </div>
     </article>
