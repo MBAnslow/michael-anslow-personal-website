@@ -7089,6 +7089,56 @@ html[data-project-transition='collapse']::view-transition-new(
   }
 }
 
+@keyframes project-content-after-transition {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+html[data-project-transition='expand']
+  .project-accordion--transitioning
+  .project-expansion
+  > :is(
+    .funiki-feature,
+    .belonging-feature,
+    .ai-phi-feature,
+    .poiesis-feature,
+    .education-feature
+  )
+  > :not(dialog):not(
+    .funiki-feature__header,
+    .belonging-feature__header,
+    .ai-phi-feature__header,
+    .poiesis-feature__header,
+    .education-feature__header
+  ) {
+  opacity: 0 !important;
+  animation: none !important;
+}
+
+.project-accordion--revealing
+  .project-expansion
+  > :is(
+    .funiki-feature,
+    .belonging-feature,
+    .ai-phi-feature,
+    .poiesis-feature,
+    .education-feature
+  )
+  > :not(dialog):not(
+    .funiki-feature__header,
+    .belonging-feature__header,
+    .ai-phi-feature__header,
+    .poiesis-feature__header,
+    .education-feature__header
+  ) {
+  animation: project-content-after-transition 560ms ease-out both !important;
+}
+
 @keyframes project-panel-block-in {
   from {
     opacity: 0.16;

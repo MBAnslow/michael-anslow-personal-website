@@ -1,4 +1,4 @@
-import { type CSSProperties, useEffect, useState } from 'react'
+import { type CSSProperties, useEffect, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
 import { AiPhiFeature } from './components/AiPhiFeature'
 import { Arrow } from './components/Arrow'
@@ -56,6 +56,8 @@ function App() {
   const [transitioningProject, setTransitioningProject] = useState<
     string | null
   >(null)
+  const [revealingProject, setRevealingProject] = useState<string | null>(null)
+  const revealTimerRef = useRef<number | null>(null)
 
   useEffect(() => {
     const sections = storySections
@@ -76,6 +78,15 @@ function App() {
     sections.forEach((section) => observer.observe(section))
     return () => observer.disconnect()
   }, [])
+
+  useEffect(
+    () => () => {
+      if (revealTimerRef.current !== null) {
+        window.clearTimeout(revealTimerRef.current)
+      }
+    },
+    [],
+  )
 
   const toggleProject = (projectNumber: string) => {
     const isCollapsing = expandedProjects.has(projectNumber)
@@ -104,6 +115,7 @@ function App() {
 
     flushSync(() => {
       setTransitioningProject(projectNumber)
+      setRevealingProject(null)
     })
 
     document.documentElement.dataset.projectTransition = isCollapsing
@@ -117,6 +129,21 @@ function App() {
     const finishTransition = () => {
       setTransitioningProject(null)
       delete document.documentElement.dataset.projectTransition
+
+      if (!isCollapsing) {
+        setRevealingProject(projectNumber)
+
+        if (revealTimerRef.current !== null) {
+          window.clearTimeout(revealTimerRef.current)
+        }
+
+        revealTimerRef.current = window.setTimeout(() => {
+          setRevealingProject((current) =>
+            current === projectNumber ? null : current,
+          )
+          revealTimerRef.current = null
+        }, 620)
+      }
     }
 
     void transition.finished.then(finishTransition, finishTransition)
@@ -250,7 +277,7 @@ function App() {
                 key={project.title}
               >
                 <div
-                  className={`project-accordion${project.number === '05' ? ' side-interest-accordion' : ''}`}
+                  className={`project-accordion${project.number === '05' ? ' side-interest-accordion' : ''}${transitioningProject === project.number ? ' project-accordion--transitioning' : ''}${revealingProject === project.number ? ' project-accordion--revealing' : ''}`}
                   id={`project-${projectAnchor(project.title)}`}
                   style={
                     {
