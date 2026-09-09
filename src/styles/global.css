@@ -1045,22 +1045,23 @@ main {
   --overlap-box-fill-end: 58%;
   --overlap-box-border: 86%;
   position: relative;
+  z-index: 1;
   display: grid;
   min-height: 0;
   overflow: hidden;
   border: 1px solid var(--blue-dark);
   color: var(--ink);
   background: var(--paper-light);
-  box-shadow: 10px 12px 0 rgba(37, 48, 79, 0.06);
+  box-shadow: none;
   transform: perspective(1000px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
   transform-style: preserve-3d;
-  transition: box-shadow 220ms ease, transform 100ms ease-out;
+  transition: transform 100ms ease-out;
   grid-template-rows: auto 1fr auto;
 }
 
 .project-card:hover,
 .project-card:focus-visible {
-  box-shadow: 13px 15px 0 rgba(37, 48, 79, 0.28);
+  box-shadow: none;
 }
 
 .project-card--blue {
@@ -5672,12 +5673,12 @@ body:not(.blog-theme) .project-list {
 
 body:not(.blog-theme) .project-card {
   border: 1px solid var(--blue-dark);
-  box-shadow: 10px 12px 0 rgba(37, 48, 79, 0.06);
+  box-shadow: none;
 }
 
 body:not(.blog-theme) .project-card:hover,
 body:not(.blog-theme) .project-card:focus-visible {
-  box-shadow: 13px 15px 0 rgba(37, 48, 79, 0.28);
+  box-shadow: none;
 }
 
 body:not(.blog-theme) .project-card--blue,
@@ -7074,7 +7075,40 @@ body:not(.blog-theme) .toolkit-group__heading--compact {
 
 /* Expandable project cards */
 .project-accordion {
+  position: relative;
   scroll-margin-top: 6rem;
+}
+
+.project-accordion::after {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  content: '';
+  pointer-events: none;
+  background: linear-gradient(
+    148deg,
+    rgba(37, 48, 79, 0.1) 0%,
+    rgba(37, 48, 79, 0.035) 48%,
+    rgba(23, 51, 127, 0.08) 100%
+  );
+  transform: translate(10px, 12px);
+  transition: transform 220ms ease, background 220ms ease, opacity 220ms ease;
+}
+
+.project-accordion:has(.project-card:hover)::after,
+.project-accordion:has(.project-card:focus-visible)::after,
+.project-accordion:has(.project-card__action:focus-visible)::after {
+  background: linear-gradient(
+    148deg,
+    rgba(37, 48, 79, 0.36) 0%,
+    rgba(37, 48, 79, 0.16) 50%,
+    rgba(23, 20, 15, 0.3) 100%
+  );
+  transform: translate(13px, 15px);
+}
+
+.project-accordion:has(.project-card--expanded)::after {
+  opacity: 0;
 }
 
 .project-card {
@@ -7132,7 +7166,7 @@ body:not(.blog-theme) .toolkit-group__heading--compact {
 }
 
 body:not(.blog-theme) .project-card:has(.project-card__action:focus-visible) {
-  box-shadow: 13px 15px 0 rgba(37, 48, 79, 0.28);
+  box-shadow: none;
 }
 
 .project-card__action:focus-visible {
@@ -7154,6 +7188,8 @@ body:not(.blog-theme) .project-card--expanded:hover {
 }
 
 .project-expansion {
+  position: relative;
+  z-index: 1;
   width: 100%;
   min-width: 0;
   max-width: 100%;
