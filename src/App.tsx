@@ -142,7 +142,7 @@ function App() {
             current === projectNumber ? null : current,
           )
           revealTimerRef.current = null
-        }, 620)
+        }, 1400)
       }
     }
 

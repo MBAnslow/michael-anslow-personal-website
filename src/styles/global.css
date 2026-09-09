@@ -1067,7 +1067,9 @@ main {
   --overlap-box-color: var(--ochre);
   --overlap-box-fill-start: 54%;
   --overlap-box-fill-end: 32%;
-  --overlap-box-border: 62%;
+  --overlap-box-border: 52%;
+  --panel-glow-a: var(--aqua);
+  --panel-fill: 50%;
 }
 
 .project-card--ochre {
@@ -1075,7 +1077,9 @@ main {
   --overlap-box-color: var(--terracotta);
   --overlap-box-fill-start: 46%;
   --overlap-box-fill-end: 26%;
-  --overlap-box-border: 58%;
+  --overlap-box-border: 48%;
+  --panel-glow-a: var(--ochre);
+  --panel-fill: 26%;
 }
 
 .project-card--terracotta {
@@ -1085,6 +1089,9 @@ main {
     var(--aqua) 72%,
     var(--blue)
   );
+  --overlap-box-border: 50%;
+  --panel-glow-a: #ed897b;
+  --panel-fill: 28%;
 }
 
 .project-card__topline {
@@ -5638,16 +5645,63 @@ body:not(.blog-theme) .project-card:focus-visible {
   box-shadow: 13px 15px 0 rgba(37, 48, 79, 0.15);
 }
 
-body:not(.blog-theme) .project-card--blue {
-  background: color-mix(in srgb, var(--aqua) 50%, white);
-}
-
-body:not(.blog-theme) .project-card--ochre {
-  background: color-mix(in srgb, var(--ochre) 26%, white);
-}
-
+body:not(.blog-theme) .project-card--blue,
+body:not(.blog-theme) .project-card--ochre,
 body:not(.blog-theme) .project-card--terracotta {
-  background: color-mix(in srgb, #ed897b 28%, white);
+  background-color: color-mix(
+    in srgb,
+    var(--panel-glow-a) var(--panel-fill),
+    white
+  );
+  background-image:
+    radial-gradient(
+      70% 58% at 8% 86%,
+      color-mix(
+        in srgb,
+        color-mix(in srgb, var(--panel-glow-a) 78%, var(--ink)) 18%,
+        transparent
+      ),
+      transparent 58%
+    ),
+    radial-gradient(
+      46% 40% at 74% 62%,
+      color-mix(
+        in srgb,
+        color-mix(in srgb, var(--panel-glow-a) 82%, var(--ink)) 14%,
+        transparent
+      ),
+      transparent 54%
+    ),
+    radial-gradient(
+      85% 70% at 100% 0%,
+      color-mix(
+        in srgb,
+        var(--panel-glow-a) calc(var(--panel-fill) + 22%),
+        white
+      ),
+      transparent 64%
+    ),
+    linear-gradient(
+      118deg,
+      color-mix(
+        in srgb,
+        var(--panel-glow-a) calc(var(--panel-fill) + 16%),
+        white
+      )
+        0%,
+      color-mix(
+        in srgb,
+        var(--panel-glow-a) calc(var(--panel-fill) - 12%),
+        white
+      )
+        46%,
+      color-mix(
+        in srgb,
+        var(--panel-glow-a) calc(var(--panel-fill) + 8%),
+        white
+      )
+        100%
+    );
 }
 
 body:not(.blog-theme) .project-card__topline,
@@ -5786,8 +5840,8 @@ body:not(.blog-theme) .project-card__body h3 {
     -webkit-text-stroke: clamp(2px, 0.18vw, 4px)
       color-mix(
         in srgb,
-        color-mix(in srgb, var(--overlap-box-color) 78%, var(--ink)) 70%,
-        white
+        var(--overlap-box-color) var(--overlap-box-border),
+        var(--ink)
       );
     paint-order: stroke fill;
   }
@@ -5805,7 +5859,7 @@ body:not(.blog-theme) .project-card__body h3 {
       color-mix(
         in srgb,
         var(--overlap-box-color) var(--overlap-box-border),
-        white
+        var(--ink)
       );
     background: linear-gradient(
       102deg,
@@ -7344,7 +7398,99 @@ html[data-project-transition='expand']
     .poiesis-feature__header,
     .education-feature__header
   ) {
-  animation: project-content-after-transition 560ms ease-out both !important;
+  animation: project-content-after-transition 480ms
+    var(--panel-reveal-delay, 0ms) ease-out both !important;
+}
+
+.project-accordion--revealing
+  .project-expansion
+  > :is(
+    .funiki-feature,
+    .belonging-feature,
+    .ai-phi-feature,
+    .poiesis-feature,
+    .education-feature
+  )
+  > :nth-child(2) {
+  --panel-reveal-delay: 0ms;
+}
+
+.project-accordion--revealing
+  .project-expansion
+  > :is(
+    .funiki-feature,
+    .belonging-feature,
+    .ai-phi-feature,
+    .poiesis-feature,
+    .education-feature
+  )
+  > :nth-child(3) {
+  --panel-reveal-delay: 110ms;
+}
+
+.project-accordion--revealing
+  .project-expansion
+  > :is(
+    .funiki-feature,
+    .belonging-feature,
+    .ai-phi-feature,
+    .poiesis-feature,
+    .education-feature
+  )
+  > :nth-child(4) {
+  --panel-reveal-delay: 220ms;
+}
+
+.project-accordion--revealing
+  .project-expansion
+  > :is(
+    .funiki-feature,
+    .belonging-feature,
+    .ai-phi-feature,
+    .poiesis-feature,
+    .education-feature
+  )
+  > :nth-child(5) {
+  --panel-reveal-delay: 330ms;
+}
+
+.project-accordion--revealing
+  .project-expansion
+  > :is(
+    .funiki-feature,
+    .belonging-feature,
+    .ai-phi-feature,
+    .poiesis-feature,
+    .education-feature
+  )
+  > :nth-child(6) {
+  --panel-reveal-delay: 440ms;
+}
+
+.project-accordion--revealing
+  .project-expansion
+  > :is(
+    .funiki-feature,
+    .belonging-feature,
+    .ai-phi-feature,
+    .poiesis-feature,
+    .education-feature
+  )
+  > :nth-child(7) {
+  --panel-reveal-delay: 550ms;
+}
+
+.project-accordion--revealing
+  .project-expansion
+  > :is(
+    .funiki-feature,
+    .belonging-feature,
+    .ai-phi-feature,
+    .poiesis-feature,
+    .education-feature
+  )
+  > :nth-child(8) {
+  --panel-reveal-delay: 660ms;
 }
 
 @keyframes project-panel-block-in {
