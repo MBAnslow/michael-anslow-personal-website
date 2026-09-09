@@ -99,33 +99,24 @@ export function PracticeOverview() {
   return (
     <div className="practice-overview">
       <div className="practice-overview__copy">
-        <p className="lead">
-          I turn early ideas into working technological experiences.
+        <p>
+          I turn early ideas into working technological experiences. I take
+          early-stage AI ideas from vague opportunity through research framing,
+          data and model development, interactive prototyping, evaluation and
+          communication. My work is deliberately practical: research questions
+          are explored inside systems that people can use, test and respond to.
+          Across natural language processing and multimodal AI, I have built
+          systems for knowledge representation, document exploration, public
+          discourse analysis, creative writing and text–audio modelling. This
+          includes an AI writing assistant used by professional musicians and
+          Funiki, which extends generative technology into dynamic
+          light-and-sound experiences for physical spaces. I also lead
+          collaborations, communicate complex research and create spaces where
+          technical and human questions can meet. I co-founded an
+          interdisciplinary AI and philosophy community, and contribute
+          technical support and research to discussions about the potential
+          role of AI in education.
         </p>
-        <div className="practice-overview__details">
-          <p>
-            I take early-stage AI ideas from vague opportunity through research
-            framing, data and model development, interactive prototyping,
-            evaluation and communication. My work is deliberately practical:
-            research questions are explored inside systems that people can use,
-            test and respond to.
-          </p>
-          <p>
-            Across natural language processing and multimodal AI, I have built
-            systems for knowledge representation, document exploration, public
-            discourse analysis, creative writing and text–audio modelling. This
-            includes an AI writing assistant used by professional musicians and
-            Funiki, which extends generative technology into dynamic
-            light-and-sound experiences for physical spaces.
-          </p>
-          <p>
-            I also lead collaborations, communicate complex research and create
-            spaces where technical and human questions can meet. I co-founded
-            an interdisciplinary AI and philosophy community, and contribute
-            technical support and research to discussions about the potential
-            role of AI in education.
-          </p>
-        </div>
       </div>
       <div className="practice-overview__process">
         <ol className="capability-map__legend" aria-label="Innovation journey">
@@ -135,6 +126,7 @@ export function PracticeOverview() {
                 <span>{stage.label}</span>
                 <p>{stage.outcome}</p>
               </div>
+              <div className="capability-map__rail" aria-hidden="true" />
               <p className="practice-overview__example">{stage.detail}</p>
             </li>
           ))}

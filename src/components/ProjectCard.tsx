@@ -20,6 +20,29 @@ const neutralTilt: TiltProperties = {
   '--tilt-y': '0deg',
 }
 
+function renderDescriptionText(text: string) {
+  return text.split(/(\s+)/).map((token, tokenIndex) =>
+    /\s+/.test(token) ? (
+      token
+    ) : (
+      <span
+        className="project-card__description-word"
+        data-description-word
+        key={`${token}-${tokenIndex}`}
+      >
+        {Array.from(token).map((character, characterIndex) => (
+          <span
+            data-description-character
+            key={`${character}-${characterIndex}`}
+          >
+            {character}
+          </span>
+        ))}
+      </span>
+    ),
+  )
+}
+
 export function ProjectCard({
   project,
   expanded,
@@ -37,142 +60,316 @@ export function ProjectCard({
 
     if (!body || !title || !description) return
 
-    const updateOverlap = () => {
-      const descriptionCharacters = description.querySelectorAll<HTMLElement>(
-        '[data-description-character]',
-      )
-      const titleText = title.firstChild
+    let fittedBodyWidth = -1
+    let fittedBodyHeight = -1
+    let fittedTitleWidth = -1
+    let fittedTitleHeight = -1
+
+    const fitTitle = () => {
+      const bodyRect = body.getBoundingClientRect()
+      const titleWidth = title.clientWidth
+      const titleHeight = title.clientHeight
+
+      if (window.innerWidth < 901) {
+        title.style.removeProperty('font-size')
+        fittedBodyWidth = bodyRect.width
+        fittedBodyHeight = bodyRect.height
+        fittedTitleWidth = titleWidth
+        fittedTitleHeight = titleHeight
+        return
+      }
 
       if (
-        window.innerWidth < 901 ||
-        !titleText ||
-        titleText.nodeType !== Node.TEXT_NODE
+        Math.abs(bodyRect.width - fittedBodyWidth) < 0.5 &&
+        Math.abs(bodyRect.height - fittedBodyHeight) < 0.5 &&
+        Math.abs(titleWidth - fittedTitleWidth) < 0.5 &&
+        Math.abs(titleHeight - fittedTitleHeight) < 0.5
       ) {
-        descriptionCharacters.forEach((character) => {
-          character.classList.remove(
-            'project-card__description-character--overlap',
-          )
-        })
+        return
+      }
+
+      fittedBodyWidth = bodyRect.width
+      fittedBodyHeight = bodyRect.height
+      fittedTitleWidth = titleWidth
+      fittedTitleHeight = titleHeight
+      title.style.removeProperty('font-size')
+
+      const preferredSize = Number.parseFloat(
+        window.getComputedStyle(title).fontSize,
+      )
+      const fits = () => {
+        const frame = title.getBoundingClientRect()
+        const styles = window.getComputedStyle(title)
+        const innerTop =
+          frame.top +
+          Number.parseFloat(styles.borderTopWidth) +
+          Number.parseFloat(styles.paddingTop)
+        const innerRight =
+          frame.right -
+          Number.parseFloat(styles.borderRightWidth) -
+          Number.parseFloat(styles.paddingRight)
+        const words = title.querySelectorAll<HTMLElement>(
+          '.project-card__title-word',
+        )
+        const letters = title.querySelectorAll<HTMLElement>(
+          '[data-title-character]',
+        )
+
+        const clearsTopEdge = Array.from(words).every(
+          (word) => word.getBoundingClientRect().top >= innerTop - 1,
+        )
+        const clearsRightEdge = Array.from(letters).every(
+          (letter) => letter.getBoundingClientRect().right <= innerRight + 1,
+        )
+
+        return clearsTopEdge && clearsRightEdge
+      }
+      let minimumSize = 16
+      let maximumSize = Math.max(
+        preferredSize,
+        title.clientHeight * 1.5,
+        title.clientWidth * 0.5,
+      )
+
+      title.style.fontSize = `${maximumSize}px`
+
+      while (fits() && maximumSize < 512) {
+        minimumSize = maximumSize
+        maximumSize = Math.min(512, maximumSize * 1.35)
+        title.style.fontSize = `${maximumSize}px`
+      }
+
+      for (let iteration = 0; iteration < 14; iteration += 1) {
+        const candidate = (minimumSize + maximumSize) / 2
+        title.style.fontSize = `${candidate}px`
+
+        if (fits()) {
+          minimumSize = candidate
+        } else {
+          maximumSize = candidate
+        }
+      }
+
+      title.style.fontSize = `${minimumSize}px`
+    }
+
+    const fitDescription = () => {
+      if (window.innerWidth < 901) {
+        description.style.removeProperty('left')
+        description.style.removeProperty('right')
+        description.style.removeProperty('width')
         return
       }
 
       const bodyRect = body.getBoundingClientRect()
-      const width = Math.max(1, Math.ceil(bodyRect.width))
-      const height = Math.max(1, Math.ceil(bodyRect.height))
+      const symbol = body.querySelector<SVGElement>('.project-symbol')
+      const symbolRect = symbol?.getBoundingClientRect()
+      const iconGap = 20
+      const minLeft = 20
+      const preferredWidth = bodyRect.width * 0.46
+      const rightLimit = symbolRect
+        ? Math.min(
+            body.clientWidth - 20,
+            Math.max(minLeft + 160, symbolRect.left - bodyRect.left - iconGap),
+          )
+        : body.clientWidth * 0.78
+      const maxWidth = Math.max(160, rightLimit - minLeft)
+      const words = description.querySelectorAll<HTMLElement>(
+        '.project-card__description-copy .project-card__description-word',
+      )
+
+      const applyWidth = (width: number) => {
+        description.style.left = 'auto'
+        description.style.right = `${body.clientWidth - rightLimit}px`
+        description.style.width = `${width}px`
+      }
+
+      const textFits = () => {
+        const styles = window.getComputedStyle(description)
+        const frame = description.getBoundingClientRect()
+        const innerLeft =
+          frame.left + Number.parseFloat(styles.paddingLeft)
+        const innerRight =
+          frame.right - Number.parseFloat(styles.paddingRight)
+
+        return Array.from(words).every((word) => {
+          const rectangle = word.getBoundingClientRect()
+
+          return (
+            rectangle.left >= innerLeft - 1 &&
+            rectangle.right <= innerRight + 1
+          )
+        })
+      }
+
+      applyWidth(Math.min(preferredWidth, maxWidth))
+
+      if (textFits()) return
+
+      let minimumWidth = Math.min(preferredWidth, maxWidth)
+      let maximumWidth = maxWidth
+
+      for (let iteration = 0; iteration < 14; iteration += 1) {
+        const candidate = (minimumWidth + maximumWidth) / 2
+        applyWidth(candidate)
+
+        if (textFits()) {
+          maximumWidth = candidate
+        } else {
+          minimumWidth = candidate
+        }
+      }
+
+      applyWidth(maximumWidth)
+
+      if (!textFits()) {
+        applyWidth(maxWidth)
+      }
+    }
+
+    const updateOverlap = () => {
+      fitTitle()
+      fitDescription()
+
+      const titleLetters = title.querySelectorAll<HTMLElement>(
+        '[data-title-character]',
+      )
+      const descriptionLetters = description.querySelectorAll<HTMLElement>(
+        '.project-card__description-copy [data-description-character]',
+      )
+      const clearOverlapBox = () => {
+        description.style.removeProperty('--description-title-mask')
+        delete body.dataset.overlapBox
+        description.style.removeProperty('left')
+        description.style.removeProperty('right')
+        description.style.removeProperty('width')
+        body.style.removeProperty('--overlap-box-left')
+        body.style.removeProperty('--overlap-box-top')
+        body.style.removeProperty('--overlap-box-width')
+        body.style.removeProperty('--overlap-box-height')
+      }
+
+      if (
+        window.innerWidth < 901 ||
+        titleLetters.length === 0 ||
+        descriptionLetters.length === 0
+      ) {
+        clearOverlapBox()
+        return
+      }
+
+      const bodyRect = body.getBoundingClientRect()
+      const canvasWidth = Math.max(1, Math.ceil(bodyRect.width))
+      const canvasHeight = Math.max(1, Math.ceil(bodyRect.height))
       const titleCanvas = document.createElement('canvas')
-      const descriptionCanvas = document.createElement('canvas')
-      titleCanvas.width = descriptionCanvas.width = width
-      titleCanvas.height = descriptionCanvas.height = height
+      titleCanvas.width = canvasWidth
+      titleCanvas.height = canvasHeight
       const titleContext = titleCanvas.getContext('2d')
-      const descriptionContext = descriptionCanvas.getContext('2d')
 
-      if (!titleContext || !descriptionContext) return
+      if (!titleContext) {
+        clearOverlapBox()
+        return
+      }
 
-      const drawCharacter = (
+      const drawLetter = (
         context: CanvasRenderingContext2D,
-        character: string,
-        rectangle: DOMRect,
+        letter: HTMLElement,
         styles: CSSStyleDeclaration,
+        uppercase = false,
       ) => {
+        const character = uppercase
+          ? (letter.textContent ?? '').toLocaleUpperCase()
+          : (letter.textContent ?? '')
+        const rectangle = letter.getBoundingClientRect()
         context.font = `${styles.fontStyle} ${styles.fontWeight} ${styles.fontSize} ${styles.fontFamily}`
         context.textBaseline = 'alphabetic'
         context.fillStyle = '#000'
 
         const metrics = context.measureText(character)
-        const inkHeight =
-          metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent
+        const ascent =
+          metrics.fontBoundingBoxAscent || metrics.actualBoundingBoxAscent
+        const descent =
+          metrics.fontBoundingBoxDescent || metrics.actualBoundingBoxDescent
         const baseline =
           rectangle.top -
           bodyRect.top +
-          (rectangle.height - inkHeight) / 2 +
-          metrics.actualBoundingBoxAscent
-        const scaleX =
-          metrics.width > 0 ? Math.max(0.5, rectangle.width / metrics.width) : 1
+          (rectangle.height - ascent - descent) / 2 +
+          ascent
 
-        context.save()
-        context.translate(rectangle.left - bodyRect.left, baseline)
-        context.scale(scaleX, 1)
-        context.fillText(character, 0, 0)
-        context.restore()
+        context.fillText(
+          character,
+          rectangle.left - bodyRect.left,
+          baseline,
+        )
       }
 
       const titleStyles = window.getComputedStyle(title)
-      const value = titleText.textContent ?? ''
-      const renderedTitle =
-        titleStyles.textTransform === 'uppercase'
-          ? value.toLocaleUpperCase()
-          : titleStyles.textTransform === 'lowercase'
-            ? value.toLocaleLowerCase()
-            : value
-
-      for (let index = 0; index < value.length; index += 1) {
-        if (/\s/.test(value[index])) continue
-
-        const range = document.createRange()
-        range.setStart(titleText, index)
-        range.setEnd(titleText, index + 1)
-        Array.from(range.getClientRects()).forEach((rectangle) => {
-          drawCharacter(
-            titleContext,
-            renderedTitle[index],
-            rectangle,
-            titleStyles,
-          )
-        })
-      }
-
-      const descriptionStyles = window.getComputedStyle(description)
-      descriptionCharacters.forEach((character) => {
-        drawCharacter(
-          descriptionContext,
-          character.textContent ?? '',
-          character.getBoundingClientRect(),
-          descriptionStyles,
-        )
+      titleLetters.forEach((letter) => {
+        drawLetter(titleContext, letter, titleStyles, true)
       })
 
-      const titlePixels = titleContext.getImageData(0, 0, width, height).data
-      const descriptionPixels = descriptionContext.getImageData(
+      const titlePixels = titleContext.getImageData(
         0,
         0,
-        width,
-        height,
+        canvasWidth,
+        canvasHeight,
       ).data
 
-      descriptionCharacters.forEach((character) => {
-        const rectangle = character.getBoundingClientRect()
-        const left = Math.max(0, Math.floor(rectangle.left - bodyRect.left))
-        const right = Math.min(width, Math.ceil(rectangle.right - bodyRect.left))
-        const top = Math.max(0, Math.floor(rectangle.top - bodyRect.top))
-        const bottom = Math.min(
-          height,
-          Math.ceil(rectangle.bottom - bodyRect.top),
-        )
-        let overlappingPixels = 0
+      const descriptionRect = description.getBoundingClientRect()
+      const maskWidth = Math.max(1, Math.ceil(descriptionRect.width))
+      const maskHeight = Math.max(1, Math.ceil(descriptionRect.height))
+      const maskCanvas = document.createElement('canvas')
+      maskCanvas.width = maskWidth
+      maskCanvas.height = maskHeight
+      const maskContext = maskCanvas.getContext('2d')
 
-        for (
-          let y = top;
-          y < bottom && overlappingPixels < 3;
-          y += 1
-        ) {
-          for (let x = left; x < right; x += 1) {
-            const alphaIndex = (y * width + x) * 4 + 3
+      if (maskContext) {
+        const mask = maskContext.createImageData(maskWidth, maskHeight)
+        const offsetX = descriptionRect.left - bodyRect.left
+        const offsetY = descriptionRect.top - bodyRect.top
 
-            if (
-              titlePixels[alphaIndex] > 24 &&
-              descriptionPixels[alphaIndex] > 24
-            ) {
-              overlappingPixels += 1
-              if (overlappingPixels >= 3) break
-            }
+        for (let y = 0; y < maskHeight; y += 1) {
+          for (let x = 0; x < maskWidth; x += 1) {
+            const maskIndex = (y * maskWidth + x) * 4
+            const bodyX = Math.floor(offsetX + x)
+            const bodyY = Math.floor(offsetY + y)
+            const insideBody =
+              bodyX >= 0 &&
+              bodyX < canvasWidth &&
+              bodyY >= 0 &&
+              bodyY < canvasHeight
+            const titleAlpha = insideBody
+              ? titlePixels[(bodyY * canvasWidth + bodyX) * 4 + 3]
+              : 0
+
+            mask.data[maskIndex] = 255
+            mask.data[maskIndex + 1] = 255
+            mask.data[maskIndex + 2] = 255
+            mask.data[maskIndex + 3] = titleAlpha
           }
         }
 
-        character.classList.toggle(
-          'project-card__description-character--overlap',
-          overlappingPixels >= 3,
+        maskContext.putImageData(mask, 0, 0)
+        description.style.setProperty(
+          '--description-title-mask',
+          `url("${maskCanvas.toDataURL()}")`,
         )
-      })
+      }
+      const boxLeft = descriptionRect.left
+      const boxTop = descriptionRect.top
+      const boxRight = descriptionRect.right
+      const boxBottom = descriptionRect.bottom
+
+      const left = boxLeft - bodyRect.left
+      const top = boxTop - bodyRect.top
+      const right = boxRight - bodyRect.left
+      const bottom = boxBottom - bodyRect.top
+
+      body.dataset.overlapBox = 'true'
+      body.style.setProperty('--overlap-box-left', `${left}px`)
+      body.style.setProperty('--overlap-box-top', `${top}px`)
+      body.style.setProperty('--overlap-box-width', `${right - left}px`)
+      body.style.setProperty('--overlap-box-height', `${bottom - top}px`)
     }
 
     updateOverlap()
@@ -181,7 +378,13 @@ export function ProjectCard({
     observer.observe(body)
     observer.observe(title)
     observer.observe(description)
-    void document.fonts.ready.then(updateOverlap)
+    void document.fonts.ready.then(() => {
+      fittedBodyWidth = -1
+      fittedBodyHeight = -1
+      fittedTitleWidth = -1
+      fittedTitleHeight = -1
+      updateOverlap()
+    })
 
     return () => observer.disconnect()
   }, [project.description, project.title])
@@ -205,6 +408,7 @@ export function ProjectCard({
   return (
     <article
       className={`project-card project-card--${project.accent}${expanded ? ' project-card--expanded' : ''}`}
+      data-project-number={project.number}
       style={neutralTilt}
       onClick={onToggle}
       onPointerMove={handlePointerMove}
@@ -217,19 +421,18 @@ export function ProjectCard({
       </div>
       <div className="project-card__body" ref={bodyRef}>
         <ProjectSymbol title={project.title} />
-        <h3 ref={titleRef}>{project.title}</h3>
-        <p ref={descriptionRef}>
-          {project.description.split(/(\s+)/).map((token, tokenIndex) =>
+        <h3 ref={titleRef}>
+          {project.title.split(/(\s+)/).map((token, tokenIndex) =>
             /\s+/.test(token) ? (
               token
             ) : (
               <span
-                className="project-card__description-word"
+                className="project-card__title-word"
                 key={`${token}-${tokenIndex}`}
               >
                 {Array.from(token).map((character, characterIndex) => (
                   <span
-                    data-description-character
+                    data-title-character
                     key={`${character}-${characterIndex}`}
                   >
                     {character}
@@ -238,6 +441,14 @@ export function ProjectCard({
               </span>
             ),
           )}
+        </h3>
+        <p ref={descriptionRef}>
+          <span className="project-card__description-copy">
+            {renderDescriptionText(project.description)}
+          </span>
+          <span className="project-card__description-overlap" aria-hidden="true">
+            {renderDescriptionText(project.description)}
+          </span>
         </p>
       </div>
       <div className="project-card__footer">

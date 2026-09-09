@@ -34,7 +34,8 @@ const belongingGallery = [
   {
     src: assetPath('belonging-exhibition.webp'),
     alt: 'The completed illuminated cloud suspended above a seat in the exhibition installation',
-    caption: 'The completed Belonging installation: a cloud, a seat and a space to breathe.',
+    caption:
+      'The completed installation, Feeling Belonging: a cloud, a seat and a space to breathe.',
   },
 ]
 
@@ -51,12 +52,12 @@ export function BelongingFeature({ onCollapse }: { onCollapse: () => void }) {
     <div className="belonging-feature" aria-labelledby="belonging-title">
       <header className="belonging-feature__header">
         <span>02 / Evidence-based installation</span>
-        <span>Belonging</span>
+        <span>Feeling Belonging</span>
         <button
           className="project-feature__collapse"
           type="button"
           onClick={onCollapse}
-          aria-label="Collapse Belonging project details"
+          aria-label="Collapse Feeling Belonging project details"
         >
           −
         </button>
@@ -65,12 +66,12 @@ export function BelongingFeature({ onCollapse }: { onCollapse: () => void }) {
       <div className="belonging-feature__masthead">
         <div>
           <p>Research creation · Related to Funiki</p>
-          <h3 id="belonging-title">Belonging</h3>
+          <h3 id="belonging-title">Feeling Belonging</h3>
           <span>Finding a connection to nature through a handmade cloud</span>
         </div>
         <div className="belonging-feature__introduction">
           <p>
-            Belonging is a distinct evidence-based art installation growing
+            Feeling Belonging is a distinct evidence-based art installation growing
             from the same questions as Funiki: how can light and sound alter
             our felt relationship with a space? Here, that question becomes an
             exploration of belonging to nature through an artificial weather
@@ -158,7 +159,7 @@ export function BelongingFeature({ onCollapse }: { onCollapse: () => void }) {
       <footer className="belonging-feature__footer">
         <strong>A related branch of the Funiki inquiry.</strong>
         <p>
-          Belonging takes object-based ambience into an explicitly artistic
+          Feeling Belonging takes object-based ambience into an explicitly artistic
           and cognitive frame: a situated installation designed around
           perception, breath and a felt relationship with nature.
         </p>

@@ -1,10 +1,13 @@
 export type ProjectSymbolBlob = {
   d: string
+  outlineD: string
   family: BlobFamily
   prominence: 'dominant' | 'supporting'
   treatment: 'fill' | 'outline' | 'wash'
   opacity: number
   strokeWidth: number
+  washOffsetX: number
+  washOffsetY: number
 }
 
 export type ProjectSymbolGeometry = {
@@ -43,7 +46,7 @@ type BlobLayout = {
   anchors: BlobAnchor[]
 }
 
-const symbolVersion = 'project-symbol:v6'
+const symbolVersion = 'project-symbol:v10'
 
 const blobFamilies: BlobFamily[] = [
   'crumpled',
@@ -175,6 +178,71 @@ function smoothClosedPath(points: Point[], tension: number) {
   return commands.join(' ')
 }
 
+function densifyClosedPath(points: Point[], steps: number) {
+  const dense: Point[] = []
+
+  for (let index = 0; index < points.length; index += 1) {
+    const current = points[index]
+    const next = points[(index + 1) % points.length]
+
+    for (let step = 0; step < steps; step += 1) {
+      const amount = step / steps
+      dense.push({
+        x: current.x + (next.x - current.x) * amount,
+        y: current.y + (next.y - current.y) * amount,
+      })
+    }
+  }
+
+  return dense
+}
+
+function createVariableWidthOutline(
+  points: Point[],
+  random: RandomSource,
+  weight: number,
+) {
+  const dense = densifyClosedPath(points, 4)
+  const count = dense.length
+  const slowWaves = 1 + Math.floor(random() * 3)
+  const fastWaves = 5 + Math.floor(random() * 6)
+  const phase = random() * Math.PI * 2
+  const minWidth = 0.42 + weight * 0.28
+  const maxWidth = 0.72 + weight * 0.42
+  const outer: Point[] = []
+  const inner: Point[] = []
+
+  for (let index = 0; index < count; index += 1) {
+    const previous = dense[(index - 1 + count) % count]
+    const next = dense[(index + 1) % count]
+    const tangentX = next.x - previous.x
+    const tangentY = next.y - previous.y
+    const length = Math.hypot(tangentX, tangentY) || 1
+    const normalX = tangentY / length
+    const normalY = -tangentX / length
+    const amount = index / count
+    const pressure =
+      0.5 +
+      0.18 * Math.sin(amount * Math.PI * 2 * slowWaves + phase) +
+      0.08 * Math.sin(amount * Math.PI * 2 * fastWaves + phase * 1.6)
+    const width = minWidth + (maxWidth - minWidth) * Math.max(0, Math.min(1, pressure))
+    const half = width / 2
+    const point = dense[index]
+
+    outer.push({
+      x: point.x + normalX * half,
+      y: point.y + normalY * half,
+    })
+    inner.push({
+      x: point.x - normalX * half,
+      y: point.y - normalY * half,
+    })
+  }
+
+  const tension = 0.82
+  return `${smoothClosedPath(outer, tension)} ${smoothClosedPath(inner.slice().reverse(), tension)}`
+}
+
 function createBlobPath(
   random: RandomSource,
   centerX: number,
@@ -206,6 +274,10 @@ function createBlobPath(
   const harmonicPhase = random() * Math.PI * 2
   const secondaryPhase = random() * Math.PI * 2
   const notchAngle = random() * Math.PI * 2
+  const waveCount = 2 + Math.floor(random() * 5)
+  const waveStrength = 0.055 + random() * 0.085
+  const horizontalWarp = (random() - 0.5) * 0.22
+  const verticalWarp = (random() - 0.5) * 0.22
   const points = noise.map((pointNoise, index) => {
     const angle = phase + (Math.PI * 2 * index) / pointCount
     const cosine = Math.cos(angle)
@@ -262,34 +334,55 @@ function createBlobPath(
         (pointNoise - 0.5) * 0.16
     }
 
+    radialFactor +=
+      Math.sin(angle * waveCount + secondaryPhase) * waveStrength
+    xFactor +=
+      Math.sin(angle * 2 + harmonicPhase) * horizontalWarp
+    yFactor +=
+      Math.cos(angle * 3 + secondaryPhase) * verticalWarp
+
     return {
       x: centerX + xFactor * radiusX * radialFactor,
       y: centerY + yFactor * radiusY * radialFactor,
     }
   })
 
-  return smoothClosedPath(points, 0.9)
+  return {
+    d: smoothClosedPath(points, 0.7 + random() * 0.22),
+    points,
+  }
 }
 
-function createBackdropPath(random: RandomSource) {
+function createBackdropPath(
+  random: RandomSource,
+  centerX: number,
+  centerY: number,
+  outerRadius: number,
+  shapeIndex: number,
+) {
   const shapes = [
-    { points: 3, innerRadius: 1 },
-    { points: 4, innerRadius: 1 },
-    { points: 5, innerRadius: 0.46 },
-    { points: 6, innerRadius: 1 },
-    { points: 8, innerRadius: 0.62 },
+    { name: 'circle', points: 32, innerRadius: 1, visualScale: 0.92 },
+    { name: 'triangle', points: 3, innerRadius: 1, visualScale: 1.04 },
+    { name: 'square', points: 4, innerRadius: 1, visualScale: 1 },
+    { name: 'star', points: 5, innerRadius: 0.46, visualScale: 1.18 },
+    { name: 'hexagon', points: 6, innerRadius: 1, visualScale: 0.96 },
+    { name: 'burst', points: 8, innerRadius: 0.62, visualScale: 1.12 },
   ]
-  const shape = shapes[Math.floor(random() * shapes.length)]
+  const shape = shapes[shapeIndex % shapes.length]
   const isStar = shape.innerRadius < 1
   const pointCount = isStar ? shape.points * 2 : shape.points
   const phase = random() * Math.PI * 2
+  const radiusX =
+    outerRadius * shape.visualScale * (0.9 + random() * 0.2)
+  const radiusY =
+    outerRadius * shape.visualScale * (0.86 + random() * 0.24)
   const points = Array.from({ length: pointCount }, (_, index) => {
     const angle = phase + (Math.PI * 2 * index) / pointCount
     const radius = isStar && index % 2 === 1 ? shape.innerRadius : 1
 
     return {
-      x: 58 + Math.cos(angle) * 21 * radius,
-      y: 41 + Math.sin(angle) * 21 * radius,
+      x: centerX + Math.cos(angle) * radiusX * radius,
+      y: centerY + Math.sin(angle) * radiusY * radius,
     }
   })
 
@@ -365,24 +458,44 @@ export function createProjectSymbol(title: string): ProjectSymbolGeometry {
     ]
   const treatment = treatments[Math.floor(random() * treatments.length)]
   const aspectRatio = Math.max(
-    0.84,
-    Math.min(1.18, anchor.radiusX / anchor.radiusY),
+    0.68,
+    Math.min(
+      1.42,
+      (anchor.radiusX / anchor.radiusY) * (0.78 + random() * 0.46),
+    ),
   )
-  const targetRadius = 41 + random() * 3
+  const targetRadius = 35 + random() * 10
   const radiusX =
     aspectRatio >= 1 ? targetRadius : targetRadius * aspectRatio
   const radiusY =
     aspectRatio >= 1 ? targetRadius / aspectRatio : targetRadius
-  const backdropD = createBackdropPath(random)
+  const centerX = 30 + anchor.x * 0.4 + (random() - 0.5) * 7
+  const centerY = 30 + anchor.y * 0.4 + (random() - 0.5) * 7
+  const motifAngle = random() * Math.PI * 2
+  const motifDistance = 5 + random() * 9
+  const backdropD = createBackdropPath(
+    random,
+    centerX + Math.cos(motifAngle) * motifDistance,
+    centerY + Math.sin(motifAngle) * motifDistance,
+    targetRadius * (0.4 + random() * 0.08),
+    seed % 6,
+  )
+  const blobPath = createBlobPath(
+    random,
+    centerX,
+    centerY,
+    radiusX,
+    radiusY,
+    family,
+  )
+  const strokeWidth = round(1 + random())
   const blobs: ProjectSymbolBlob[] = [
     {
-      d: createBlobPath(
+      d: blobPath.d,
+      outlineD: createVariableWidthOutline(
+        blobPath.points,
         random,
-        49 + random() * 4,
-        48 + random() * 5,
-        radiusX,
-        radiusY,
-        family,
+        strokeWidth,
       ),
       family,
       prominence: 'dominant',
@@ -391,12 +504,14 @@ export function createProjectSymbol(title: string): ProjectSymbolGeometry {
         treatment === 'fill'
           ? round(0.22 + random() * 0.1)
           : round(0.34 + random() * 0.18),
-      strokeWidth: round(7.5 + random() * 4.5),
+      strokeWidth,
+      washOffsetX: round((random() - 0.5) * 9),
+      washOffsetY: round((random() - 0.5) * 9),
     },
   ]
   const viewBox = createTightViewBox([
     backdropD,
-    ...blobs.map(({ d }) => d),
+    ...blobs.map(({ d, outlineD }) => `${d} ${outlineD}`),
   ])
 
   return {

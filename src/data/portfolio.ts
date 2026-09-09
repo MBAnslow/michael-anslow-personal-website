@@ -79,8 +79,7 @@ export const projects: Project[] = [
     eyebrow: 'Research creation · Sony CSL',
     role: 'Originator',
     title: 'Funiki',
-    description:
-      'An engine for creating open-ended immersive ambiences with light and sound. Funiki explores how AI can help turn everyday spaces into responsive stages for play, contemplation and shared experience.',
+    description: 'Object-based immersive lighting',
     tags: ['Generative AI', 'Audio–visual', 'Spatial experience'],
     skills: {
       technical: ['Godot', 'Generative AI', 'Audio–visual systems'],
@@ -93,9 +92,8 @@ export const projects: Project[] = [
     number: '02',
     eyebrow: 'Evidence-based art · Research creation',
     role: 'Creative technologist',
-    title: 'Belonging',
-    description:
-      'A related branch of the Funiki inquiry exploring belonging to nature through a handmade cloud, object-based light, reactive audio and a simulated day-and-night cycle.',
+    title: 'Feeling Belonging',
+    description: 'Research-creation driven installation',
     tags: ['Art installation', 'Cognitive science', 'Light & sound'],
     skills: {
       technical: ['Mapped lighting', 'Reactive audio', 'Real-time simulation'],
@@ -108,8 +106,7 @@ export const projects: Project[] = [
     eyebrow: 'Community · Paris',
     role: 'Co-founder & organiser',
     title: 'AI–Phi',
-    description:
-      'A Paris-based community of researchers and professionals tracking the ideas shaping AI and philosophy through seminars, causeries and interdisciplinary discussion.',
+    description: 'Paris-based community on AI & Philosophy',
     tags: ['AI & society', 'Philosophy', 'Community'],
     skills: {
       technical: ['AI research synthesis', 'Technical communication', 'Web publishing'],
@@ -123,8 +120,7 @@ export const projects: Project[] = [
     eyebrow: 'Creative assistance · Sony CSL',
     role: 'Originator',
     title: 'Poiesis Studio',
-    description:
-      'A pre-ChatGPT writing assistant built around masked language modelling. The system treated AI as an instrument for creative exploration rather than an author in its own right.',
+    description: 'Pre-ChatGPT masked writing assistant',
     tags: ['NLP', 'Creative tools', 'Prototype'],
     skills: {
       technical: [
@@ -145,8 +141,7 @@ export const projects: Project[] = [
     eyebrow: 'Side interest · Ongoing inquiry',
     role: 'Co-author & tech volunteer',
     title: 'AI & Education',
-    description:
-      'An adjacent line of inquiry grounded in co-authored research on inclusive learning, children’s rights and AI literacy, alongside volunteering with Crece en Libertad.',
+    description: 'Research and volunteering on AI & Education',
     tags: ['Inclusive learning', 'AI literacy', 'Children’s rights'],
     skills: {
       technical: ['AI literacy', 'Research synthesis', 'Inclusive technology'],
@@ -355,7 +350,10 @@ export const capabilities: Capability[] = [
       'Audio–visual experimentation',
     ],
     evidence: [
-      { label: 'Belonging', href: '#project-belonging' },
+      {
+        label: 'Feeling Belonging',
+        href: '#project-feeling-belonging',
+      },
       { label: 'Funiki', href: '#project-funiki' },
       { label: 'Poiesis Studio', href: '#project-poiesis-studio' },
     ],
