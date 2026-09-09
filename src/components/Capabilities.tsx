@@ -16,11 +16,12 @@ type ToolkitContent = {
 }
 
 const toolkitTones: ToolkitTone[] = [
+  'blue',
+  'yellow',
+  'red',
   'yellow',
   'blue',
-  'paper',
   'red',
-  'paper',
 ]
 
 function parseToolkit(markdown: string): ToolkitContent {
@@ -145,7 +146,7 @@ export function Capabilities() {
           <strong>{toolkit.intro}</strong>
         </div>
         <div className="toolkit-atlas__grid">
-          {toolkit.groups.map((group, index) => (
+          {toolkit.groups.map((group) => (
             <section
               className={`toolkit-group toolkit-group--${group.tone}`}
               key={group.category}
@@ -153,7 +154,7 @@ export function Capabilities() {
               <div
                 className={`toolkit-group__heading${group.descriptor ? '' : ' toolkit-group__heading--compact'}`}
               >
-                <span>{String(index + 1).padStart(2, '0')}</span>
+                <span aria-hidden="true" />
                 <div>
                   <h4>{group.category}</h4>
                   {group.descriptor && <p>{group.descriptor}</p>}
