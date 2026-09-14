@@ -1011,7 +1011,7 @@ main {
   top: 0;
   right: 0;
   left: 0;
-  height: 2px;
+  height: 4px;
   background: var(--ink);
 }
 
@@ -1047,12 +1047,12 @@ main {
 }
 
 .capabilities-section .section-heading::before {
-  height: 2px;
+  height: 4px;
   background: var(--ink);
 }
 
 .work-section .section-heading::before {
-  height: 2px;
+  height: 4px;
   background: var(--ink);
 }
 
@@ -1061,7 +1061,7 @@ main {
 }
 
 .research-section .section-heading::before {
-  height: 2px;
+  height: 4px;
   background: var(--ink);
 }
 
@@ -1070,7 +1070,7 @@ main {
 }
 
 .writing-section .section-heading::before {
-  height: 2px;
+  height: 4px;
   background: var(--paper-light);
 }
 
@@ -9317,16 +9317,12 @@ html[data-project-transition='expand']
 
 /* Compact secondary work */
 .other-work-section .section-heading::before {
-  height: 5px;
-  background:
-    linear-gradient(
-      90deg,
-      var(--blue) 0 32%,
-      transparent 32% 35%,
-      var(--ochre) 35% 68%,
-      transparent 68% 71%,
-      var(--aqua) 71% 100%
-    );
+  height: 4px;
+  background: var(--ink);
+}
+
+.other-work-section .section-heading__index {
+  color: var(--ink);
 }
 
 .other-work-section .section-heading::after {
@@ -9341,16 +9337,16 @@ html[data-project-transition='expand']
 }
 
 .other-work-list {
-  border-top: 2px solid var(--blue-dark);
+  border-top: 2px solid var(--ink);
 }
 
 .other-work-list > a {
   display: grid;
   align-items: center;
   gap: clamp(1rem, 3vw, 3rem);
-  border-bottom: 2px solid var(--blue-dark);
+  border-bottom: 2px solid var(--ink);
   padding: clamp(1.5rem, 3vw, 2.5rem) 0;
-  color: var(--blue-dark);
+  color: var(--ink);
   grid-template-columns: 3.5rem minmax(15rem, 0.8fr) minmax(18rem, 1.2fr) 2rem;
   transition: color 160ms ease, padding 180ms ease;
 }
@@ -9358,13 +9354,13 @@ html[data-project-transition='expand']
 .other-work-list > a:hover,
 .other-work-list > a:focus-visible {
   padding-inline: 1rem;
-  color: var(--blue-dark);
-  background: color-mix(in srgb, var(--aqua) 35%, white);
+  color: var(--ink);
+  background: color-mix(in srgb, var(--ink) 4%, white);
 }
 
 .other-work-list__number {
   align-self: start;
-  color: var(--blue-dark);
+  color: var(--ink);
   font-family: var(--mono);
   font-size: 0.78rem;
   font-weight: 700;
@@ -9373,7 +9369,7 @@ html[data-project-transition='expand']
 .other-work-list__title > span {
   display: block;
   margin-bottom: 0.75rem;
-  color: var(--blue);
+  color: var(--ink);
   font-family: var(--mono);
   font-size: 0.68rem;
   font-weight: 700;
@@ -9395,10 +9391,10 @@ html[data-project-transition='expand']
   display: block;
   width: fit-content;
   margin-top: 1rem;
-  border: 1.5px solid var(--blue-dark);
+  border: 1.5px solid var(--ink);
   padding: 0.4rem 0.55rem;
-  color: white;
-  background: var(--blue-dark);
+  color: var(--ink);
+  background: white;
   font-family: var(--mono);
   font-size: 0.62rem;
   letter-spacing: 0.05em;
@@ -9422,22 +9418,29 @@ html[data-project-transition='expand']
 
 .other-work-list__skills {
   display: grid;
-  gap: 0.55rem;
+  gap: 2px;
   margin: 0;
-  border-top: 1px solid color-mix(in srgb, var(--blue-dark) 35%, transparent);
-  padding-top: 0.8rem;
+  border: 2px solid var(--ink);
+  background: white;
 }
 
 .other-work-list__skills > div {
   display: grid;
   min-width: 0;
-  align-items: baseline;
-  gap: 0.75rem;
+  align-items: stretch;
+  gap: 0;
+  color: white;
+  background: var(--ink);
   grid-template-columns: 6.5rem 1fr;
 }
 
 .other-work-list__skills dt {
-  color: var(--blue-dark);
+  display: flex;
+  align-items: center;
+  border-right: 2px solid white;
+  padding: 0.55rem 0.65rem;
+  color: var(--ink);
+  background: #d8eff1;
   font-family: var(--mono);
   font-size: 0.58rem;
   font-weight: 700;
@@ -9446,11 +9449,25 @@ html[data-project-transition='expand']
 }
 
 .other-work-list__skills dd {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
   margin: 0;
-  color: var(--blue-dark);
+  padding: 0.4rem 0.2rem;
+  color: white;
   font-size: 0.72rem;
   font-weight: 600;
   line-height: 1.4;
+}
+
+.other-work-list__skills dd span {
+  margin-block: 0.15rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.45);
+  padding-inline: 0.55rem;
+}
+
+.other-work-list__skills dd span:first-child {
+  border-left: 0;
 }
 
 .other-work-list svg {
@@ -9738,7 +9755,7 @@ html[data-project-transition='expand']
   z-index: 300;
   right: 1rem;
   bottom: 1rem;
-  display: none;
+  display: grid;
   gap: 0.55rem;
   width: min(36rem, calc(100vw - 2rem));
   padding: 0.7rem 0.8rem 0.85rem;

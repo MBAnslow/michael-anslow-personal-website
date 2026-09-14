@@ -494,11 +494,19 @@ function App() {
                     <dl className="other-work-list__skills">
                       <div>
                         <dt>Technical practice</dt>
-                        <dd>{item.skills.technical.join(' · ')}</dd>
+                        <dd>
+                          {item.skills.technical.map((skill) => (
+                            <span key={skill}>{skill}</span>
+                          ))}
+                        </dd>
                       </div>
                       <div>
                         <dt>Ways of working</dt>
-                        <dd>{item.skills.soft.join(' · ')}</dd>
+                        <dd>
+                          {item.skills.soft.map((skill) => (
+                            <span key={skill}>{skill}</span>
+                          ))}
+                        </dd>
                       </div>
                     </dl>
                   </div>

@@ -14,7 +14,7 @@ export const defaultPanelColourConfigs: Record<
   PanelColourConfig
 > = {
   '01': {
-    panelColor: '#d8eff1',
+    panelColor: '#edf7f8',
     descriptionBackgroundColor: '#edebfa',
     descriptionBorderColor: '#ffffff',
     boxTitleOverlapColor: '#75336c',
@@ -24,7 +24,7 @@ export const defaultPanelColourConfigs: Record<
     overlapTextOutlineColor: '#b53b3b',
   },
   '02': {
-    panelColor: '#f6d5d1',
+    panelColor: '#fbe7e5',
     descriptionBackgroundColor: '#ffd6ff',
     descriptionBorderColor: '#e2b6e2',
     boxTitleOverlapColor: '#d75b97',
@@ -34,7 +34,7 @@ export const defaultPanelColourConfigs: Record<
     overlapTextOutlineColor: '#982d9f',
   },
   '03': {
-    panelColor: '#faedc8',
+    panelColor: '#fbf2da',
     descriptionBackgroundColor: '#f86659',
     descriptionBorderColor: '#360f0c',
     boxTitleOverlapColor: '#ffa047',
@@ -44,7 +44,7 @@ export const defaultPanelColourConfigs: Record<
     overlapTextOutlineColor: '#d64c4c',
   },
   '04': {
-    panelColor: '#f6d5d1',
+    panelColor: '#f8e9e8',
     descriptionBackgroundColor: '#d09c71',
     descriptionBorderColor: '#6f0b0b',
     boxTitleOverlapColor: '#ffa970',
@@ -54,13 +54,13 @@ export const defaultPanelColourConfigs: Record<
     overlapTextOutlineColor: '#454b16',
   },
   '05': {
-    panelColor: '#d9eef3',
-    descriptionBackgroundColor: '#74cce2',
+    panelColor: '#eaf3f6',
+    descriptionBackgroundColor: '#a3d8e6',
     descriptionBorderColor: '#59a2b1',
-    boxTitleOverlapColor: '#334c70',
-    descriptionTextColor: '#26404b',
-    descriptionTextOutlineColor: '#3488b2',
-    overlapTextColor: '#a9f4f9',
-    overlapTextOutlineColor: '#c08c8c',
+    boxTitleOverlapColor: '#334d70',
+    descriptionTextColor: '#1d313a',
+    descriptionTextOutlineColor: '#bde9ff',
+    overlapTextColor: '#adf1ff',
+    overlapTextOutlineColor: '#dd6495',
   },
 }
