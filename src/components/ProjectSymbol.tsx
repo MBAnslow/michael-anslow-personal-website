@@ -13,7 +13,7 @@ export function ProjectSymbol({ title }: ProjectSymbolProps) {
   const crayonId = `project-symbol-crayon-${geometry.key}`
   const crayonTextureId = `project-symbol-crayon-texture-${geometry.key}`
   const gritSeed = Number.parseInt(geometry.key.slice(0, 6), 16) % 997
-  const textureOpacity = 0.88
+  const textureOpacity = 0.94
 
   return (
     <svg
@@ -118,7 +118,7 @@ export function ProjectSymbol({ title }: ProjectSymbolProps) {
           height="10"
           patternUnits="userSpaceOnUse"
           patternTransform={`rotate(${gradientAngle % 70 - 35})`}
-          color="color-mix(in srgb, var(--card-accent) 82%, var(--ink))"
+          color="color-mix(in srgb, var(--card-accent) 68%, var(--ink))"
         >
           <path
             d="M -3 0.8 C 2 0 5 1.8 10 0.65 S 17 1.4 21 0.3"
@@ -180,7 +180,7 @@ export function ProjectSymbol({ title }: ProjectSymbolProps) {
           width={textureIndex === 3 ? 6 : 10}
           height={textureIndex === 3 ? 6 : 10}
           patternUnits="userSpaceOnUse"
-          color="color-mix(in srgb, var(--card-accent) 86%, var(--ink))"
+          color="color-mix(in srgb, var(--card-accent) 70%, var(--ink))"
         >
           {textureIndex === 0 && (
             <path
@@ -378,8 +378,8 @@ export function ProjectSymbol({ title }: ProjectSymbolProps) {
         className="project-symbol__backdrop"
         d={geometry.backdropD}
         fill={`url(#${textureId})`}
-        stroke="color-mix(in srgb, var(--card-accent) 78%, var(--ink))"
-        strokeOpacity="0.9"
+        stroke="color-mix(in srgb, var(--card-accent) 50%, var(--ink))"
+        strokeOpacity="0.96"
         strokeWidth="3"
         vectorEffect="non-scaling-stroke"
         strokeLinejoin="round"

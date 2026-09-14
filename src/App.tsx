@@ -3,6 +3,7 @@ import { flushSync } from 'react-dom'
 import { AiPhiFeature } from './components/AiPhiFeature'
 import { Arrow } from './components/Arrow'
 import { BelongingFeature } from './components/BelongingFeature'
+import { DebugBlendMenu } from './components/DebugBlendMenu'
 import {
   Capabilities,
   PracticeOverview,
@@ -21,6 +22,10 @@ import {
   projects,
   publications,
 } from './data/portfolio'
+import {
+  defaultPanelColourConfigs,
+  type PanelColourConfig,
+} from './data/panelColours'
 import { basePath } from './utils/basePath'
 
 const storySections = [
@@ -34,6 +39,9 @@ const storySections = [
 
 type ProjectAccordionStyle = CSSProperties & {
   '--project-context-transition': string
+  '--expanded-project-panel-color': string
+  '--expanded-project-title-color': string
+  '--expanded-project-title-text-color': string
 }
 
 const navigation = storySections.filter(({ id }) =>
@@ -48,8 +56,39 @@ const projectAnchor = (title: string) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '')
 
+const projectTitleBoxColours: Record<
+  string,
+  { background: string; text: string }
+> = {
+  '01': {
+    background: 'color-mix(in srgb, #2449b6 85%, #17140f)',
+    text: '#ffffff',
+  },
+  '02': {
+    background: 'color-mix(in srgb, #d84d3f 70%, #17140f)',
+    text: '#ffffff',
+  },
+  '03': {
+    background: 'color-mix(in srgb, #f4bd2f 70%, #17140f)',
+    text: '#333333',
+  },
+  '04': {
+    background: 'color-mix(in srgb, #d84d3f 70%, #17140f)',
+    text: '#ffffff',
+  },
+  '05': {
+    background: 'color-mix(in srgb, #54b1d9 70%, #17140f)',
+    text: '#ffffff',
+  },
+}
+
 function App() {
   const [activeSection, setActiveSection] = useState('about')
+  const [panelColourConfigs, setPanelColourConfigs] = useState<
+    Record<string, PanelColourConfig>
+  >(
+    () => defaultPanelColourConfigs,
+  )
   const [expandedProjects, setExpandedProjects] = useState<Set<string>>(
     () => new Set(),
   )
@@ -149,11 +188,25 @@ function App() {
     void transition.finished.then(finishTransition, finishTransition)
   }
 
+  const updatePanelColourConfig = (
+    panelNumber: string,
+    config: PanelColourConfig,
+  ) => {
+    setPanelColourConfigs((current) => ({
+      ...current,
+      [panelNumber]: config,
+    }))
+  }
+
   return (
     <>
       <a className="skip-link" href="#main">
         Skip to content
       </a>
+      <DebugBlendMenu
+        configs={panelColourConfigs}
+        onConfigChange={updatePanelColourConfig}
+      />
 
       <header className="site-header">
         <div className="site-header__inner">
@@ -230,11 +283,77 @@ function App() {
           </div>
 
           <div className="hero-skyline" aria-hidden="true">
+            <svg
+              className="hero-skyline__defs"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <defs>
+                <filter
+                  id="hero-title-grain"
+                  x="0%"
+                  y="0%"
+                  width="100%"
+                  height="100%"
+                  colorInterpolationFilters="sRGB"
+                >
+                  <feTurbulence
+                    type="fractalNoise"
+                    baseFrequency="0.004 0.006"
+                    numOctaves="2"
+                    seed="41"
+                    result="coarseNoise"
+                  />
+                  <feTurbulence
+                    type="fractalNoise"
+                    baseFrequency="0.11"
+                    numOctaves="4"
+                    seed="78"
+                    result="fineNoise"
+                  />
+                  <feBlend
+                    in="coarseNoise"
+                    in2="fineNoise"
+                    mode="soft-light"
+                    result="variedNoise"
+                  />
+                  <feColorMatrix
+                    in="variedNoise"
+                    type="saturate"
+                    values="0"
+                    result="monochromeNoise"
+                  />
+                  <feComponentTransfer in="monochromeNoise" result="grain">
+                    <feFuncR type="linear" slope="1.25" intercept="-0.12" />
+                    <feFuncG type="linear" slope="1.25" intercept="-0.12" />
+                    <feFuncB type="linear" slope="1.25" intercept="-0.12" />
+                    <feFuncA type="linear" slope="0.035" />
+                  </feComponentTransfer>
+                  <feComposite
+                    in="grain"
+                    in2="SourceGraphic"
+                    operator="in"
+                    result="clippedGrain"
+                  />
+                  <feBlend
+                    in="SourceGraphic"
+                    in2="clippedGrain"
+                    mode="soft-light"
+                    result="textured"
+                  />
+                  <feComposite
+                    in="textured"
+                    in2="SourceGraphic"
+                    operator="in"
+                  />
+                </filter>
+              </defs>
+            </svg>
             <img
-              src={`${basePath}media/hero-skyline-v3.png`}
+              src={`${basePath}media/hero-skyline-v5-transparent.png`}
               alt=""
               width="1024"
-              height="381"
+              height="341"
             />
           </div>
         </section>
@@ -285,11 +404,20 @@ function App() {
                         transitioningProject === project.number
                           ? `project-context-${project.number}`
                           : 'none',
+                      '--expanded-project-panel-color':
+                        panelColourConfigs[project.number]?.panelColor ??
+                        '#ffffff',
+                      '--expanded-project-title-color':
+                        projectTitleBoxColours[project.number]?.background ??
+                        '#333333',
+                      '--expanded-project-title-text-color':
+                        projectTitleBoxColours[project.number]?.text ?? '#ffffff',
                     } as ProjectAccordionStyle
                   }
                 >
                   <ProjectCard
                     project={project}
+                    colourConfig={panelColourConfigs[project.number]}
                     expanded={expandedProjects.has(project.number)}
                     controls={`project-details-${project.number}`}
                     onToggle={() => toggleProject(project.number)}

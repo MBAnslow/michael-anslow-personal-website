@@ -372,17 +372,16 @@ function createBackdropPath(
   const isStar = shape.innerRadius < 1
   const pointCount = isStar ? shape.points * 2 : shape.points
   const phase = random() * Math.PI * 2
-  const radiusX =
-    outerRadius * shape.visualScale * (0.9 + random() * 0.2)
-  const radiusY =
-    outerRadius * shape.visualScale * (0.86 + random() * 0.24)
+  random()
+  random()
+  const radius = outerRadius * shape.visualScale
   const points = Array.from({ length: pointCount }, (_, index) => {
     const angle = phase + (Math.PI * 2 * index) / pointCount
-    const radius = isStar && index % 2 === 1 ? shape.innerRadius : 1
+    const radiusScale = isStar && index % 2 === 1 ? shape.innerRadius : 1
 
     return {
-      x: centerX + Math.cos(angle) * radiusX * radius,
-      y: centerY + Math.sin(angle) * radiusY * radius,
+      x: centerX + Math.cos(angle) * radius * radiusScale,
+      y: centerY + Math.sin(angle) * radius * radiusScale,
     }
   })
 
