@@ -56,32 +56,6 @@ const projectAnchor = (title: string) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '')
 
-const projectTitleBoxColours: Record<
-  string,
-  { background: string; text: string }
-> = {
-  '01': {
-    background: 'color-mix(in srgb, #2449b6 85%, #17140f)',
-    text: '#ffffff',
-  },
-  '02': {
-    background: 'color-mix(in srgb, #d84d3f 70%, #17140f)',
-    text: '#ffffff',
-  },
-  '03': {
-    background: 'color-mix(in srgb, #f4bd2f 70%, #17140f)',
-    text: '#333333',
-  },
-  '04': {
-    background: 'color-mix(in srgb, #d84d3f 70%, #17140f)',
-    text: '#ffffff',
-  },
-  '05': {
-    background: 'color-mix(in srgb, #54b1d9 70%, #17140f)',
-    text: '#ffffff',
-  },
-}
-
 function App() {
   const [activeSection, setActiveSection] = useState('about')
   const [panelColourConfigs, setPanelColourConfigs] = useState<
@@ -160,6 +134,10 @@ function App() {
     document.documentElement.dataset.projectTransition = isCollapsing
       ? 'collapse'
       : 'expand'
+    document.documentElement.style.setProperty(
+      '--active-project-accent',
+      panelColourConfigs[projectNumber]?.accentColor ?? '#17337f',
+    )
 
     const transition = document.startViewTransition(() => {
       flushSync(updateExpandedProjects)
@@ -168,6 +146,7 @@ function App() {
     const finishTransition = () => {
       setTransitioningProject(null)
       delete document.documentElement.dataset.projectTransition
+      document.documentElement.style.removeProperty('--active-project-accent')
 
       if (!isCollapsing) {
         setRevealingProject(projectNumber)
@@ -229,11 +208,11 @@ function App() {
                 </li>
               ))}
               <li className="mobile-blog-nav">
-                <a href="#writing">Blog</a>
+                <a href={blogPath}>Blog</a>
               </li>
             </ul>
           </nav>
-          <a className="header-link" href="#writing">
+          <a className="header-link" href={blogPath}>
             <span>Explore the</span>
             <strong>Blog</strong>
             <Arrow />
@@ -408,10 +387,10 @@ function App() {
                         panelColourConfigs[project.number]?.panelColor ??
                         '#ffffff',
                       '--expanded-project-title-color':
-                        projectTitleBoxColours[project.number]?.background ??
+                        panelColourConfigs[project.number]?.accentColor ??
                         '#333333',
                       '--expanded-project-title-text-color':
-                        projectTitleBoxColours[project.number]?.text ?? '#ffffff',
+                        '#ffffff',
                     } as ProjectAccordionStyle
                   }
                 >
@@ -576,10 +555,12 @@ function App() {
               <div className="blog-gateway__body">
                 <div>
                   <span className="blog-gateway__eyebrow">Beyond the work</span>
-                  <h2>
-                    Enter the
-                    <strong>blog</strong>
-                  </h2>
+                  <a href={blogPath} aria-label="Enter the blog">
+                    <h2>
+                      Enter the
+                      <strong>blog</strong>
+                    </h2>
+                  </a>
                 </div>
                 <div className="blog-gateway__copy">
                   <p>

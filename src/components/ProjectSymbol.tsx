@@ -118,7 +118,7 @@ export function ProjectSymbol({ title }: ProjectSymbolProps) {
           height="10"
           patternUnits="userSpaceOnUse"
           patternTransform={`rotate(${gradientAngle % 70 - 35})`}
-          color="color-mix(in srgb, var(--card-accent) 68%, var(--ink))"
+          color="var(--panel-accent-color)"
         >
           <path
             d="M -3 0.8 C 2 0 5 1.8 10 0.65 S 17 1.4 21 0.3"
@@ -180,7 +180,7 @@ export function ProjectSymbol({ title }: ProjectSymbolProps) {
           width={textureIndex === 3 ? 6 : 10}
           height={textureIndex === 3 ? 6 : 10}
           patternUnits="userSpaceOnUse"
-          color="color-mix(in srgb, var(--card-accent) 70%, var(--ink))"
+          color="var(--panel-accent-color)"
         >
           {textureIndex === 0 && (
             <path
@@ -342,7 +342,7 @@ export function ProjectSymbol({ title }: ProjectSymbolProps) {
             y="-100"
             width="300"
             height="300"
-            fill="color-mix(in srgb, var(--card-accent) 72%, var(--ink))"
+            fill="var(--panel-accent-color)"
             filter={`url(#${gritId})`}
           />
         </g>
@@ -378,7 +378,7 @@ export function ProjectSymbol({ title }: ProjectSymbolProps) {
         className="project-symbol__backdrop"
         d={geometry.backdropD}
         fill={`url(#${textureId})`}
-        stroke="color-mix(in srgb, var(--card-accent) 50%, var(--ink))"
+        stroke="var(--panel-accent-color)"
         strokeOpacity="0.96"
         strokeWidth="3"
         vectorEffect="non-scaling-stroke"

@@ -142,7 +142,6 @@ export function Capabilities() {
     <div className="capabilities">
       <div className="toolkit-atlas">
         <div className="toolkit-atlas__title">
-          <span>{toolkit.title}</span>
           <strong>{toolkit.intro}</strong>
         </div>
         <div className="toolkit-atlas__grid">

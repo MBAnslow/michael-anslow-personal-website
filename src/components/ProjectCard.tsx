@@ -26,6 +26,9 @@ type TiltProperties = CSSProperties & {
   '--description-text-outline-color'?: string
   '--description-overlap-text-color'?: string
   '--description-overlap-text-outline-color'?: string
+  '--project-panel-color'?: string
+  '--panel-accent-color'?: string
+  '--panel-details-color'?: string
 }
 
 const neutralTilt: Pick<TiltProperties, '--tilt-x' | '--tilt-y'> = {
@@ -444,6 +447,9 @@ export function ProjectCard({
     '--description-overlap-text-color': colourConfig.overlapTextColor,
     '--description-overlap-text-outline-color':
       colourConfig.overlapTextOutlineColor,
+    '--project-panel-color': colourConfig.panelColor,
+    '--panel-accent-color': colourConfig.accentColor,
+    '--panel-details-color': colourConfig.detailsColor,
     backgroundColor: colourConfig.panelColor,
     backgroundImage: 'none',
   } as TiltProperties
@@ -578,11 +584,19 @@ export function ProjectCard({
           <dl className="project-card__skills">
             <div>
               <dt>Technical practice</dt>
-              <dd>{project.skills.technical.join(' · ')}</dd>
+              <dd>
+                {project.skills.technical.map((skill) => (
+                  <span key={skill}>{skill}</span>
+                ))}
+              </dd>
             </div>
             <div>
               <dt>Ways of working</dt>
-              <dd>{project.skills.soft.join(' · ')}</dd>
+              <dd>
+                {project.skills.soft.map((skill) => (
+                  <span key={skill}>{skill}</span>
+                ))}
+              </dd>
             </div>
           </dl>
         </div>

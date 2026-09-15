@@ -8,6 +8,8 @@ type DebugBlendMenuProps = {
 
 const colourFields = [
   { key: 'panelColor', label: 'Panel' },
+  { key: 'accentColor', label: 'Panel accent' },
+  { key: 'detailsColor', label: 'Role & skills' },
   { key: 'descriptionBackgroundColor', label: 'Description' },
   { key: 'descriptionBorderColor', label: 'Border' },
   { key: 'boxTitleOverlapColor', label: 'Title overlap' },
