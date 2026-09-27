@@ -73,36 +73,53 @@ function parseToolkit(markdown: string): ToolkitContent {
 
 const toolkit = parseToolkit(methodsAndToolsMarkdown)
 
-const innovationStages = [
+const innovationStages: {
+  stage: string
+  outcome: string
+  activities: string[]
+  tone: ToolkitTone | 'ink'
+}[] = [
   {
-    label: '01 / Inspiration',
+    stage: 'Inspiration',
     outcome: 'Vague intuitions',
-    detail: 'Observation · Possibility mapping · Initial hypotheses',
+    activities: ['Observation', 'Possibility mapping', 'Initial hypotheses'],
+    tone: 'yellow',
   },
   {
-    label: '02 / Conceptualisation',
+    stage: 'Conceptualisation',
     outcome: 'Articulated concepts embedded in research',
-    detail: 'Literature review · Concept framing · Research questions',
+    activities: ['Literature review', 'Concept framing', 'Research questions'],
+    tone: 'red',
   },
   {
-    label: '03 / Systematisation',
+    stage: 'Systematisation',
     outcome: 'Systematised understanding and requirements',
-    detail: 'Principles · Requirements · Data, model and evaluation design',
+    activities: [
+      'Principles',
+      'Requirements',
+      'Data, model and evaluation design',
+    ],
+    tone: 'blue',
   },
   {
-    label: '04 / Implementation',
+    stage: 'Implementation',
     outcome: 'Concrete implementations',
-    detail: 'Prototyping · Integration · Testing and iteration',
+    activities: ['Prototyping', 'Integration', 'Testing and iteration'],
+    tone: 'ink',
   },
 ]
 
+const sequenceNumber = (index: number) => String(index + 1).padStart(2, '0')
+
 export function PracticeOverview() {
   return (
-    <div className="practice-overview">
-      <div className="practice-overview__copy">
-        <p>
-          I turn early ideas into working technological experiences. I take
-          early-stage AI ideas from vague opportunity through research framing,
+    <div className="practice-panel">
+      <p className="practice-panel__copy">
+        <strong>
+          I turn early ideas into working technological experiences.
+        </strong>{' '}
+        I take early-stage AI ideas from vague opportunity through research
+        framing,
           data and model development, interactive prototyping, evaluation and
           communication. My work is deliberately practical: research questions
           are explored inside systems that people can use, test and respond to.
@@ -117,18 +134,27 @@ export function PracticeOverview() {
           interdisciplinary AI and philosophy community, and contribute
           technical support and research to discussions about the potential
           role of AI in education.
+      </p>
+      <div className="practice-panel__journey">
+        <p className="section-label" aria-hidden="true">
+          Innovation journey
         </p>
-      </div>
-      <div className="practice-overview__process">
-        <ol className="capability-map__legend" aria-label="Innovation journey">
-          {innovationStages.map((stage) => (
-            <li key={stage.label}>
-              <div className="capability-map__step">
-                <span>{stage.label}</span>
-                <p>{stage.outcome}</p>
+        <ol className="practice-journey" aria-label="Innovation journey">
+          {innovationStages.map((stage, index) => (
+            <li
+              className={`practice-journey__step tone--${stage.tone}`}
+              key={stage.stage}
+            >
+              <div className="practice-journey__arrow">
+                <span>{sequenceNumber(index)}</span>
+                <span>{stage.stage}</span>
               </div>
-              <div className="capability-map__rail" aria-hidden="true" />
-              <p className="practice-overview__example">{stage.detail}</p>
+              <p className="practice-journey__outcome">{stage.outcome}</p>
+              <ul className="practice-journey__activities">
+                {stage.activities.map((activity) => (
+                  <li key={activity}>{activity}</li>
+                ))}
+              </ul>
             </li>
           ))}
         </ol>
@@ -139,34 +165,30 @@ export function PracticeOverview() {
 
 export function Capabilities() {
   return (
-    <div className="capabilities">
-      <div className="toolkit-atlas">
-        <div className="toolkit-atlas__title">
-          <strong>{toolkit.intro}</strong>
-        </div>
-        <div className="toolkit-atlas__grid">
-          {toolkit.groups.map((group) => (
-            <section
-              className={`toolkit-group toolkit-group--${group.tone}`}
-              key={group.category}
-            >
-              <div
-                className={`toolkit-group__heading${group.descriptor ? '' : ' toolkit-group__heading--compact'}`}
-              >
-                <span aria-hidden="true" />
-                <div>
-                  <h4>{group.category}</h4>
-                  {group.descriptor && <p>{group.descriptor}</p>}
-                </div>
-              </div>
-              <ul>
+    <div className="toolkit-board">
+      <p className="section-label">{toolkit.intro}</p>
+      <div className="toolkit-board__grid">
+        {toolkit.groups.map((group, index) => (
+          <section
+            className={`toolkit-card tone--${group.tone}`}
+            key={group.category}
+          >
+            <div className="toolkit-card__head">
+              <span aria-hidden="true">{sequenceNumber(index)}</span>
+              <h4>{group.category}</h4>
+            </div>
+            <div className="toolkit-card__body">
+              {group.descriptor && (
+                <p className="toolkit-card__descriptor">{group.descriptor}</p>
+              )}
+              <ul className="toolkit-card__tools">
                 {group.tools.map((tool) => (
                   <li key={tool}>{tool}</li>
                 ))}
               </ul>
-            </section>
-          ))}
-        </div>
+            </div>
+          </section>
+        ))}
       </div>
     </div>
   )

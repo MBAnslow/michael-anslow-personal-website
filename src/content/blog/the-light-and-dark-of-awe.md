@@ -11,6 +11,7 @@ hero: "/media/blog/the-light-and-dark-of-awe-01.webp"
 heroAlt: "Awe — an experience and concept with profound depth."
 series: "The Light and Dark of Awe"
 seriesPart: 1
+seriesDescription: "Two essays on awe: its expansive, connective side, and the disconnection and suffering in its shadow."
 featured: false
 draft: false
 ---

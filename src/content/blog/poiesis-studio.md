@@ -13,6 +13,7 @@ titleImage: "/media/blog/poiesis-studio-title.webp"
 titleImageAlt: "Watercolour waves surrounding a sequence of masked word tiles reading: The … walked … ."
 series: "A Vision of Writing Assistance Before ChatGPT"
 seriesPart: 1
+seriesDescription: "A look back at writing assistance before ChatGPT: the Poiesis Studio instrument from 2019, and the Intention Rendering Engine it pointed towards."
 featured: false
 draft: false
 ---

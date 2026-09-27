@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import type { CSSProperties, PointerEvent } from 'react'
 import type { PanelColourConfig } from '../data/panelColours'
 import type { Project } from '../data/portfolio'
+import { basePath } from '../utils/basePath'
 import { createProjectSymbol } from '../utils/projectSymbol'
 import { ProjectSymbol } from './ProjectSymbol'
 
@@ -18,6 +19,7 @@ type TiltProperties = CSSProperties & {
   '--tilt-y': string
   '--title-texture-angle': string
   '--title-grain-filter': string
+  '--title-halftone': string
   '--overlap-box-color'?: string
   '--description-box-background'?: string
   '--description-box-border-color'?: string
@@ -437,6 +439,7 @@ export function ProjectCard({
     ...neutralTilt,
     '--title-texture-angle': `${Number.parseInt(symbol.key.slice(0, 4), 16) % 360}deg`,
     '--title-grain-filter': `url(#${titleGrainId})`,
+    '--title-halftone': `url(${basePath}media/halftone-ink.webp)`,
     '--overlap-box-color': colourConfig.descriptionBackgroundColor,
     '--description-box-background': colourConfig.descriptionBackgroundColor,
     '--description-box-border-color': colourConfig.descriptionBorderColor,
@@ -547,7 +550,7 @@ export function ProjectCard({
                 >
                   {Array.from(token).map((character, characterIndex) => (
                     <span
-                      data-title-character
+                      data-title-character={character}
                       key={`${character}-${characterIndex}`}
                     >
                       {character}

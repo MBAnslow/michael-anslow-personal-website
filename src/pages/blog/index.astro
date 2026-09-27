@@ -14,6 +14,76 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
 const tags = [...new Set(posts.flatMap((post) => post.data.tags))].sort()
 const postPath = (id: string) => `${basePath}blog/${id}/`
 const imagePath = (path: string) => `${basePath}${path.replace(/^\//, '')}`
+const pad = (value: number) => String(value).padStart(2, '0')
+const formatDate = (date: Date) =>
+  date.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  })
+
+type Post = (typeof posts)[number]
+type PostItem = { kind: 'post'; post: Post; wide: boolean }
+type SeriesItem = { kind: 'series'; name: string; parts: Post[] }
+
+const seriesParts = new Map<string, Post[]>()
+for (const post of posts) {
+  if (!post.data.series) continue
+  seriesParts.set(post.data.series, [
+    ...(seriesParts.get(post.data.series) ?? []),
+    post,
+  ])
+}
+
+const items: (PostItem | SeriesItem)[] = []
+for (const post of posts) {
+  const parts = post.data.series ? seriesParts.get(post.data.series) : undefined
+  if (!parts || parts.length < 2) {
+    items.push({ kind: 'post', post, wide: false })
+  } else if (parts[0] === post) {
+    items.push({
+      kind: 'series',
+      name: post.data.series!,
+      parts: [...parts].sort(
+        (a, b) => (a.data.seriesPart ?? 0) - (b.data.seriesPart ?? 0),
+      ),
+    })
+  }
+}
+
+// Full-width items break the two-column rhythm, so a single card left alone
+// on a row is widened to fill it.
+let unpaired: PostItem | undefined
+for (const item of items) {
+  const fullWidth = item.kind === 'series' || item.post.data.featured
+  if (fullWidth) {
+    if (unpaired) unpaired.wide = true
+    unpaired = undefined
+  } else if (item.kind === 'post') {
+    unpaired = unpaired ? undefined : item
+  }
+}
+if (unpaired) unpaired.wide = true
+
+const partTitle = (post: Post) =>
+  post.data.partTitle ??
+  post.data.subtitle?.replace(/^Part\s+[IVXLC\d]+\s*[—–-]\s*/i, '') ??
+  post.data.title
+
+const seriesDates = (parts: Post[]) => {
+  const first = parts[0].data.pubDate
+  const last = parts[parts.length - 1].data.pubDate
+  const sameMonth =
+    first.getMonth() === last.getMonth() &&
+    first.getFullYear() === last.getFullYear()
+  if (first.valueOf() === last.valueOf()) return formatDate(first)
+  if (sameMonth) return `${pad(first.getDate())}–${formatDate(last)}`
+  return `${formatDate(first)} – ${formatDate(last)}`
+}
+
+const seriesTags = (parts: Post[]) => [
+  ...new Set(parts.flatMap((part) => part.data.tags)),
+]
 ---
 
 <BaseLayout
@@ -68,53 +138,131 @@ const imagePath = (path: string) => `${basePath}${path.replace(/^\//, '')}`
       </div>
 
       <div class="blog-card-grid">
-        {posts.map((post, index) => (
-          <article
-            class:list={[
-              'blog-card',
-              { 'blog-card--featured': post.data.featured },
-            ]}
-            data-post
-            data-tags={post.data.tags.map((tag) => tag.toLowerCase()).join(',')}
-          >
-            {post.data.hero && (
-              <a
-                class="blog-card__image"
-                href={postPath(post.id)}
-                tabindex="-1"
-                aria-hidden="true"
+        {items.map((item, index) => {
+          if (item.kind === 'series') {
+            const { name, parts } = item
+            const lead = parts[0]
+            const themes = seriesTags(parts)
+            return (
+              <article
+                class="blog-series"
+                data-post
+                data-tags={themes.map((tag) => tag.toLowerCase()).join(',')}
+                aria-label={`${name}, a ${parts.length}-part series`}
               >
-                <img
-                  src={imagePath(post.data.hero)}
-                  alt=""
-                  loading={index === 0 ? 'eager' : 'lazy'}
-                />
-              </a>
-            )}
-            <div class="blog-card__topline">
-              <span>{String(index + 1).padStart(2, '0')}</span>
-              <time datetime={post.data.pubDate.toISOString()}>
-                {post.data.pubDate.toLocaleDateString('en-GB', {
-                  day: '2-digit',
-                  month: 'short',
-                  year: 'numeric',
-                })}
-              </time>
-              <span>{post.minutes} min</span>
-            </div>
-            <a class="blog-card__body" href={postPath(post.id)}>
-              <div>
-                <h3>{post.data.title}</h3>
-                {post.data.subtitle && <p>{post.data.subtitle}</p>}
+                <div class="blog-series__topline">
+                  <span>{pad(index + 1)}</span>
+                  <span class="blog-series__kind">
+                    Series · {parts.length} parts
+                  </span>
+                  <span>{seriesDates(parts)}</span>
+                  <span>
+                    {parts.reduce((total, part) => total + part.minutes, 0)} min
+                  </span>
+                </div>
+                <div
+                  class:list={[
+                    'blog-series__lead',
+                    { 'blog-series__lead--cover': lead.data.seriesCover },
+                  ]}
+                  style={
+                    lead.data.seriesCover &&
+                    `--series-cover: url('${imagePath(lead.data.seriesCover)}')`
+                  }
+                >
+                  <h3>{name}</h3>
+                  <div>
+                    <p>{lead.data.seriesDescription ?? lead.data.description}</p>
+                    <a href={postPath(lead.id)}>Start with part 01 ↗</a>
+                  </div>
+                </div>
+                <ol
+                  class="blog-series__parts"
+                  style={`--part-count: ${parts.length}`}
+                >
+                  {parts.map((part, partIndex) => (
+                    <li>
+                      <a class="blog-series__part" href={postPath(part.id)}>
+                        {part.data.hero && (
+                          <span class="blog-series__thumb">
+                            <img
+                              src={imagePath(part.data.hero)}
+                              alt=""
+                              loading={index === 0 ? 'eager' : 'lazy'}
+                            />
+                          </span>
+                        )}
+                        <span class="blog-series__part-number">
+                          {pad(part.data.seriesPart ?? partIndex + 1)}
+                        </span>
+                        <span class="blog-series__part-title">
+                          {partTitle(part)}
+                        </span>
+                        <span class="blog-series__part-meta">
+                          <time datetime={part.data.pubDate.toISOString()}>
+                            {formatDate(part.data.pubDate)}
+                          </time>
+                          <span>{part.minutes} min ↗</span>
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+                <ul aria-label="Series themes">
+                  {themes.map((tag) => <li>{tag}</li>)}
+                </ul>
+              </article>
+            )
+          }
+
+          const { post, wide } = item
+          return (
+            <article
+              class:list={[
+                'blog-card',
+                {
+                  'blog-card--featured': post.data.featured,
+                  'blog-card--wide': wide,
+                },
+              ]}
+              data-post
+              data-tags={post.data.tags.map((tag) => tag.toLowerCase()).join(',')}
+            >
+              {post.data.hero && (
+                <a
+                  class="blog-card__image"
+                  href={postPath(post.id)}
+                  tabindex="-1"
+                  aria-hidden="true"
+                >
+                  <img
+                    src={imagePath(post.data.hero)}
+                    alt=""
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                  />
+                </a>
+              )}
+              <div class="blog-card__topline">
+                <span>{pad(index + 1)}</span>
+                <time datetime={post.data.pubDate.toISOString()}>
+                  {formatDate(post.data.pubDate)}
+                </time>
+                <span>{post.minutes} min</span>
               </div>
-              <span aria-hidden="true">↗</span>
-            </a>
-            <p class="blog-card__description">{post.data.description}</p>
-            <ul aria-label="Article themes">
-              {post.data.tags.map((tag) => <li>{tag}</li>)}
-            </ul>
-          </article>
-        ))}
+              <a class="blog-card__body" href={postPath(post.id)}>
+                <div>
+                  <h3>{post.data.title}</h3>
+                  {post.data.subtitle && <p>{post.data.subtitle}</p>}
+                </div>
+                <span aria-hidden="true">↗</span>
+              </a>
+              <p class="blog-card__description">{post.data.description}</p>
+              <ul aria-label="Article themes">
+                {post.data.tags.map((tag) => <li>{tag}</li>)}
+              </ul>
+            </article>
+          )
+        })}
       </div>
       <p class="blog-empty" hidden>
         No notes in this theme yet.

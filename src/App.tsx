@@ -92,6 +92,38 @@ function App() {
     return () => observer.disconnect()
   }, [])
 
+  // Punches the page's dry-brush specks out around the name so they never
+  // land on its outline; see `body:not(.blog-theme)::after`.
+  useEffect(() => {
+    const title = document.getElementById('hero-title')
+    if (!title) return
+
+    const bleed = 16
+    const updateHole = () => {
+      const bodyBox = document.body.getBoundingClientRect()
+      const lines = Array.from(title.children, (line) =>
+        line.getBoundingClientRect(),
+      )
+      const left = Math.min(...lines.map((line) => line.left)) - bleed
+      const top = Math.min(...lines.map((line) => line.top)) - bleed
+      const right = Math.max(...lines.map((line) => line.right)) + bleed
+      const bottom = Math.max(...lines.map((line) => line.bottom)) + bleed
+      const style = document.body.style
+
+      style.setProperty('--title-hole-x', `${left - bodyBox.left}px`)
+      style.setProperty('--title-hole-y', `${top - bodyBox.top}px`)
+      style.setProperty('--title-hole-w', `${right - left}px`)
+      style.setProperty('--title-hole-h', `${bottom - top}px`)
+    }
+    const observer = new ResizeObserver(updateHole)
+
+    observer.observe(title)
+    observer.observe(document.body)
+    document.fonts.ready.then(updateHole)
+
+    return () => observer.disconnect()
+  }, [])
+
   useEffect(
     () => () => {
       if (revealTimerRef.current !== null) {
@@ -226,114 +258,156 @@ function App() {
       />
 
       <main id="main">
-        <section className="hero-section" id="top" aria-labelledby="hero-title">
-          <div className="hero-section__meta">
-            <span>Researcher / Innovator</span>
-            <span>Paris, France</span>
-          </div>
+        <section className="masthead" id="top" aria-labelledby="hero-title">
+          <div className="masthead__frame">
+            <div className="masthead__bar">
+              <span className="masthead__index">00</span>
+              <p>Research / Creative technology / AI</p>
+              <span className="masthead__place">Paris / France</span>
+            </div>
 
-          <h1 id="hero-title">
-            <span>Michael</span>
-            <span className="hero-section__surname">Anslow</span>
-          </h1>
+            <div className="masthead__stage">
+              <h1
+                id="hero-title"
+                style={
+                  {
+                    '--hero-halftone': `url(${basePath}media/halftone-navy.webp)`,
+                  } as CSSProperties
+                }
+              >
+                <span>Michael</span>
+                <span className="masthead__surname">Anslow</span>
+              </h1>
 
-          <div className="hero-section__lower">
-            <div className="hero-section__intro">
-              <p>
+              <p className="masthead__intro">
                 I build new technological experiences, embedded in research and
                 informed by a wider societal vision.
               </p>
-              <nav
-                className="hero-section__routes"
-                aria-label="Explore the portfolio"
-              >
-                <a href="#projects">
-                  <span>Projects</span>
-                  <small>Selected + other work</small>
-                  <Arrow />
-                </a>
-                <a href="#capabilities">
-                  <span>Skills</span>
-                  <small>Capabilities + methods</small>
-                  <Arrow />
-                </a>
-              </nav>
-            </div>
-          </div>
 
-          <div className="hero-skyline" aria-hidden="true">
-            <svg
-              className="hero-skyline__defs"
-              aria-hidden="true"
-              focusable="false"
-            >
-              <defs>
-                <filter
-                  id="hero-title-grain"
-                  x="0%"
-                  y="0%"
-                  width="100%"
-                  height="100%"
-                  colorInterpolationFilters="sRGB"
+              <img
+                className="masthead__cloud"
+                src={`${basePath}media/hero-cloud.webp`}
+                alt=""
+                aria-hidden="true"
+                width="423"
+                height="254"
+              />
+
+              <div className="masthead__skyline" aria-hidden="true">
+                <svg
+                  className="masthead__defs"
+                  aria-hidden="true"
+                  focusable="false"
                 >
-                  <feTurbulence
-                    type="fractalNoise"
-                    baseFrequency="0.004 0.006"
-                    numOctaves="2"
-                    seed="41"
-                    result="coarseNoise"
-                  />
-                  <feTurbulence
-                    type="fractalNoise"
-                    baseFrequency="0.11"
-                    numOctaves="4"
-                    seed="78"
-                    result="fineNoise"
-                  />
-                  <feBlend
-                    in="coarseNoise"
-                    in2="fineNoise"
-                    mode="soft-light"
-                    result="variedNoise"
-                  />
-                  <feColorMatrix
-                    in="variedNoise"
-                    type="saturate"
-                    values="0"
-                    result="monochromeNoise"
-                  />
-                  <feComponentTransfer in="monochromeNoise" result="grain">
-                    <feFuncR type="linear" slope="1.25" intercept="-0.12" />
-                    <feFuncG type="linear" slope="1.25" intercept="-0.12" />
-                    <feFuncB type="linear" slope="1.25" intercept="-0.12" />
-                    <feFuncA type="linear" slope="0.035" />
-                  </feComponentTransfer>
-                  <feComposite
-                    in="grain"
-                    in2="SourceGraphic"
-                    operator="in"
-                    result="clippedGrain"
-                  />
-                  <feBlend
-                    in="SourceGraphic"
-                    in2="clippedGrain"
-                    mode="soft-light"
-                    result="textured"
-                  />
-                  <feComposite
-                    in="textured"
-                    in2="SourceGraphic"
-                    operator="in"
-                  />
-                </filter>
-              </defs>
-            </svg>
-            <img
-              src={`${basePath}media/hero-skyline-v5-transparent.png`}
-              alt=""
-              width="1024"
-              height="341"
-            />
+                  <defs>
+                    <filter
+                      id="hero-title-grain"
+                      x="0%"
+                      y="0%"
+                      width="100%"
+                      height="100%"
+                      colorInterpolationFilters="sRGB"
+                    >
+                      <feTurbulence
+                        type="fractalNoise"
+                        baseFrequency="0.004 0.006"
+                        numOctaves="2"
+                        seed="41"
+                        result="coarseNoise"
+                      />
+                      <feTurbulence
+                        type="fractalNoise"
+                        baseFrequency="0.11"
+                        numOctaves="4"
+                        seed="78"
+                        result="fineNoise"
+                      />
+                      <feBlend
+                        in="coarseNoise"
+                        in2="fineNoise"
+                        mode="soft-light"
+                        result="variedNoise"
+                      />
+                      <feColorMatrix
+                        in="variedNoise"
+                        type="saturate"
+                        values="0"
+                        result="monochromeNoise"
+                      />
+                      <feComponentTransfer in="monochromeNoise" result="grain">
+                        <feFuncR type="linear" slope="1.25" intercept="-0.12" />
+                        <feFuncG type="linear" slope="1.25" intercept="-0.12" />
+                        <feFuncB type="linear" slope="1.25" intercept="-0.12" />
+                        <feFuncA type="linear" slope="0.035" />
+                      </feComponentTransfer>
+                      <feComposite
+                        in="grain"
+                        in2="SourceGraphic"
+                        operator="in"
+                        result="clippedGrain"
+                      />
+                      <feBlend
+                        in="SourceGraphic"
+                        in2="clippedGrain"
+                        mode="soft-light"
+                        result="textured"
+                      />
+                      <feComposite
+                        in="textured"
+                        in2="SourceGraphic"
+                        operator="in"
+                      />
+                    </filter>
+                  </defs>
+                </svg>
+                <img
+                  src={`${basePath}media/hero-skyline-buildings.webp`}
+                  alt=""
+                  width="1883"
+                  height="376"
+                />
+              </div>
+            </div>
+
+            <nav
+              className="masthead__routes"
+              aria-label="Explore the portfolio"
+            >
+              <a href="#projects">
+                <span>Projects</span>
+                <small>Selected + other work</small>
+                <Arrow />
+              </a>
+              <a href="#capabilities">
+                <span>Skills</span>
+                <small>Capabilities + methods</small>
+                <Arrow />
+              </a>
+            </nav>
+
+            <div className="masthead__focus">
+              <span className="masthead__label">Core practice</span>
+              <ul>
+                <li>AI</li>
+                <li>Interactive systems</li>
+                <li>Creative technology</li>
+                <li>Research</li>
+              </ul>
+              <span className="masthead__label">Also interested in</span>
+              <ul>
+                <li>Community</li>
+                <li>Education</li>
+                <li>Philosophy</li>
+                <li>Society</li>
+              </ul>
+              <a
+                className="masthead__more"
+                href="#about"
+                aria-label="More about my practice"
+              >
+                +
+              </a>
+            </div>
           </div>
         </section>
 

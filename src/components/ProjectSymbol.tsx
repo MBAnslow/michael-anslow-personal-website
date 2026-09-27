@@ -12,6 +12,8 @@ export function ProjectSymbol({ title }: ProjectSymbolProps) {
   const gritId = `project-symbol-grit-${geometry.key}`
   const crayonId = `project-symbol-crayon-${geometry.key}`
   const crayonTextureId = `project-symbol-crayon-texture-${geometry.key}`
+  const backdropClipId = `project-symbol-backdrop-clip-${geometry.key}`
+  const backdropGrainId = `project-symbol-backdrop-grain-${geometry.key}`
   const gritSeed = Number.parseInt(geometry.key.slice(0, 6), 16) % 997
   const textureOpacity = 0.94
 
@@ -104,6 +106,44 @@ export function ProjectSymbol({ title }: ProjectSymbolProps) {
           />
           <feComposite in="roughStrokes" in2="waxMask" operator="in" />
         </filter>
+        <filter
+          id={backdropGrainId}
+          x="0"
+          y="0"
+          width="100%"
+          height="100%"
+          colorInterpolationFilters="sRGB"
+        >
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.035"
+            numOctaves="2"
+            seed={gritSeed + 113}
+            result="mottleNoise"
+          />
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="1.15"
+            numOctaves="2"
+            seed={gritSeed + 151}
+            result="speckleNoise"
+          />
+          <feComposite
+            in="speckleNoise"
+            in2="mottleNoise"
+            operator="arithmetic"
+            k2="0.72"
+            k3="0.38"
+            result="mixedNoise"
+          />
+          <feColorMatrix
+            in="mixedNoise"
+            type="matrix"
+            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 4.2 0 0 0 -2.05"
+            result="speckleMask"
+          />
+          <feComposite in="SourceGraphic" in2="speckleMask" operator="in" />
+        </filter>
         {geometry.blobs.map((blob, index) => (
           <clipPath
             id={`project-symbol-blob-clip-${geometry.key}-${index}`}
@@ -112,6 +152,9 @@ export function ProjectSymbol({ title }: ProjectSymbolProps) {
             <path d={blob.d} />
           </clipPath>
         ))}
+        <clipPath id={backdropClipId}>
+          <path d={geometry.backdropD} />
+        </clipPath>
         <pattern
           id={crayonId}
           width="18"
@@ -176,6 +219,7 @@ export function ProjectSymbol({ title }: ProjectSymbolProps) {
           />
         </pattern>
         <pattern
+          className="project-symbol__texture"
           id={textureId}
           width={textureIndex === 3 ? 6 : 10}
           height={textureIndex === 3 ? 6 : 10}
@@ -374,6 +418,32 @@ export function ProjectSymbol({ title }: ProjectSymbolProps) {
           key={`pencil-${geometry.key}-${index}`}
         />
       ))}
+      <path
+        className="project-symbol__backdrop-fill"
+        d={geometry.backdropD}
+        fill="var(--panel-accent-color)"
+        stroke="none"
+      />
+      <g clipPath={`url(#${backdropClipId})`}>
+        <rect
+          className="project-symbol__backdrop-grain"
+          x="-100"
+          y="-100"
+          width="300"
+          height="300"
+          fill="var(--panel-accent-color)"
+          filter={`url(#${backdropGrainId})`}
+        />
+        <rect
+          className="project-symbol__backdrop-crayon"
+          x="-100"
+          y="-100"
+          width="300"
+          height="300"
+          fill={`url(#${crayonId})`}
+          filter={`url(#${crayonTextureId})`}
+        />
+      </g>
       <path
         className="project-symbol__backdrop"
         d={geometry.backdropD}
