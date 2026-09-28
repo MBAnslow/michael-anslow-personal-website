@@ -529,7 +529,7 @@ main {
   letter-spacing: -0.055em;
   line-height: 0.67;
   text-transform: uppercase;
-  -webkit-text-stroke: clamp(3px, 0.36vw, 6px) var(--blue);
+  -webkit-text-stroke: clamp(3px, 0.36vw, 6px) var(--ink);
   paint-order: stroke fill;
   filter: url(#hero-title-grain);
   grid-column: 1;
@@ -543,31 +543,17 @@ main {
   margin-inline-end: -0.12em;
   padding-block: 0.12em;
   padding-inline-end: 0.12em;
-  background-color: #050506;
+  background-color: var(--blue-dark);
   background-image:
-    radial-gradient(circle at 20% 30%, rgb(214 218 226 / 85%) 0 1px, transparent 1.6px),
-    radial-gradient(circle at 70% 75%, rgb(200 205 214 / 70%) 0 1.2px, transparent 1.8px),
-    radial-gradient(circle at 45% 55%, rgb(190 196 206 / 55%) 0 0.8px, transparent 1.3px),
-    radial-gradient(circle at 30% 60%, rgb(74 84 108 / 75%) 0 4px, transparent 5px),
-    radial-gradient(circle at 75% 20%, rgb(66 76 100 / 65%) 0 3px, transparent 4px),
-    radial-gradient(circle at 50% 50%, rgb(34 35 40 / 95%) 0 13px, transparent 15px),
-    radial-gradient(circle at 25% 75%, rgb(30 31 36 / 90%) 0 9px, transparent 11px);
+    var(--hero-halftone),
+    linear-gradient(
+      148deg,
+      var(--blue) 0%,
+      color-mix(in srgb, var(--blue) 45%, var(--blue-dark)) 100%
+    );
   background-size:
-    37px 41px,
-    53px 47px,
-    23px 29px,
-    61px 67px,
-    43px 71px,
-    97px 89px,
-    71px 113px;
-  background-position:
-    0 0,
-    11px 17px,
-    5px 9px,
-    19px 7px,
-    31px 23px,
-    13px 41px,
-    47px 3px;
+    520px 520px,
+    100% 100%;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -5955,12 +5941,35 @@ body:not(.blog-theme) .project-card__body h3 [data-title-character]::after {
   content: attr(data-title-character);
   line-height: normal;
   color: transparent;
-  background: var(--title-halftone) 0 0 / 520px 520px;
+  background-color: #050506;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgb(214 218 226 / 85%) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 70% 75%, rgb(200 205 214 / 70%) 0 1.2px, transparent 1.8px),
+    radial-gradient(circle at 45% 55%, rgb(190 196 206 / 55%) 0 0.8px, transparent 1.3px),
+    radial-gradient(circle at 30% 60%, rgb(74 84 108 / 75%) 0 4px, transparent 5px),
+    radial-gradient(circle at 75% 20%, rgb(66 76 100 / 65%) 0 3px, transparent 4px),
+    radial-gradient(circle at 50% 50%, rgb(34 35 40 / 95%) 0 13px, transparent 15px),
+    radial-gradient(circle at 25% 75%, rgb(30 31 36 / 90%) 0 9px, transparent 11px);
+  background-size:
+    37px 41px,
+    53px 47px,
+    23px 29px,
+    61px 67px,
+    43px 71px,
+    97px 89px,
+    71px 113px;
+  background-position:
+    0 0,
+    11px 17px,
+    5px 9px,
+    19px 7px,
+    31px 23px,
+    13px 41px,
+    47px 3px;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   -webkit-text-stroke: 0;
-  opacity: 0.92;
   pointer-events: none;
   white-space: nowrap;
 }
