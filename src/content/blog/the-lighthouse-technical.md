@@ -50,6 +50,15 @@ The following tethering view shows the same keyframe animation from inside Funik
 
 ## Approaching the lighthouse
 
+<figure class="article-story">
+  <figcaption>The story · Approaching the lighthouse</figcaption>
+  <blockquote>
+    <p>They stood before the lighthouse, its towering silhouette carved against the night sky. The great lantern above revolved with patient inevitability, and every few seconds its beam swept across the rocks, the grass, and finally over them. Each pass was different. One moment they were swallowed in deep coastal blue, shapes barely distinguishable; the next, they were caught in a hard white arc of light, shadows thrown long and sharp behind them. The sea answered with a distant, rhythmic crash, and the wind carried salt and the faint metallic groan of the turning mechanism high above. In those brief illuminations, their figures seemed frozen, travelers paused on the threshold, before darkness folded back in.</p>
+    <p>They approached the heavy wooden door and knocked, the sound dull and resonant against the stone. For a heartbeat, nothing answered but the wind. Then a warm seam of light appeared along the edges of the door, thin at first, then widening as it slowly creaked inward. The golden interior glow spilled out across the ground and over their faces, softening the harsh lines left by the rotating beacon. For a moment the two lights overlapped, the cold, sweeping brilliance of the lighthouse beam crossing the steady amber from within, bathing them in shifting layers of white and gold. Hinges groaned. The sea roared again. And as the door opened fully, the boundary between the vast, indifferent night and whatever waited inside began to dissolve.</p>
+  </blockquote>
+  <!-- <audio controls preload="none" src="../../media/blog/lighthouse-narration-approach.mp3">Your browser cannot play this narration.</audio> -->
+</figure>
+
 Outside the lighthouse, dark blue perimeter light represented the coast at night while a white overhead source suggested moonlight.
 
 The rotating beacon was built with a keyframe animation. Surrounding lights changed to white at staggered times, making a beam appear to move across the physical room. Guillaume paired it with an abstract sound that gave each pass its own presence and hinted that there was something unusual about the lighthouse.
@@ -79,6 +88,17 @@ When the players knocked, a steady amber light opened on one side of the room li
 </div>
 
 ## Lights out
+
+<figure class="article-story">
+  <figcaption>The story · Lights out</figcaption>
+  <blockquote>
+    <p>As the adventurers step inside the lighthouse, they are met by the low, persistent hum of an aging electrical system. The sound is steady at first, the vibration of an overworked transformer and current moving through corroded copper wiring installed long ago. Overhead lamps flicker intermittently, their filaments reacting to subtle drops and surges in voltage as the system struggles to regulate power.</p>
+    <p>The air seems tense. Each surge draws a sharper buzz from the fixtures. Each dip causes the light to dim, hesitate, and flare back. Somewhere within the walls, insulation has hardened with age, connections have oxidized, and the total load on the circuit exceeds what it was designed to carry. The fluctuations grow stronger. The hum deepens in pitch. The flickering accelerates into erratic pulses as voltage oscillates beyond safe limits.</p>
+    <p>Then comes a sudden metallic snap. A fuse ruptures under thermal stress, the circuit opens, and current ceases instantly. The humming stops. Darkness fills the chamber.</p>
+    <p>After a brief silence, one of the adventurers strikes flint to steel. A torch catches, its flame steady and chemical in its certainty. Unlike the strained electric light, the fire burns with stable convection and radiant heat. They advance by its warm glow, carrying that simple, reliable illumination with them as they continue deeper into the lighthouse.</p>
+  </blockquote>
+  <!-- <audio controls preload="none" src="../../media/blog/lighthouse-narration-lights-out.mp3">Your browser cannot play this narration.</audio> -->
+</figure>
 
 Inside the lighthouse, a low electrical hum and occasional flickers primed the players to notice the lighting system. The flickering then became increasingly unstable before every electric light cut out at once.
 
