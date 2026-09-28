@@ -28,7 +28,7 @@ Once the [story](../the-lighthouse/) and [physical setup](../the-lighthouse-setu
     <p>When the taxi finally slowed, its headlights cut hard beams through the night air, catching drifting dust and the faint mist rising from the roadside. The doors opened with a dull mechanical click. The players stepped out and found themselves standing in the glare, silhouettes at first, then fully exposed in the stark white light. The engine idled.</p>
     <p>Then the taxi pulled away. The white beams vanished, replaced by the deep red glow of retreating brake lights. That red light washed over the group like the last warmth of a dying fire, staining clothes and skin in a quiet, unnatural hue. The engine noise dwindled, the lights shrank, and the glow faded into nothing. What remained was the cool blue of night, soft, enveloping, and vast.</p>
   </blockquote>
-  <!-- <audio controls preload="none" src="../../media/blog/lighthouse-narration-taxi.mp3">Your browser cannot play this narration.</audio> -->
+  <audio controls preload="none" src="../../media/blog/lighthouse-audio/the-taxi-story.mp3">Your browser cannot play this narration.</audio>
 </figure>
 
 The opening taxi journey gave the players time to discover their characters while the world established its rhythm around them. The sequence moved through four lighting states:
@@ -66,7 +66,7 @@ The following tethering view shows the same keyframe animation from inside Funik
     <p>They stood before the lighthouse, its towering silhouette carved against the night sky. The great lantern above revolved with patient inevitability, and every few seconds its beam swept across the rocks, the grass, and finally over them. Each pass was different. One moment they were swallowed in deep coastal blue, shapes barely distinguishable; the next, they were caught in a hard white arc of light, shadows thrown long and sharp behind them. The sea answered with a distant, rhythmic crash, and the wind carried salt and the faint metallic groan of the turning mechanism high above. In those brief illuminations, their figures seemed frozen, travelers paused on the threshold, before darkness folded back in.</p>
     <p>They approached the heavy wooden door and knocked, the sound dull and resonant against the stone. For a heartbeat, nothing answered but the wind. Then a warm seam of light appeared along the edges of the door, thin at first, then widening as it slowly creaked inward. The golden interior glow spilled out across the ground and over their faces, softening the harsh lines left by the rotating beacon. For a moment the two lights overlapped, the cold, sweeping brilliance of the lighthouse beam crossing the steady amber from within, bathing them in shifting layers of white and gold. Hinges groaned. The sea roared again. And as the door opened fully, the boundary between the vast, indifferent night and whatever waited inside began to dissolve.</p>
   </blockquote>
-  <!-- <audio controls preload="none" src="../../media/blog/lighthouse-narration-approach.mp3">Your browser cannot play this narration.</audio> -->
+  <audio controls preload="none" src="../../media/blog/lighthouse-audio/approaching-the-lighthouse-story.mp3">Your browser cannot play this narration.</audio>
 </figure>
 
 Outside the lighthouse, dark blue perimeter light represented the coast at night while a white overhead source suggested moonlight.
@@ -107,7 +107,7 @@ When the players knocked, a steady amber light opened on one side of the room li
     <p>Then comes a sudden metallic snap. A fuse ruptures under thermal stress, the circuit opens, and current ceases instantly. The humming stops. Darkness fills the chamber.</p>
     <p>After a brief silence, one of the adventurers strikes flint to steel. A torch catches, its flame steady and chemical in its certainty. Unlike the strained electric light, the fire burns with stable convection and radiant heat. They advance by its warm glow, carrying that simple, reliable illumination with them as they continue deeper into the lighthouse.</p>
   </blockquote>
-  <!-- <audio controls preload="none" src="../../media/blog/lighthouse-narration-lights-out.mp3">Your browser cannot play this narration.</audio> -->
+  <audio controls preload="none" src="../../media/blog/lighthouse-audio/lights-out-story.mp3">Your browser cannot play this narration.</audio>
 </figure>
 
 Inside the lighthouse, a low electrical hum and occasional flickers primed the players to notice the lighting system. The flickering then became increasingly unstable before every electric light cut out at once.
