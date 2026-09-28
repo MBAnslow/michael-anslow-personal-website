@@ -15,6 +15,7 @@ import { ProjectCard } from './components/ProjectCard'
 import { Reveal } from './components/Reveal'
 import { ScrollProgressRail } from './components/ScrollProgressRail'
 import { SectionHeading } from './components/SectionHeading'
+import { TextureDebugPanel } from './components/TextureDebugPanel'
 import {
   essays,
   otherWork,
@@ -218,6 +219,10 @@ function App() {
         configs={panelColourConfigs}
         onConfigChange={updatePanelColourConfig}
       />
+      {typeof window !== 'undefined' &&
+        new URLSearchParams(window.location.search).has('texture-debug') && (
+          <TextureDebugPanel />
+        )}
 
       <header className="site-header">
         <div className="site-header__inner">
