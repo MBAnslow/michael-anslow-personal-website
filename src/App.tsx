@@ -261,8 +261,13 @@ function App() {
         <section className="masthead" id="top" aria-labelledby="hero-title">
           <div className="masthead__frame">
             <div className="masthead__bar">
-              <span className="masthead__index">00</span>
-              <p>Research / Creative technology / AI</p>
+              <p className="masthead__role">Research Engineer / Innovator</p>
+              <ul className="masthead__practice" aria-label="Core practice">
+                <li>AI</li>
+                <li>Interactive systems</li>
+                <li>Creative technology</li>
+                <li>Research</li>
+              </ul>
               <span className="masthead__place">Paris / France</span>
             </div>
 
@@ -280,18 +285,15 @@ function App() {
               </h1>
 
               <p className="masthead__intro">
-                I build new technological experiences, embedded in research and
-                informed by a wider societal vision.
+                <span>I build new </span>
+                <span>
+                  <strong>technological experiences,</strong>{' '}
+                </span>
+                <span>embedded in research and informed </span>
+                <span>
+                  by a wider <strong>societal vision.</strong>
+                </span>
               </p>
-
-              <img
-                className="masthead__cloud"
-                src={`${basePath}media/hero-cloud.webp`}
-                alt=""
-                aria-hidden="true"
-                width="423"
-                height="254"
-              />
 
               <div className="masthead__skyline" aria-hidden="true">
                 <svg
@@ -361,52 +363,12 @@ function App() {
                   </defs>
                 </svg>
                 <img
-                  src={`${basePath}media/hero-skyline-buildings.webp`}
+                  src={`${basePath}media/hero-skyline-night.png`}
                   alt=""
-                  width="1883"
-                  height="376"
+                  width="1219"
+                  height="508"
                 />
               </div>
-            </div>
-
-            <nav
-              className="masthead__routes"
-              aria-label="Explore the portfolio"
-            >
-              <a href="#projects">
-                <span>Projects</span>
-                <small>Selected + other work</small>
-                <Arrow />
-              </a>
-              <a href="#capabilities">
-                <span>Skills</span>
-                <small>Capabilities + methods</small>
-                <Arrow />
-              </a>
-            </nav>
-
-            <div className="masthead__focus">
-              <span className="masthead__label">Core practice</span>
-              <ul>
-                <li>AI</li>
-                <li>Interactive systems</li>
-                <li>Creative technology</li>
-                <li>Research</li>
-              </ul>
-              <span className="masthead__label">Also interested in</span>
-              <ul>
-                <li>Community</li>
-                <li>Education</li>
-                <li>Philosophy</li>
-                <li>Society</li>
-              </ul>
-              <a
-                className="masthead__more"
-                href="#about"
-                aria-label="More about my practice"
-              >
-                +
-              </a>
             </div>
           </div>
         </section>
