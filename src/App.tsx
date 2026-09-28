@@ -215,10 +215,13 @@ function App() {
       <a className="skip-link" href="#main">
         Skip to content
       </a>
-      <DebugBlendMenu
-        configs={panelColourConfigs}
-        onConfigChange={updatePanelColourConfig}
-      />
+      {typeof window !== 'undefined' &&
+        new URLSearchParams(window.location.search).has('debug') && (
+          <DebugBlendMenu
+            configs={panelColourConfigs}
+            onConfigChange={updatePanelColourConfig}
+          />
+        )}
       {typeof window !== 'undefined' &&
         new URLSearchParams(window.location.search).has('texture-debug') && (
           <TextureDebugPanel />

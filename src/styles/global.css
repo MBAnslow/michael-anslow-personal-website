@@ -545,6 +545,16 @@ main {
   padding-inline-end: 0.12em;
   background-color: var(--blue-dark);
   background-image:
+    linear-gradient(
+      148deg,
+      color-mix(in srgb, var(--blue) 50%, transparent) 0%,
+      color-mix(
+          in srgb,
+          color-mix(in srgb, var(--blue) 45%, var(--blue-dark)) 50%,
+          transparent
+        )
+        100%
+    ),
     var(--hero-halftone),
     linear-gradient(
       148deg,
@@ -552,6 +562,7 @@ main {
       color-mix(in srgb, var(--blue) 45%, var(--blue-dark)) 100%
     );
   background-size:
+    100% 100%,
     520px 520px,
     100% 100%;
   background-clip: text;
