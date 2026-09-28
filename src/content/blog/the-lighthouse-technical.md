@@ -21,6 +21,16 @@ Once the [story](../the-lighthouse/) and [physical setup](../the-lighthouse-setu
 
 ## The taxi
 
+<figure class="article-story">
+  <figcaption>The story · The taxi</figcaption>
+  <blockquote>
+    <p>The road stretched ahead in darkness, a ribbon of asphalt swallowed by night. The taxi rolled forward with a steady hum, its engine a low mechanical heartbeat beneath the murmured conversation inside. Every so often, a street lamp loomed into view, a pale halo in the distance that swelled, washed the interior in sodium gold, then slipped behind them. In those brief floods of light, faces were revealed in fragments before the darkness reclaimed them, and only the rhythm of tires on tarmac remained.</p>
+    <p>When the taxi finally slowed, its headlights cut hard beams through the night air, catching drifting dust and the faint mist rising from the roadside. The doors opened with a dull mechanical click. The players stepped out and found themselves standing in the glare, silhouettes at first, then fully exposed in the stark white light. The engine idled.</p>
+    <p>Then the taxi pulled away. The white beams vanished, replaced by the deep red glow of retreating brake lights. That red light washed over the group like the last warmth of a dying fire, staining clothes and skin in a quiet, unnatural hue. The engine noise dwindled, the lights shrank, and the glow faded into nothing. What remained was the cool blue of night, soft, enveloping, and vast.</p>
+  </blockquote>
+  <!-- <audio controls preload="none" src="../../media/blog/lighthouse-narration-taxi.mp3">Your browser cannot play this narration.</audio> -->
+</figure>
+
 The opening taxi journey gave the players time to discover their characters while the world established its rhythm around them. The sequence moved through four lighting states:
 
 1. Warm street lights periodically passed the group as the taxi travelled at night.
