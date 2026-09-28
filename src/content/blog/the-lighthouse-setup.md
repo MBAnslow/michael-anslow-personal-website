@@ -28,7 +28,7 @@ The players sat around a table in the centre. This preserved the familiar social
 Guillaume sat in one corner as game master. From there he could deliver exposition, roll dice and control Funiki without becoming visually detached from the group.
 
 <figure class="article-figure">
-  <img src="../../media/blog/lighthouse-setup-diagram.svg" alt="Diagram showing the player table, game-master position and lights around the Lighthouse room." loading="lazy" />
+  <img src="../../media/blog/lighthouse-room-layout.webp" alt="Top-down sketch of the Lighthouse room: players seated around a table with a lamp at its centre, eight lights around the walls and the game master at a laptop in one corner." loading="lazy" />
   <figcaption>The room layout used for The Lighthouse sessions.</figcaption>
 </figure>
 
@@ -60,7 +60,14 @@ The central lamp was particularly useful after the blackout. Its warm flicker il
 
 ## Software and sound
 
-Funiki ran directly from Godot. The scene logic controlled virtual light sources whose values were mapped onto the physical Hue lamps around the players.
+We implemented the experience with the [Funiki engine prototype](https://github.com/SonyCSLParis/funiki) that I developed at Sony CSL Paris. Funiki ran directly from Godot. The scene logic controlled virtual light sources whose values were mapped onto the physical Hue lamps around the players.
+
+The mapping uses ego-centric object-based lighting. The room has a digital twin, and a light probe sits at the centre of the scene, where the players are. For each light-emitting object in the virtual scene, Funiki measures the light field it contributes at the probe: its direction, colour and intensity. It then reconstructs that contribution using whatever physical lights are in the room. The result lights you as though you were in the virtual environment.
+
+<figure class="article-figure">
+  <img src="../../media/blog/ego-centric-object-based-lighting.webp" alt="Six-panel diagram: a real room with its lamps, a virtual room with a window and fireplace, the contribution of each virtual light measured at a probe at the viewer's position, physical lamps emitting those contributions, the combined result, and the viewer lit as though in the virtual scene." loading="lazy" />
+  <figcaption><strong>Ego-centric object-based lighting.</strong> Each virtual light’s contribution at the probe is reproduced by the physical lamps positioned in the matching direction.</figcaption>
+</figure>
 
 Audio was streamed to a single JBL speaker. We deliberately kept the first experiment modest and did not use surround sound, although the difference between spatial light and non-spatial audio became important in the [participant feedback](../the-lighthouse-feedback/).
 
